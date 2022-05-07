@@ -4,7 +4,6 @@ import {client} from "../lib/client";
 
 
 const Home =({products, bannerData}) => {
-    console.log(bannerData[0])
 
     return (
         <div>

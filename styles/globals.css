@@ -474,7 +474,7 @@ span.text-red {
   font-weight: 700 ;
   font-size: 26px;
   margin-top: 30px;
-  color:#f02d34;
+  /*color:#f02d34;*/
 }
 .price .old-price, .product-price .old-price, .price .old-price{
   color: gray;
@@ -488,6 +488,7 @@ span.text-red {
 }
 .product-detail-desc .buttons{
   display: flex;
+
   gap: 30px;
 }
 .buttons .add-to-cart{
