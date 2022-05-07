@@ -1,7 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import {urlFor} from "../lib/client";
-// import {urlFor} from '../lib/client'
 
 
 const HeroBanner =({heroBanner}) => {
@@ -17,7 +16,7 @@ const HeroBanner =({heroBanner}) => {
             <Link href={'/product/id'}>
                 <button> {heroBanner.buttonText}</button>
             </Link>
-            
+
             <div className={'desc'}>
                 <h5>Description</h5>
                 <p>{heroBanner.desc}</p>

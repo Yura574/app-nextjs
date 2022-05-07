@@ -1,4 +1,4 @@
-import { FooterBanner, HeroBanner} from "../Components";
+import {FooterBanner, HeroBanner, Product} from "../Components";
 import React from "react";
 import {client} from "../lib/client";
 
@@ -14,10 +14,10 @@ const Home =({products, bannerData}) => {
                 <h2>Best Selling Products</h2>
             </div>
             <div className={'products-container'}>
-                {products?.map(el => el.name)}
+                {products?.map(pr => <Product key={pr._id} product={pr}/>)}
             </div>
 
-            <FooterBanner/>
+            <FooterBanner footerBanner={bannerData && bannerData[0]}/>
         </div>
 
 
