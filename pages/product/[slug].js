@@ -1,14 +1,25 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {client} from "../../lib/client";
 import {urlFor} from "../../lib/client";
 import {AiFillAlert, AiFillStar, AiOutlineMinus, AiOutlinePlus, AiOutlineStar} from "react-icons/ai";
 import {Product} from "../../Components";
+import {useStateContext} from "../../context/StateContext";
 
 
 const ProductDetails = ({product, products}) => {
     const {image, name, details, price} = product
 
+    const {incQty, decQty, qty, changeTotalPrice, totalPrice} = useStateContext()
+
     const [index, setIndex] = useState(0)
+
+    useEffect(() => {
+        changeTotalPrice(price)
+    }, [qty])
+
+
+
+
     return (
         <div>
             <div className={'product-detail-container'}>
@@ -41,18 +52,15 @@ const ProductDetails = ({product, products}) => {
                     </div>
                     <h4>Details:</h4>
                     <p>{details}</p>
-                    <p className={'price'}>{price}p</p>
+                    <p className={'price'}>{totalPrice === 0 ? price : totalPrice}p</p>
                     <div className={'quantity-desc'}>
-                        <span className={'minus'} onClick={() => {
-                        }}>
+                        <span className={'minus'} onClick={decQty}>
                            <AiOutlineMinus color={'gray'}/>
                         </span>
-                        <span className={'minus'} onClick={() => {
-                        }}>
-                           0
+                        <span className={'minus'} >
+                           {qty}
                         </span>
-                        <span className={'minus'} onClick={() => {
-                        }}>
+                        <span className={'plus'} onClick={incQty}>
                            <AiOutlinePlus color={'gray'}/>
                         </span>
                     </div>
