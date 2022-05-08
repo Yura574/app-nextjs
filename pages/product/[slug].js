@@ -9,31 +9,22 @@ import {useStateContext} from "../../context/StateContext";
 const ProductDetails = ({product, products}) => {
     const {image, name, details, price} = product
 
-    const {incQty, decQty, qty, changeTotalPrice, totalPrice} = useStateContext()
-
-    const [index, setIndex] = useState(0)
-
-    useEffect(() => {
-        changeTotalPrice(price)
-    }, [qty])
-
-
-
 
     return (
         <div>
             <div className={'product-detail-container'}>
                 <div>
                     <div className={'small-images-container'}>
-                        <img src={urlFor(image && image[index])} style={{width: "500px"}} alt=""/>
+                        <img src={urlFor(image && image[0])} style={{width: "500px"}} alt=""/>
                     </div>
                     <div className={'small-images-container'}>
                         {image?.map((item, i) => (
                             <img src={urlFor(item)}
-                                 className={i === index
-                                     ? 'small-image selected-image'
-                                     : 'small-image'}
-                                 onMouseEnter={() => setIndex(i)}
+                                 className={
+                                     'small-image selected-image'
+                                     }
+                                 onMouseEnter={() => {
+                                 }}
                                  alt=""/>
                         ))}
                     </div>
@@ -52,15 +43,17 @@ const ProductDetails = ({product, products}) => {
                     </div>
                     <h4>Details:</h4>
                     <p>{details}</p>
-                    <p className={'price'}>{totalPrice === 0 ? price : totalPrice}p</p>
+                    <p className={'price'}>{price}p</p>
                     <div className={'quantity-desc'}>
-                        <span className={'minus'} onClick={decQty}>
+                        <span className={'minus'} onClick={() => {
+                        }}>
                            <AiOutlineMinus color={'gray'}/>
                         </span>
-                        <span className={'minus'} >
-                           {qty}
+                        <span className={'minus'}>
+                           {1}
                         </span>
-                        <span className={'plus'} onClick={incQty}>
+                        <span className={'plus'} onClick={() => {
+                        }}>
                            <AiOutlinePlus color={'gray'}/>
                         </span>
                     </div>
