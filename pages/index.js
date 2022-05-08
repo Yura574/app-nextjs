@@ -1,10 +1,14 @@
-import {FooterBanner, HeroBanner, Product} from "../Components";
+import {FooterBanner, HeroBanner, Login, Product} from "../Components";
 import React from "react";
 import {client} from "../lib/client";
 
 
 const Home =({products, bannerData}) => {
 
+
+    if(2 ===1 ){
+        return <Login/>
+    }
     return (
         <div>
 
