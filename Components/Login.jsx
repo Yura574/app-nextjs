@@ -1,15 +1,21 @@
 import React, {useState} from "react";
 import {nekoCardsAPI} from "../api/neko-cards-api";
+import {useDispatch} from "react-redux";
+import {setUser} from "../store/reducers/user-reducer";
 
 
 const Login =() => {
+    const dispatch = useDispatch()
     const [email, setEmail] = useState('yura5742248@gmail.com')
     const [password, setPassword] = useState('unbiliever13')
-    const[isAuth, setIsAuth] = useState(false)
+    // const[isAuth, setIsAuth] = useState(false)
+
+
+
     const submit = (email, password, rememberMe = false) => {
         nekoCardsAPI.login(email, password, rememberMe)
             .then(res => {
-                debugger
+                dispatch(setUser(true))
             })
     }
     return(

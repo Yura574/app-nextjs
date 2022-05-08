@@ -1,12 +1,13 @@
 import {FooterBanner, HeroBanner, Login, Product} from "../Components";
 import React from "react";
 import {client} from "../lib/client";
+import {useSelector} from "react-redux";
 
 
 const Home =({products, bannerData}) => {
-
-
-    if(2 ===1 ){
+    console.log(products)
+    const isAuth = useSelector(state => state.users.isAuth)
+    if(!isAuth ){
         return <Login/>
     }
     return (

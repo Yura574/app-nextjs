@@ -4,7 +4,8 @@ import {urlFor} from "../lib/client";
 
 
 const Product =({product}) => {
-    // console.log(product)
+    debugger
+    console.log(product)
     const {image, name, slug, price, ...restProps} = product
     return(
         <div>
