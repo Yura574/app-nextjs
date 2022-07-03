@@ -1,6 +1,0 @@
-//{
-//  "extends": ["next/babel","@sanity/eslint-config-studio"]
-//}
-{
-  "extends": ["next/babel","@sanity/eslint-config-studio","next/core-web-vitals"]
-}
