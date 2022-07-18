@@ -13,5 +13,10 @@ export const Main = () => {
             <button onClick={()=>dispatch(increment())}>inc</button>
             <button onClick={()=> dispatch(decrement())}>dec</button>
         </div>
+
+
+        <div>
+            <input type={"file"}/>
+        </div>
     </div>
 }
