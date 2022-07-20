@@ -2,5 +2,8 @@
 
 
 export const Footer = () => {
-    return <div></div>
+    return (
+        <div className={'wrapper_common'}> Footer</div>
+    )
+
 }

@@ -1,4 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {userApi} from "../DAL/api";
 
 
 type InitialStateType = {
@@ -21,6 +22,7 @@ export const counterSlice = createSlice({
         }
     }
 })
+
 export const {increment, decrement} =counterSlice.actions
 
 
