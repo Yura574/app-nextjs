@@ -1,0 +1,52 @@
+
+
+.wrapper {
+    max-width: 1280px;
+    margin: auto auto;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /*border: 2px solid black;*/
+    width: 500px;
+    margin: 10% auto;
+    padding: 30px 50px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2)
+
+}
+
+.button{
+    width: 100%;
+    height: 50px;
+    background-color: #ebbaa3;
+    border-radius: 15px;
+    cursor: pointer;
+}
+.button:active{
+    transform: scale(0.98);
+}
+.input{
+    padding-bottom: 20px;
+    width: 90%;
+}
+
+.checkboxWrapper{
+display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 10px;
+
+}
+.checkbox{
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.forgetPassword{
+    display: flex;
+    align-items: center;
+    width: 150px;
+}

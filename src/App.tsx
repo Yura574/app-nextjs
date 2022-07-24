@@ -1,25 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
+import {Header} from "./components/header/Header";
+import {Main} from "./components/Main/Main";
+import {Footer} from "./components/Footer";
+import {useAppSelector} from "./store/hooks";
+import {Navigate, Route, Routes} from "react-router-dom";
+import {Login} from "./components/commonComponent/login/Login";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const initialized = useAppSelector(state => state.auth.initialized)
+
+    if (initialized) {
+        return <div>загрузка</div>
+    }
+    return (
+        <div>
+            <div className="App">
+                <Header/>
+                <Routes>
+                    <Route path={'/'} element={<Main/>}/>
+                    <Route path={'/login'} element={<Login/>}/>
+                </Routes>
+                <Footer/>
+            </div>
+
+        </div>
+    );
 }
 
 export default App;

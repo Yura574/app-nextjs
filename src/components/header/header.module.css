@@ -1,0 +1,28 @@
+
+
+.wrapper{
+    background-color:#f9f7f2 ;
+}
+.header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /*position: fixed;*/
+
+}
+
+.logo{
+    padding: 20px 0;
+    font-size: 36px;
+
+}
+.logo a{
+    text-decoration: none;
+    color: black;
+}
+
+.nav{
+    display: flex;
+    justify-content: space-between;
+    width: 250px;
+}
