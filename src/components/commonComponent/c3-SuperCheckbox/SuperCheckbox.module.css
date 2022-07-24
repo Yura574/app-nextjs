@@ -1,0 +1,71 @@
+/*.checkbox {*/
+/*    appearance: none;*/
+/*    width: 25px;*/
+/*    height: 25px;*/
+/*    border: 1px solid #006fff;*/
+/*    border-radius: 5px;*/
+/*}*/
+
+:root {
+    --form-control-disabled: #959495;
+}
+
+.checkbox:disabled {
+    --form-control-color: var(--form-control-disabled);
+
+    color: var(--form-control-disabled);
+    cursor: not-allowed;
+}
+
+.checkbox {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: #fff;
+    /* Not removed via appearance */
+    margin: 0;
+    font: inherit;
+    width: 1.15em;
+    height: 1.15em;
+    border: 0.15em solid #8b8a8b;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+}
+
+.form_control {
+    font-family: system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.1;
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.5em;
+    margin: 10px;
+
+}
+
+
+.checkbox::before {
+    content: "";
+    width: 0.55em;
+    height: 0.55em;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    /*box-shadow: inset 1em 1em var(--form-control-color);*/
+    background-color: #471263;
+    border: 0.15em solid #471263;
+    transform-origin: bottom left;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+.checkbox:checked::before {
+    transform: scale(1);
+    border: 0.15em solid #471263
+}
+.checkbox:checked{
+
+    border: 0.15em solid #471263
+}
