@@ -2,13 +2,15 @@ import axios from "axios";
 
 
 export const instance = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'http://localhost:5000',
+    withCredentials: true
 })
 
 
 
 export const authApi = {
-   login: (email: string, password: string) => instance.post('auth/singIn', {email, password})
+   login: (email: string, password: string) => instance.post('auth/singIn', {email, password}),
+    me: ()=> instance.get('auth/me', {})
 
 }
 

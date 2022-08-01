@@ -9,6 +9,8 @@ import {Login} from "./components/commonComponent/login/Login";
 function App() {
     const initialized = useAppSelector(state => state.auth.initialized)
 
+
+
     if (initialized) {
         return <div>загрузка</div>
     }
