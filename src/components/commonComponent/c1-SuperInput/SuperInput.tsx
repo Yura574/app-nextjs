@@ -56,6 +56,7 @@ const SuperInput: React.FC<SuperInputTextPropsType> = (props) => {
         <>
             <div className={s.form__group}>
                 <input
+                    type={type}
                     onKeyPress={onKeyPressCallback}
                     className={finalInputClassName}
                     placeholder={placeholder || 'title'}
