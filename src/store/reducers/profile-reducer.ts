@@ -6,10 +6,11 @@ import {initialized, isAuth} from "./auth-reducer";
 const initialState = {
     profile: {
         id: '',
+        name: '',
         email: '',
         role: {value: 'user', id: ''},
-        created: new Date(),
-        updated: new Date()
+        created: '',
+        updated: ''
     }
 }
 

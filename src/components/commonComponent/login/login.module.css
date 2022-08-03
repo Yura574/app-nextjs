@@ -30,6 +30,10 @@
     transform: scale(0.98);
 }
 
+.regButtonWrapper{
+    width: 100%;
+}
+
 .regButton{
     font-size: 22px;
     margin-top: 20px;
@@ -63,7 +67,3 @@ display: flex;
     width: 150px;
 }
 
-.error{
-    border: 1px solid red;
-
-}

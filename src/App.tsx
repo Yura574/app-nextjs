@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from "./store/hooks";
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login} from "./components/commonComponent/login/Login";
 import {AuthMeTC} from "./store/reducers/profile-reducer";
-import {Registration} from "./components/commonComponent/Registration/Registration";
+import {Registration} from "./components/commonComponent/login/Registration";
 
 function App() {
     const initialized = useAppSelector<boolean>(state => state.auth.initialized)

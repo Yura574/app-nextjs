@@ -1,10 +1,10 @@
-import loginClass from "../login/login.module.css";
+import loginClass from "./login.module.css";
 import SuperInput from "../c1-SuperInput/SuperInput";
 import SuperCheckbox from "../c3-SuperCheckbox/SuperCheckbox";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {useEffect, useState} from "react";
 import {RegistrationTC, RegistrationType, setError} from "../../../store/reducers/auth-reducer";
-
+import inputClass from "../c1-SuperInput/SuperInput.module.css";
 
 export const Registration = () => {
     const dispatch = useAppDispatch()
@@ -21,6 +21,8 @@ export const Registration = () => {
 
     const registration = (user: RegistrationType) => {
         if (password === repeatPassword) {
+            validPassword= password
+            console.log(user)
             dispatch(RegistrationTC({...user, password: validPassword}))
         } else {
             dispatch(setError('пароль не совпадает'))
@@ -50,7 +52,7 @@ export const Registration = () => {
                     <SuperInput
                         type={"password"}
                         label={'password'}
-                                className={loginClass.error}
+                                className={error? loginClass.error: ''}
                                 value={password}
                                 onChangeText={setPassword}/>
                 </div>
@@ -58,10 +60,12 @@ export const Registration = () => {
                     <SuperInput
                         type={"password"}
                         label={'repeat password'}
-                        value={repeatPassword}
                         error={error}
-                        className={loginClass.error}
-                        onChangeText={setRepeatPassword}/>
+                        value={repeatPassword}
+                        spanClassName={loginClass.error}
+                        errorClassName={error? inputClass.err: ''}
+                        onChangeText={setRepeatPassword}
+                    />
                 </div>
                 <div className={loginClass.checkboxWrapper}>
                     <div className={loginClass.checkbox}>

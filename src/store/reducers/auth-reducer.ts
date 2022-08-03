@@ -62,9 +62,11 @@ export const RegistrationTC =(user: RegistrationType) => (dispatch: Dispatch)=> 
     authApi.registration(user)
         .then(res=> {
             console.log(res)
+            dispatch(setProfile(res.data))
         })
         .catch(err => {
-            console.log(err.response.data.message)
+            console.log(err)
+            // dispatch(setError(err.response.data.message[0]))
         })
 }
 

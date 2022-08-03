@@ -4,7 +4,7 @@ import SuperCheckbox from "../c3-SuperCheckbox/SuperCheckbox";
 import {useState} from "react";
 import {LoginTC} from "../../../store/reducers/auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
-import {Navigate} from "react-router-dom";
+import {Navigate, NavLink, Route} from "react-router-dom";
 
 
 export const Login = () => {
@@ -36,7 +36,8 @@ export const Login = () => {
                 <div className={loginClass.input}>
                     <SuperInput label={'password'}
                                 value={password}
-                                onChangeText={setPassword}/>
+                                onChangeText={setPassword}
+                    />
                 </div>
                 <div className={loginClass.checkboxWrapper}>
                     <div className={loginClass.checkbox}>
@@ -48,7 +49,9 @@ export const Login = () => {
                     </div>
                 </div>
                 <button className={loginClass.loginButton} onClick={()=>login(email, password)}>Войти</button>
-                <button className={loginClass.regButton}>Зарегистрироваться</button>
+               <NavLink to={'/registration'}  className={loginClass.regButtonWrapper}>
+                   <button className={loginClass.regButton}>Зарегистрироваться</button>
+               </NavLink>
             </div>
         </div>
     )
