@@ -36,13 +36,13 @@ export const AuthMeTC = () => (dispatch: Dispatch) => {
     authApi.me()
         .then(res => {
             dispatch(setProfile(res.data))
-            dispatch(isAuth(true))
+            dispatch(isAuth({value: true}))
             console.log(res)
         })
         .catch(error => {
             console.log(error)
         })
         .finally(() => {
-            dispatch(initialized(true))
+            dispatch(initialized({value: true}))
         })
 }

@@ -10,11 +10,13 @@ export const instance = axios.create({
 
 export const authApi = {
 
-    registration: (user: RegistrationType) => instance.post('auth/singup', {...user}),
+    registration: (user: RegistrationType) => instance.post('auth/singUp', {...user}),
     login: (email: string, password: string) => instance.post('auth/singIn', {email, password}),
     me: () => instance.get('auth/me', {}),
     logout: ()=> instance.get('auth/logout')
 
 }
 
-export const userApi = {}
+export const userApi = {
+    categories: (userId: string) => instance.get(`users/one/${userId}`)
+}

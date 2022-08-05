@@ -3,12 +3,14 @@ import SuperInput from "../c1-SuperInput/SuperInput";
 import SuperCheckbox from "../c3-SuperCheckbox/SuperCheckbox";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {useEffect, useState} from "react";
-import {RegistrationTC, RegistrationType, setError} from "../../../store/reducers/auth-reducer";
+import { RegistrationTC, RegistrationType, setError} from "../../../store/reducers/auth-reducer";
 import inputClass from "../c1-SuperInput/SuperInput.module.css";
+import {Navigate} from "react-router-dom";
 
 export const Registration = () => {
     const dispatch = useAppDispatch()
     const error = useAppSelector<string>(state => state.auth.error)
+    const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
     const [name, setName] = useState<string>('')
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
@@ -16,18 +18,20 @@ export const Registration = () => {
 
     let validPassword = ''
     useEffect(() => {
-        dispatch(setError(''))
+        dispatch(setError({ value:''}))
     }, [password, repeatPassword])
 
     const registration = (user: RegistrationType) => {
         if (password === repeatPassword) {
             validPassword= password
-            console.log(user)
             dispatch(RegistrationTC({...user, password: validPassword}))
         } else {
-            dispatch(setError('пароль не совпадает'))
-            console.log('пароль не совпадает')
+            dispatch(setError({ value:'пароль не совпадает'}))
         }
+    }
+
+    if (isAuth){
+        return <Navigate to={'/'}/>
     }
     return (
         <div>

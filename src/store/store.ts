@@ -1,13 +1,18 @@
-import {configureStore} from "@reduxjs/toolkit";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import {authReducer} from "./reducers/auth-reducer";
 import {profileReducer} from "./reducers/profile-reducer";
+import thunk from "redux-thunk";
+
+
+const rootReducer = combineReducers({
+    auth: authReducer,
+    profile: profileReducer,
+})
 
 
 export const store = configureStore({
-    reducer: {
-        auth: authReducer,
-        profile: profileReducer,
-    }
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk)
 })
 
 

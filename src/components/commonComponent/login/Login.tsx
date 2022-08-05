@@ -13,6 +13,7 @@ export const Login = () => {
     const [password, setPassword] = useState<string>('')
 
     const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
+    const error = useAppSelector<string>(state => state.auth.error)
 
     const login = (email: string, password: string) => {
         dispatch(LoginTC(email, password))
@@ -35,6 +36,7 @@ export const Login = () => {
                 </div>
                 <div className={loginClass.input}>
                     <SuperInput label={'password'}
+                                error={error}
                                 value={password}
                                 onChangeText={setPassword}
                     />
