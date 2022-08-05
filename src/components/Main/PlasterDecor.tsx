@@ -7,10 +7,10 @@ export const PlasterDecor = () => {
         <div>
             <div>Гипсовый декор</div>
             <div className={plasterClass.sliderWrapper}>
-                <Link to={''}><CardProduct/></Link>
-                <Link to={''}><CardProduct/></Link>
-                <Link to={''}><CardProduct/></Link>
-                <Link to={''}><CardProduct/></Link>
+                {/*<Link to={''}><CardProduct/></Link>*/}
+                {/*<Link to={''}><CardProduct/></Link>*/}
+                {/*<Link to={''}><CardProduct/></Link>*/}
+                {/*<Link to={''}><CardProduct/></Link>*/}
             </div>
         </div>
     )

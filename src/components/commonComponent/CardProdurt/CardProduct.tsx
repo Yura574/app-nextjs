@@ -1,12 +1,17 @@
 import cardClass from './cardProduct.module.css'
-import makesy1 from './../../../assest/svg/makesy-1.webp'
 
-
-export const CardProduct = () => {
+type CardType = {
+    id: string
+    title: string
+    image: string
+}
+export const CardProduct = (props: CardType) => {
+    const {image, title} = props
     return (
         <div className={cardClass.card}>
-            <img src={makesy1} className={cardClass.img}/>
-            <div>Декор</div>
+            <div>{title}</div>
+            <img src={image} className={cardClass.img} alt={'card'}/>
+
             <div>30p</div>
         </div>
     )

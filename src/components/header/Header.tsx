@@ -31,7 +31,7 @@ export const Header = () => {
                     <nav className={headerClass.nav}>
                         <div>Избранное</div>
                         {isAuth
-                            ? <div onClick={logout}>Выйти</div>
+                            ? <div ><Link to={'personal-area'}> Личный <br/>кабинет </Link></div>
                             : <div><Link to={'/login'}>Войти</Link></div>
                         }
                         <div>Корзина</div>
