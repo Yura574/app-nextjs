@@ -9,12 +9,10 @@ export const instance = axios.create({
 
 
 export const authApi = {
-
     registration: (user: RegistrationType) => instance.post('auth/singUp', {...user}),
     login: (email: string, password: string) => instance.post('auth/singIn', {email, password}),
     me: () => instance.get('auth/me', {}),
     logout: ()=> instance.get('auth/logout')
-
 }
 
 export const userApi = {
@@ -24,4 +22,8 @@ export const userApi = {
 
 export const categoryApi = {
     subCategories: (categoryId: string) => instance.get(`category/one/${categoryId}`)
+}
+
+export const subCategoryApi = {
+    goods: (subCategoryId: string)=> instance.get(`subCategory/one/${subCategoryId}`)
 }

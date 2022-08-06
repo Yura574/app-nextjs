@@ -1,16 +1,17 @@
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {useEffect} from "react";
-import { SubCategoriesTC, SubCategoryType} from "../../../store/reducers/subCategory-reducer";
-import {useParams} from "react-router-dom";
+import {SubCategoriesTC, SubCategoryType} from "../../../store/reducers/subCategory-reducer";
+import {Link, useParams} from "react-router-dom";
 import {CardProduct} from "../CardProdurt/CardProduct";
+import classMain from "../../Main/main.module.css";
+import cardClass from "../CardProdurt/cardProduct.module.css";
 
 
 export const SubCategory = () => {
     const dispatch = useAppDispatch()
     const {id} = useParams()
-    const subCategories = useAppSelector<SubCategoryType[]>(state =>state.subCategories.subCategories )
+    const subCategories = useAppSelector<SubCategoryType[]>(state => state.subCategories.subCategories)
 
-    console.log(id)
 
     useEffect(() => {
         id && dispatch(SubCategoriesTC(id))
@@ -19,8 +20,14 @@ export const SubCategory = () => {
     return (
         <div>
             {subCategories && subCategories.map(sub => {
-                return <CardProduct key={sub.id} id={sub.id} title={sub.title} image={sub.image}/>
-})}
+                return <Link to={`goods/${sub.id}`} className={classMain.categoryWrapper}>
+                    <div className={cardClass.card}>
+                        <div>{sub.title}</div>
+                        <img src={sub.image} className={cardClass.img} alt={'sub category'}/>
+                    </div>
+                </Link>
+                // <CardProduct key={sub.id} id={sub.id} title={sub.title} image={sub.image}/>
+            })}
         </div>
     )
 }

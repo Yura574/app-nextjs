@@ -15,9 +15,8 @@ export const Category = (props: CardType) => {
             <Link to={`subcategory/${id}`} className={classMain.categoryWrapper}>
             <div className={cardClass.card}>
                 <div>{title}</div>
-                <img src={image} className={cardClass.img}/>
+                <img src={image} className={cardClass.img} alt={'category'}/>
 
-                <div>30p</div>
             </div>
             </Link>
         </div>
