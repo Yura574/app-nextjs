@@ -21,6 +21,11 @@ export const userApi = {
 }
 
 export const categoryApi = {
+    addCategory: (userId: string, title: string, image?: File)=> {
+        return instance.post('category/create', {title, userId, image}, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        })
+    },
     subCategories: (categoryId: string) => instance.get(`category/one/${categoryId}`)
 }
 

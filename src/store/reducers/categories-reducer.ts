@@ -1,5 +1,6 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {userApi} from "../../api/api";
+import {categoryApi, userApi} from "../../api/api";
+import {setSuccess} from "./app-reducer";
 
 export type CategoryType = {
     id: '',
@@ -20,21 +21,36 @@ export const categoriesSlice = createSlice({
     reducers: {
         setCategories: (state, action: PayloadAction<CategoryType[]>) => {
             state.categories = action.payload
+        },
+        addCategory: (state, action:PayloadAction<CategoryType>)=> {
+            state.categories.push(action.payload)
         }
     }
 })
 
 export const categoryReducer = categoriesSlice.reducer
-export const {setCategories} = categoriesSlice.actions
+export const {setCategories, addCategory} = categoriesSlice.actions
 
 
-export const GetCategoriesTC = (userId: string) => (dispatch: Dispatch)=> {
+export const GetCategoriesTC = (userId: string) => (dispatch: Dispatch) => {
     userApi.categories(userId)
         .then(res => {
             console.log(res.data.categories)
             dispatch(setCategories(res.data.categories))
         })
         .catch(err => {
-            console.log( err)
+            console.log(err)
+        })
+}
+
+export const AddCategoryTC = (userId: string, title: string,  success: string, image?: File) => (dispatch: Dispatch) => {
+    categoryApi.addCategory(userId, title, image)
+        .then(res=> {
+            console.log(res)
+            dispatch(addCategory(res.data))
+            dispatch(setSuccess(success))
+        })
+        .catch(err => {
+            console.log(err)
         })
 }

@@ -36,7 +36,7 @@ function App() {
                     <Route path={'/subcategory/:id'} element={<SubCategory />}/>
                     <Route path={'/subcategory/:id/goods/:id'} element={<Goods/>}/>
                     <Route path={'/personal-area/*'} element={<PersonalArea/>} />
-                    <Route path={'/personal-shop'} element={<PersonalShop/>} />
+                    <Route path={'/personal-shop/*'} element={<PersonalShop/>} />
                 </Routes>
                 <Footer/>
             </div>
