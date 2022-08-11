@@ -24,12 +24,16 @@ export const categoriesSlice = createSlice({
         },
         addCategory: (state, action:PayloadAction<CategoryType>)=> {
             state.categories.push(action.payload)
+        },
+        deleteCategory:(state, action:PayloadAction<string>)=>{
+            const category = state.categories.findIndex(cat=> cat.id === action.payload)
+            state.categories.splice(category, 1)
         }
     }
 })
 
 export const categoryReducer = categoriesSlice.reducer
-export const {setCategories, addCategory} = categoriesSlice.actions
+export const {setCategories, addCategory, deleteCategory} = categoriesSlice.actions
 
 
 export const GetCategoriesTC = (userId: string) => (dispatch: Dispatch) => {
@@ -49,6 +53,16 @@ export const AddCategoryTC = (userId: string, title: string,  success: string, i
             console.log(res)
             dispatch(addCategory(res.data))
             dispatch(setSuccess(success))
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+export const DeleteCategoryTC=(categoryId: string)=> (dispatch: Dispatch)=>{
+    categoryApi.deleteCategory(categoryId)
+        .then(res=> {
+            console.log(res)
+            // dispatch(deleteCategory(categoryId))
         })
         .catch(err => {
             console.log(err)

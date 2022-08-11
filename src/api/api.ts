@@ -26,7 +26,8 @@ export const categoryApi = {
             headers: {'Content-Type': 'multipart/form-data'}
         })
     },
-    subCategories: (categoryId: string) => instance.get(`category/one/${categoryId}`)
+    subCategories: (categoryId: string) => instance.get(`category/one/${categoryId}`),
+    deleteCategory:(id: string)=> instance.delete(`category/delete/${id}`)
 }
 
 export const subCategoryApi = {

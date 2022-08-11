@@ -8,17 +8,18 @@ type CardType = {
     image: string
 }
 export const Category = (props: CardType) => {
-    const {id,image, title} = props
+    const {id, image, title} = props
 
     return (
-        <div>
-            <Link to={`subcategory/${id}`} className={classMain.categoryWrapper}>
-            <div className={cardClass.card}>
-                <div>{title}</div>
-                <img src={image} className={cardClass.img} alt={'category'}/>
+        <div className={classMain.categoryWrapper}>
 
+            <div className={cardClass.card}>
+                <Link to={`subcategory/${id}`} >
+                    <div>{title}</div>
+                    <img src={image} className={cardClass.img} alt={'category'}/>
+                </Link>
             </div>
-            </Link>
+
         </div>
     )
 }
