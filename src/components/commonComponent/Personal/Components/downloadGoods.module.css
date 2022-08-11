@@ -24,6 +24,16 @@
     height: 320px;
     border-radius: 20px;
 }
+.noImg{
+    width: 250px;
+    height: 320px;
+    border-radius: 20px;
+    border: 1px solid;
+    font-size: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .header{
     display: flex;
     justify-content: space-between;
@@ -31,5 +41,8 @@
 }
 .delete{
     color: deeppink;
+    cursor: pointer;
+}
+.edit{
     cursor: pointer;
 }

@@ -1,7 +1,13 @@
 import {ChangeEvent, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
-import {AddCategoryTC, CategoryType, DeleteCategoryTC} from "../../../../store/reducers/categories-reducer";
+import {
+    AddCategoryTC,
+    CategoryType,
+    DeleteCategoryTC,
+    UpdateCategoryTC
+} from "../../../../store/reducers/categories-reducer";
 import classCategory from "./downloadGoods.module.css";
+import {AiOutlineEdit} from "react-icons/ai";
 
 
 export const DownloadGoods = () => {
@@ -21,15 +27,19 @@ export const DownloadGoods = () => {
         setCategoryTitle(e.currentTarget.value)
     }
 
-    const deleteCategory = (categoryId: string)=> {
+    const deleteCategory = (categoryId: string) => {
         dispatch(DeleteCategoryTC(categoryId))
     }
 
-    const addGoods = (userId: string, categoryTitle: string, file: any) => {
-        console.log(file)
+    const addCategory = (userId: string, categoryTitle: string, file: any) => {
         file ? dispatch(AddCategoryTC(userId, categoryTitle, 'категория загружена успешно', file))
             : dispatch(AddCategoryTC(userId, categoryTitle, 'категория загружена успешно'))
         setCategoryTitle('')
+    }
+    const updateCategory = (userId: string, title: string, image?: File) => {
+        image
+            ? dispatch(UpdateCategoryTC(userId, title, image))
+            :dispatch(UpdateCategoryTC(userId, title))
     }
     return (
         <div>
@@ -40,17 +50,20 @@ export const DownloadGoods = () => {
 
                 <input type={"file"} onChange={(e) => uploadFile(e.currentTarget.files)}/>
                 <input value={categoryTitle} onChange={categoryTitleHandler}/>
-                <button onClick={() => addGoods(userId, categoryTitle, file)}> добавить товар</button>
-
-
+                <button onClick={() => addCategory(userId, categoryTitle, file)}> добавить товар</button>
                 <div className={classCategory.box}>
                     {categories.map(cat => {
                             return <div key={cat.id} className={classCategory.container}>
                                 <div className={classCategory.header}>
                                     <div>{cat.title}</div>
-                                    <div className={classCategory.delete} onClick={()=> deleteCategory(cat.id)}>x</div>
+                                    <div onClick={() => updateCategory(cat.id, cat.title, file)} className={classCategory.edit}><AiOutlineEdit/></div>
+                                    <div className={classCategory.delete} onClick={() => deleteCategory(cat.id)}>x</div>
                                 </div>
-                                <img src={cat.image} className={classCategory.img} alt={'category'}/>
+                                {cat.image
+                                    ? <img src={cat.image} className={classCategory.img} alt={'category'}/>
+                                    :
+                                    <div className={classCategory.noImg} >{cat.title}</div>
+                                }
                             </div>
                         }
                     )}

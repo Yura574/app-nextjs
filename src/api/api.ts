@@ -27,7 +27,13 @@ export const categoryApi = {
         })
     },
     subCategories: (categoryId: string) => instance.get(`category/one/${categoryId}`),
-    deleteCategory:(id: string)=> instance.delete(`category/delete/${id}`)
+    deleteCategory:(categoryId: string)=> instance.delete(`category/delete/${categoryId}`),
+    updateCategory:(id: string, title: string, image?: File)=> {
+        return instance.put('category/update', {title, id, image}, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        })
+    }
+
 }
 
 export const subCategoryApi = {

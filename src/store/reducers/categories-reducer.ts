@@ -22,18 +22,22 @@ export const categoriesSlice = createSlice({
         setCategories: (state, action: PayloadAction<CategoryType[]>) => {
             state.categories = action.payload
         },
-        addCategory: (state, action:PayloadAction<CategoryType>)=> {
+        addCategory: (state, action: PayloadAction<CategoryType>) => {
             state.categories.push(action.payload)
         },
-        deleteCategory:(state, action:PayloadAction<string>)=>{
-            const category = state.categories.findIndex(cat=> cat.id === action.payload)
-            state.categories.splice(category, 1)
-        }
+        deleteCategory: (state, action: PayloadAction<string>) => {
+            const index = state.categories.findIndex(cat => cat.id === action.payload)
+            state.categories.splice(index, 1)
+        },
+        updateCategory:(state, action:PayloadAction<CategoryType>)=>{
+            const index = state.categories.findIndex(cat => cat.id === action.payload.id)
+            state.categories.splice(index, 1, action.payload)
+}
     }
 })
 
 export const categoryReducer = categoriesSlice.reducer
-export const {setCategories, addCategory, deleteCategory} = categoriesSlice.actions
+export const {setCategories, addCategory, deleteCategory, updateCategory} = categoriesSlice.actions
 
 
 export const GetCategoriesTC = (userId: string) => (dispatch: Dispatch) => {
@@ -47,9 +51,9 @@ export const GetCategoriesTC = (userId: string) => (dispatch: Dispatch) => {
         })
 }
 
-export const AddCategoryTC = (userId: string, title: string,  success: string, image?: File) => (dispatch: Dispatch) => {
+export const AddCategoryTC = (userId: string, title: string, success: string, image?: File) => (dispatch: Dispatch) => {
     categoryApi.addCategory(userId, title, image)
-        .then(res=> {
+        .then(res => {
             console.log(res)
             dispatch(addCategory(res.data))
             dispatch(setSuccess(success))
@@ -58,11 +62,25 @@ export const AddCategoryTC = (userId: string, title: string,  success: string, i
             console.log(err)
         })
 }
-export const DeleteCategoryTC=(categoryId: string)=> (dispatch: Dispatch)=>{
+export const DeleteCategoryTC = (categoryId: string) => (dispatch: Dispatch) => {
     categoryApi.deleteCategory(categoryId)
-        .then(res=> {
+        .then(res => {
             console.log(res)
-            // dispatch(deleteCategory(categoryId))
+            if (!res.data.error) {
+                dispatch(deleteCategory(categoryId))
+            } else {
+                alert(res.data.error.message)
+            }
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+export const UpdateCategoryTC = (userId: string, title: string,  image?: File)=> (dispatch: Dispatch)=>{
+    console.log(userId, title, image)
+    categoryApi.updateCategory(userId, title, image)
+        .then(res=> {
+            dispatch(updateCategory(res.data))
         })
         .catch(err => {
             console.log(err)
