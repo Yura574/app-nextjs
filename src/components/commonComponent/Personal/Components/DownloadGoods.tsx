@@ -8,6 +8,7 @@ import {
 } from "../../../../store/reducers/categories-reducer";
 import classCategory from "./downloadGoods.module.css";
 import {AiOutlineEdit} from "react-icons/ai";
+import {SubCategoryType} from "../../../../store/reducers/subCategory-reducer";
 
 
 export const DownloadGoods = () => {
@@ -15,9 +16,11 @@ export const DownloadGoods = () => {
     const userId = useAppSelector<string>(state => state.profile.profile.id)
     const success = useAppSelector<string>(state => state.app.success)
     const categories = useAppSelector<CategoryType[]>(state => state.categories.categories)
+    const subCategories = useAppSelector<SubCategoryType[]>(state => state.subCategories.subCategories)
 
     const [file, setFile] = useState<File>()
     const [categoryTitle, setCategoryTitle] = useState<string>('')
+    const [subCategoryTitle, setSubCategoryTitle] = useState<string>('')
 
     const uploadFile = (files: any) => {
         const file = files[0]
@@ -25,6 +28,10 @@ export const DownloadGoods = () => {
     }
     const categoryTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setCategoryTitle(e.currentTarget.value)
+    }
+
+    const subCategoryTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setSubCategoryTitle(e.currentTarget.value)
     }
 
     const deleteCategory = (categoryId: string) => {
@@ -39,7 +46,7 @@ export const DownloadGoods = () => {
     const updateCategory = (userId: string, title: string, image?: File) => {
         image
             ? dispatch(UpdateCategoryTC(userId, title, image))
-            :dispatch(UpdateCategoryTC(userId, title))
+            : dispatch(UpdateCategoryTC(userId, title))
     }
     return (
         <div>
@@ -56,13 +63,14 @@ export const DownloadGoods = () => {
                             return <div key={cat.id} className={classCategory.container}>
                                 <div className={classCategory.header}>
                                     <div>{cat.title}</div>
-                                    <div onClick={() => updateCategory(cat.id, cat.title, file)} className={classCategory.edit}><AiOutlineEdit/></div>
+                                    <div onClick={() => updateCategory(cat.id, cat.title, file)}
+                                         className={classCategory.edit}><AiOutlineEdit/></div>
                                     <div className={classCategory.delete} onClick={() => deleteCategory(cat.id)}>x</div>
                                 </div>
                                 {cat.image
                                     ? <img src={cat.image} className={classCategory.img} alt={'category'}/>
                                     :
-                                    <div className={classCategory.noImg} >{cat.title}</div>
+                                    <div className={classCategory.noImg}>{cat.title}</div>
                                 }
                             </div>
                         }
@@ -70,7 +78,30 @@ export const DownloadGoods = () => {
                 </div>
 
             </div>
-            <div>загругзить под категорию</div>
+            <div>
+                <div>загругзить подкатегорию</div>
+                <input type={"file"} onChange={(e) => uploadFile(e.currentTarget.files)}/>
+                <input value={subCategoryTitle} onChange={subCategoryTitleHandler}/>
+                <button onClick={() => addCategory(userId, categoryTitle, file)}> добавить товар</button>
+                <div className={classCategory.box}>
+                    {subCategories.map(subCat => {
+                            return <div key={subCat.id} className={classCategory.container}>
+                                <div className={classCategory.header}>
+                                    <div>{subCat.title}</div>
+                                    <div onClick={() => updateCategory(subCat.id, subCat.title, file)}
+                                         className={classCategory.edit}><AiOutlineEdit/></div>
+                                    <div className={classCategory.delete} onClick={() => deleteCategory(subCat.id)}>x</div>
+                                </div>
+                                {subCat.image
+                                    ? <img src={subCat.image} className={classCategory.img} alt={'category'}/>
+                                    :
+                                    <div className={classCategory.noImg}>{subCat.title}</div>
+                                }
+                            </div>
+                        }
+                    )}
+                </div>
+            </div>
             <div>загругзить товар</div>
         </div>
     )
