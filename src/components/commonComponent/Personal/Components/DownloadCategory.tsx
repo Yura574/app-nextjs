@@ -1,4 +1,4 @@
-import {ChangeEvent, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import {
     AddCategoryTC,
@@ -8,6 +8,7 @@ import {
 } from "../../../../store/reducers/categories-reducer";
 import classCategory from "./downloadCategory.module.css";
 import {AiOutlineEdit} from "react-icons/ai";
+import {DownloadSubCategory} from "./DownloadSubCategory";
 
 
 export const DownloadCategory = () => {
@@ -17,8 +18,18 @@ export const DownloadCategory = () => {
     const categories = useAppSelector<CategoryType[]>(state => state.categories.categories)
 
     const [file, setFile] = useState<File>()
+    const [preview, setPreview] = useState<string | undefined>()
     const [categoryTitle, setCategoryTitle] = useState<string>('')
 
+    useEffect(() => {
+        if (!file) {
+            setPreview(undefined)
+            return
+        }
+        const objUrl = URL.createObjectURL(file)
+        setPreview(objUrl)
+        return () => URL.revokeObjectURL(objUrl)
+    }, [file])
 
     const uploadFile = (files: any) => {
         const file = files[0]
@@ -37,6 +48,7 @@ export const DownloadCategory = () => {
         file ? dispatch(AddCategoryTC(userId, categoryTitle, 'категория загружена успешно', file))
             : dispatch(AddCategoryTC(userId, categoryTitle, 'категория загружена успешно'))
         setCategoryTitle('')
+        setFile(undefined)
 
     }
 
@@ -53,10 +65,11 @@ export const DownloadCategory = () => {
                 <div>{!success ? <div style={{color: "green"}}>{success}</div> :
                     <div style={{opacity: '0'}}>lololo</div>}</div>
                 <div>загругзить категорию</div>
-                <label htmlFor={'uploadFile'} style={{position:'relative', marginRight: '20px', cursor:'pointer'}}>
+                <label htmlFor={'uploadFile'} style={{position: 'relative', marginRight: '20px', cursor: 'pointer'}}>
 
-                    <input type={"file"} onChange={(e) => uploadFile(e.currentTarget.files)} id={classCategory["uploadFile"]}/>
-                    выбрать фото
+                    <input type={"file"} onChange={(e) => uploadFile(e.currentTarget.files)}
+                           id={classCategory["uploadFile"]}/>
+                    {file ? <div>{file.name} <img src={preview} alt={'preview'}/></div> : 'выбрать фото'}
                 </label>
                 <input value={categoryTitle} onChange={categoryTitleHandler}/>
                 <button onClick={() => addCategory(userId, categoryTitle, file)}> добавить категорию</button>
@@ -74,6 +87,7 @@ export const DownloadCategory = () => {
                                     :
                                     <div className={classCategory.noImg}>{cat.title}</div>
                                 }
+                                <DownloadSubCategory catId={cat.id}/>
                             </div>
                         }
                     )}

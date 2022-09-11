@@ -4,7 +4,7 @@ import {RegistrationType} from "../store/reducers/auth-reducer";
 
 export const instance = axios.create({
     baseURL: 'http://localhost:5000',
-    withCredentials: true
+    withCredentials: true,
 })
 
 
@@ -38,6 +38,11 @@ export const categoryApi = {
 
 export const subCategoryApi = {
     getSubCategories: (categoryId: string) => instance.get(`category/one/${categoryId}`),
+    addSubCategory: (categoryId: string, title: string, image?: File)=>{
+        return instance.post('subCategory/create', {categoryId, title, image},{
+            headers:{'Content-Type': 'multipart/form-data'}
+        })
+    },
     deleteSubCategory: (subCatId: string) => instance.delete(`subCategory/delete/${subCatId}`)
 }
 

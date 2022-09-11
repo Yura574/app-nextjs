@@ -19,7 +19,7 @@ export const SubCategory = () => {
     return (
         <div>
             {subCategories && subCategories.map(sub => {
-                return <Link to={`goods/${sub.id}`} className={classMain.categoryWrapper}>
+                return <Link to={`goods/${sub.catId}`} className={classMain.categoryWrapper}>
                     <div className={cardClass.card}>
                         <div>{sub.title}</div>
                         <img src={sub.image} className={cardClass.img} alt={'sub category'}/>

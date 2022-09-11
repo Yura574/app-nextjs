@@ -5,6 +5,12 @@
     flex-wrap: wrap;
 
 }
+.boxSub{
+    display: flex;
+    column-gap: 20px;
+    flex-wrap: wrap;
+
+}
 .container{
     margin-top: 25px;
 }
@@ -51,6 +57,9 @@
     position: absolute;
     left: 0;
     width: 100%;
-    /*z-index: -1;*/
     cursor: pointer;
+}
+label img{
+
+    height: 90px;
 }

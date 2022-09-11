@@ -3,9 +3,9 @@ import {AiOutlineEdit} from "react-icons/ai";
 import {AddCategoryTC} from "../../../../store/reducers/categories-reducer";
 import {ChangeEvent, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
-import {SubCategoryType} from "../../../../store/reducers/subCategory-reducer";
+import {addSubCategoryTC, SubCategoryType} from "../../../../store/reducers/subCategory-reducer";
 
-export const DownloadSubCategory = () => {
+export const DownloadSubCategory = (props: {catId: string}) => {
     const dispatch = useAppDispatch()
     const subCategories = useAppSelector<SubCategoryType[]>(state => state.subCategories.subCategories)
     const userId = useAppSelector<string>(state => state.profile.profile.id)
@@ -14,9 +14,9 @@ export const DownloadSubCategory = () => {
     const [subCategoryTitle, setSubCategoryTitle] = useState<string>('')
     const [file, setFile] = useState<File>()
 
-    const addSubCategory = (userId: string, subCategoryTitle: string, file: any) => {
-        file ? dispatch(AddCategoryTC(userId, subCategoryTitle, 'категория загружена успешно', file))
-            : dispatch(AddCategoryTC(userId, subCategoryTitle, 'категория загружена успешно'))
+    const addSubCategory = (catId: string, title: string, file: any) => {
+        file ? dispatch(addSubCategoryTC( catId, title, file))
+            : dispatch(addSubCategoryTC( catId, title))
         setSubCategoryTitle('')
     }
     const subCategoryTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,15 +40,15 @@ export const DownloadSubCategory = () => {
             <div>загругзить подкатегорию</div>
             <input type={"file"} onChange={(e) => uploadFile(e.currentTarget.files)}/>
             <input value={subCategoryTitle} onChange={subCategoryTitleHandler}/>
-            <button onClick={() => addSubCategory(userId, subCategoryTitle, file)}> добавить подкатегорию</button>
-            <div className={classCategory.box}>
+            <button onClick={() => addSubCategory(props.catId, subCategoryTitle, file)}> добавить подкатегорию</button>
+            <div className={classCategory.boxSub}>
                 {subCategories.map(subCat => {
-                        return <div key={subCat.id} className={classCategory.container}>
+                        return <div key={subCat.catId} className={classCategory.container}>
                             <div className={classCategory.header}>
                                 <div>{subCat.title}</div>
-                                <div onClick={() => updateSubCategory(subCat.id, subCat.title, file)}
+                                <div onClick={() => updateSubCategory(subCat.catId, subCat.title, file)}
                                      className={classCategory.edit}><AiOutlineEdit/></div>
-                                <div className={classCategory.delete} onClick={() => deleteSubCategory(subCat.id)}>x</div>
+                                <div className={classCategory.delete} onClick={() => deleteSubCategory(subCat.catId)}>x</div>
                             </div>
                             {subCat.image
                                 ? <img src={subCat.image} className={classCategory.img} alt={'category'}/>

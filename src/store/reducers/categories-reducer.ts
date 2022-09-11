@@ -3,9 +3,9 @@ import {categoryApi, userApi} from "../../api/api";
 import {setSuccess} from "./app-reducer";
 
 export type CategoryType = {
-    id: '',
-    title: '',
-    image: ''
+    id: string,
+    title: string,
+    image: string
 }
 type InitialStateType = {
     categories: CategoryType[]

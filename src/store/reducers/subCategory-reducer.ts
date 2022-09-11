@@ -2,7 +2,7 @@ import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {subCategoryApi} from "../../api/api";
 
 export type SubCategoryType = {
-    id: string,
+    catId: string,
     title: string,
     image: string
 }
@@ -22,15 +22,18 @@ const subCategorySlice = createSlice({
         setSubCategories: (state, action: PayloadAction<SubCategoryType[]>) => {
             state.subCategories = action.payload
         },
+        addSubCategory: (state, action: PayloadAction<SubCategoryType>)=> {
+          state.subCategories.push(action.payload)
+        },
         deleteSubCategories: (state, action: PayloadAction<string>)=>{
-            const index = state.subCategories.findIndex(subCat => subCat.id === action.payload)
+            const index = state.subCategories.findIndex(subCat => subCat.catId === action.payload)
             state.subCategories.splice(index, 1)
         }
     }
 })
 
 export const subCategoryReducer = subCategorySlice.reducer
-export const {setSubCategories, deleteSubCategories} = subCategorySlice.actions
+export const {setSubCategories, deleteSubCategories, addSubCategory} = subCategorySlice.actions
 
 export const getSubCategoriesTC = (categoryId: string) => (dispatch: Dispatch) => {
     subCategoryApi.getSubCategories(categoryId)
@@ -41,6 +44,14 @@ export const getSubCategoriesTC = (categoryId: string) => (dispatch: Dispatch) =
             console.log(err)
         })
 
+}
+
+export const addSubCategoryTC = (catId: string, title: string, image?: File) => (dispatch: Dispatch)=>{
+    subCategoryApi.addSubCategory(catId,title, image)
+        .then(res => {
+            console.log(res)
+            dispatch(addSubCategory(res.data))
+        })
 }
 
 export const deleteCategoryTC = (subCatId: string) => (dispatch: Dispatch) => {
