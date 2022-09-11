@@ -1,5 +1,5 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {subCategoryApi} from "../../api/api";
+import {goodsApi} from "../../api/api";
 
 export type GoodsType = {
     id: string
@@ -30,7 +30,7 @@ export const {setGoods} = goodsSlice.actions
 
 
 export const SetGoodsTC = (subCategoryId: string) => (dispatch: Dispatch) => {
-    subCategoryApi.goods(subCategoryId)
+    goodsApi.goods(subCategoryId)
         .then(res => {
             dispatch(setGoods(res.data))
         })

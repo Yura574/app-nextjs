@@ -46,3 +46,11 @@
 .edit{
     cursor: pointer;
 }
+#uploadFile{
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    /*z-index: -1;*/
+    cursor: pointer;
+}

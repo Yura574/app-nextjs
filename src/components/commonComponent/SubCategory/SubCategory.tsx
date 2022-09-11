@@ -1,6 +1,6 @@
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {useEffect} from "react";
-import {SubCategoriesTC, SubCategoryType} from "../../../store/reducers/subCategory-reducer";
+import {getSubCategoriesTC, SubCategoryType} from "../../../store/reducers/subCategory-reducer";
 import {Link, useParams} from "react-router-dom";
 import classMain from "../../Main/main.module.css";
 import cardClass from "../CardProdurt/cardProduct.module.css";
@@ -13,7 +13,7 @@ export const SubCategory = () => {
 
 
     useEffect(() => {
-        id && dispatch(SubCategoriesTC(id))
+        id && dispatch(getSubCategoriesTC(id))
     }, [dispatch, id])
 
     return (

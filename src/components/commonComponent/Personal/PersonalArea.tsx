@@ -6,8 +6,8 @@ import {Reviews} from "./Components/Reviews";
 import {StartSelling} from "./Components/StartSelling";
 import {Orders} from "./Components/Orders";
 import {PersonalNavBar} from "./Components/PersonalNavBar";
-import {DownloadGoods} from "./Components/DownloadGoods";
 import { useAppSelector} from "../../../store/hooks";
+import {DownloadCategory} from "./Components/DownloadCategory";
 
 
 export const PersonalArea = () => {
@@ -28,7 +28,7 @@ export const PersonalArea = () => {
                         <Route path={'orders'} element={<Orders/>}></Route>
                         <Route path={'reviews'} element={<Reviews/>}></Route>
                         <Route path={'start-selling'} element={<StartSelling/>}></Route>
-                        <Route path={'download-goods'} element={<DownloadGoods/>}/>
+                        <Route path={'download-goods'} element={<DownloadCategory/>}/>
                     </Routes>
                 </div>
 

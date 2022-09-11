@@ -12,7 +12,7 @@ export const authApi = {
     registration: (user: RegistrationType) => instance.post('auth/singUp', {...user}),
     login: (email: string, password: string) => instance.post('auth/singIn', {email, password}),
     me: () => instance.get('auth/me', {}),
-    logout: ()=> instance.get('auth/logout')
+    logout: () => instance.get('auth/logout')
 }
 
 export const userApi = {
@@ -21,21 +21,28 @@ export const userApi = {
 }
 
 export const categoryApi = {
-    addCategory: (userId: string, title: string, image?: File)=> {
+    addCategory: (userId: string, title: string, image?: File) => {
         return instance.post('category/create', {title, userId, image}, {
             headers: {'Content-Type': 'multipart/form-data'}
         })
     },
-    subCategories: (categoryId: string) => instance.get(`category/one/${categoryId}`),
-    deleteCategory:(categoryId: string)=> instance.delete(`category/delete/${categoryId}`),
-    updateCategory:(id: string, title: string, image?: File)=> {
+    deleteCategory: (categoryId: string) => instance.delete(`category/delete/${categoryId}`),
+    updateCategory: (id: string, title: string, image?: File) => {
         return instance.put('category/update', {title, id, image}, {
             headers: {'Content-Type': 'multipart/form-data'}
         })
-    }
+    },
+
 
 }
 
 export const subCategoryApi = {
-    goods: (subCategoryId: string)=> instance.get(`subCategory/one/${subCategoryId}`)
+    getSubCategories: (categoryId: string) => instance.get(`category/one/${categoryId}`),
+    deleteSubCategory: (subCatId: string) => instance.delete(`subCategory/delete/${subCatId}`)
+}
+
+export const goodsApi = {
+    goods: (subCategoryId: string) => instance.get(`subCategory/one/${subCategoryId}`),
+
+
 }
