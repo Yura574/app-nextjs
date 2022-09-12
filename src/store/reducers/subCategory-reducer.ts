@@ -2,7 +2,7 @@ import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {subCategoryApi} from "../../api/api";
 
 export type SubCategoryType = {
-    catId: string,
+    id: string,
     title: string,
     image: string
 }
@@ -26,7 +26,7 @@ const subCategorySlice = createSlice({
           state.subCategories.push(action.payload)
         },
         deleteSubCategories: (state, action: PayloadAction<string>)=>{
-            const index = state.subCategories.findIndex(subCat => subCat.catId === action.payload)
+            const index = state.subCategories.findIndex(subCat => subCat.id === action.payload)
             state.subCategories.splice(index, 1)
         }
     }
@@ -54,7 +54,7 @@ export const addSubCategoryTC = (catId: string, title: string, image?: File) => 
         })
 }
 
-export const deleteCategoryTC = (subCatId: string) => (dispatch: Dispatch) => {
+export const deleteSubCategoryTC = (subCatId: string) => (dispatch: Dispatch) => {
     subCategoryApi.deleteSubCategory(subCatId)
         .then(res => {
             console.log(res)
