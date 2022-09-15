@@ -59,7 +59,8 @@ export const AddCategoryTC = (userId: string, title: string, success: string, im
             dispatch(setSuccess(success))
         })
         .catch(err => {
-            console.log(err)
+            dispatch(setSuccess(err.response.data.error))
+            console.log(err.response.data.error)
         })
 }
 export const DeleteCategoryTC = (categoryId: string) => (dispatch: Dispatch) => {

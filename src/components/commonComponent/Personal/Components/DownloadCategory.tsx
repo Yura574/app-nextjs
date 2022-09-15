@@ -9,6 +9,7 @@ import {
 import classCategory from "./downloadCategory.module.css";
 import {AiOutlineEdit} from "react-icons/ai";
 import {DownloadSubCategory} from "./DownloadSubCategory";
+import {setSuccess} from "../../../../store/reducers/app-reducer";
 
 
 export const DownloadCategory = () => {
@@ -30,6 +31,11 @@ export const DownloadCategory = () => {
         setPreview(objUrl)
         return () => URL.revokeObjectURL(objUrl)
     }, [file])
+    useEffect(()=> {
+        if(success){
+            setTimeout(()=>dispatch(setSuccess('')), 2000)
+        }
+    }, [dispatch, success])
 
     const uploadFile = (files: any) => {
         const file = files[0]
@@ -61,6 +67,7 @@ export const DownloadCategory = () => {
 
     return (
         <div>
+            {success&& success}
             <div>
                 <div>{!success ? <div style={{color: "green"}}>{success}</div> :
                     <div style={{opacity: '0'}}>lololo</div>}</div>
