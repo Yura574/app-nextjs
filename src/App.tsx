@@ -4,13 +4,13 @@ import {Main} from "./components/Main/Main";
 import {Footer} from "./components/Footer";
 import {useAppDispatch, useAppSelector} from "./store/hooks";
 import {Route, Routes} from "react-router-dom";
-import {Login} from "./components/commonComponent/login/Login";
+import {Login} from "./components/login/Login";
 import {AuthMeTC} from "./store/reducers/profile-reducer";
-import {Registration} from "./components/commonComponent/login/Registration";
-import {SubCategory} from "./components/commonComponent/SubCategory/SubCategory";
-import {PersonalArea} from "./components/commonComponent/Personal/PersonalArea";
-import {PersonalShop} from "./components/commonComponent/Personal/PersonalShop";
-import {Goods} from "./components/commonComponent/Goods/Goods";
+import {Registration} from "./components/login/Registration";
+import {SubCategory} from "./components/Personal/SubCategory/SubCategory";
+import {PersonalArea} from "./components/Personal/PersonalArea";
+import {PersonalShop} from "./components/Personal/PersonalShop";
+import {Goods} from "./components/Personal/Goods/Goods";
 
 function App() {
     const initialized = useAppSelector<boolean>(state => state.auth.initialized)

@@ -1,10 +1,10 @@
 import loginClass from "./login.module.css";
-import SuperInput from "../c1-SuperInput/SuperInput";
-import SuperCheckbox from "../c3-SuperCheckbox/SuperCheckbox";
-import {useAppDispatch, useAppSelector} from "../../../store/hooks";
+import SuperInput from "../commonComponent/c1-SuperInput/SuperInput";
+import SuperCheckbox from "../commonComponent/c3-SuperCheckbox/SuperCheckbox";
+import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {useEffect, useState} from "react";
-import { RegistrationTC, RegistrationType, setError} from "../../../store/reducers/auth-reducer";
-import inputClass from "../c1-SuperInput/SuperInput.module.css";
+import { RegistrationTC, RegistrationType, setError} from "../../store/reducers/auth-reducer";
+import inputClass from "../commonComponent/c1-SuperInput/SuperInput.module.css";
 import {Navigate} from "react-router-dom";
 
 export const Registration = () => {

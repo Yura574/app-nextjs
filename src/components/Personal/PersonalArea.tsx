@@ -1,14 +1,14 @@
-import classCommon from '../../../common.module.css';
+import classCommon from '../../common.module.css';
 import classPersonal from './personalArea.module.css'
+import { useAppSelector} from "../../store/hooks";
 import { Route, Routes, useNavigate} from "react-router-dom";
+import {PersonalNavBar} from "./Components/PersonalNavBar";
 import {Favorites} from "./Components/Favorites";
+import {Orders} from "./Components/Orders";
 import {Reviews} from "./Components/Reviews";
 import {StartSelling} from "./Components/StartSelling";
-import {Orders} from "./Components/Orders";
-import {PersonalNavBar} from "./Components/PersonalNavBar";
-import { useAppSelector} from "../../../store/hooks";
 import {DownloadCategory} from "./Components/DownloadCategory";
-
+import {MaterialWarehouse} from "./Components/material_warehouse/Material_warehouse";
 
 export const PersonalArea = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
@@ -29,6 +29,7 @@ export const PersonalArea = () => {
                         <Route path={'reviews'} element={<Reviews/>}></Route>
                         <Route path={'start-selling'} element={<StartSelling/>}></Route>
                         <Route path={'download-goods'} element={<DownloadCategory/>}/>
+                        <Route path={'material-warehouse'} element={<MaterialWarehouse/>}/>
                     </Routes>
                 </div>
 

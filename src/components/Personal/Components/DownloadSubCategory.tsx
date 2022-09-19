@@ -1,8 +1,8 @@
 import classCategory from "./downloadCategory.module.css";
 import {AiOutlineEdit} from "react-icons/ai";
 import {ChangeEvent, useState} from "react";
-import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
-import {addSubCategoryTC, deleteSubCategoryTC, SubCategoryType} from "../../../../store/reducers/subCategory-reducer";
+import {useAppDispatch, useAppSelector} from "../../../store/hooks";
+import {addSubCategoryTC, deleteSubCategoryTC, SubCategoryType} from "../../../store/reducers/subCategory-reducer";
 
 export const DownloadSubCategory = (props: { catId: string }) => {
     const dispatch = useAppDispatch()

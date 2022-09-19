@@ -3,7 +3,7 @@ import {useEffect} from "react";
 import {getSubCategoriesTC, SubCategoryType} from "../../../store/reducers/subCategory-reducer";
 import {Link, useParams} from "react-router-dom";
 import classMain from "../../Main/main.module.css";
-import cardClass from "../CardProdurt/cardProduct.module.css";
+import cardClass from "../../CardProdurt/cardProduct.module.css";
 
 
 export const SubCategory = () => {

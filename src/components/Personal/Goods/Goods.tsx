@@ -2,7 +2,7 @@ import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {useEffect} from "react";
 import {GoodsType, SetGoodsTC} from "../../../store/reducers/goods-reducer";
 import {useParams} from "react-router-dom";
-import cardClass from "../CardProdurt/cardProduct.module.css";
+import cardClass from "../../CardProdurt/cardProduct.module.css";
 
 
 export const Goods = () => {

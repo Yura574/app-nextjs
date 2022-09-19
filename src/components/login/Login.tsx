@@ -1,9 +1,9 @@
 import loginClass from './login.module.css'
-import SuperInput from "../c1-SuperInput/SuperInput";
-import SuperCheckbox from "../c3-SuperCheckbox/SuperCheckbox";
+import SuperInput from "../commonComponent/c1-SuperInput/SuperInput";
+import SuperCheckbox from "../commonComponent/c3-SuperCheckbox/SuperCheckbox";
 import {useState} from "react";
-import {LoginTC} from "../../../store/reducers/auth-reducer";
-import {useAppDispatch, useAppSelector} from "../../../store/hooks";
+import {LoginTC} from "../../store/reducers/auth-reducer";
+import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {Navigate, NavLink, Route} from "react-router-dom";
 
 

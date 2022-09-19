@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
-import {useAppDispatch} from "../../../../store/hooks";
-import {LogoutTC} from "../../../../store/reducers/auth-reducer";
+import {useAppDispatch} from "../../../store/hooks";
+import {LogoutTC} from "../../../store/reducers/auth-reducer";
 import classPersonal from "../personalArea.module.css"
 
 
@@ -17,6 +17,7 @@ export const PersonalNavBar = () => {
                 <div><Link to={'reviews'}>Отзывы</Link></div>
                 <div><Link to={'start-selling'}>Начать продавать</Link></div>
                 <div><Link to={'download-goods'}>Загрузить товары</Link></div>
+                <div><Link to={'material-warehouse'}> Склад материалов</Link></div>
                 <div onClick={logout}>Выйти</div>
             </div>
     )

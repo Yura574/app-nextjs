@@ -1,4 +1,4 @@
-import {CardProduct} from "../commonComponent/CardProdurt/CardProduct";
+import {CardProduct} from "../CardProdurt/CardProduct";
 import plasterClass from './plasterDecor.module.css'
 import {Link} from "react-router-dom";
 

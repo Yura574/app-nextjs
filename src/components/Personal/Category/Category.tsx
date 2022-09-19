@@ -1,4 +1,4 @@
-import cardClass from "../CardProdurt/cardProduct.module.css";
+import cardClass from "../../CardProdurt/cardProduct.module.css";
 import classMain from "../../Main/main.module.css";
 import {Link} from "react-router-dom";
 

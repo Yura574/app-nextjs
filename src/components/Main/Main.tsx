@@ -3,7 +3,7 @@ import React, {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {Navigate} from "react-router-dom";
 import {CategoryType, GetCategoriesTC} from "../../store/reducers/categories-reducer";
-import {Category} from "../commonComponent/Category/Category";
+import {Category} from "../Personal/Category/Category";
 
 export const Main = () => {
     const dispatch = useAppDispatch()
