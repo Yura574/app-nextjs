@@ -4,10 +4,14 @@ import {setSuccess} from "../../../store/reducers/app-reducer";
 import classCategory from "../../Personal/Components/downloadCategory.module.css";
 import {AddCategoryTC} from "../../../store/reducers/categories-reducer";
 
+type LoadItemType = {
+    thunk: any,
+    id: string
+    success: string
+}
 
-export const LoadItem = () => {
+export const LoadItem = (props: LoadItemType) => {
     const dispatch = useAppDispatch()
-    const userId = useAppSelector<string>(state => state.profile.profile.id)
     const success = useAppSelector<string>(state => state.app.success)
 
 
@@ -38,9 +42,9 @@ export const LoadItem = () => {
     const titleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
-    const addItem = (thunk: (userId: string, categoryTitle: string,success: string, file?: any)=> any, userId: string, categoryTitle: string, file: any) => {
-        file ? dispatch(thunk(userId, categoryTitle, 'категория загружена успешно', file))
-            : dispatch(thunk(userId, categoryTitle, 'категория загружена успешно'))
+    const addItem = (thunk: any, userId: string, itemTitle: string, file: any) => {
+        file ? dispatch(thunk(userId, itemTitle, props.success, file))
+            : dispatch(thunk(userId, itemTitle, props.success))
         setTitle('')
         setFile(undefined)
 
@@ -61,7 +65,7 @@ export const LoadItem = () => {
                 {file ? <div>{file.name} <img src={preview} alt={'preview'}/></div> : 'выбрать фото'}
             </label>
                 <input value={title} onChange={titleHandler}/>
-                <button onClick={() => addItem(AddCategoryTC, userId, title, file)}> добавить категорию</button>
+                <button onClick={() => addItem(props.thunk, props.id, title, file)}> добавить категорию</button>
 
             </div>
         </div>

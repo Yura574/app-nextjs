@@ -68,42 +68,44 @@ export const DownloadCategory = () => {
 
     return (
         <div>
-            <LoadItem/>
+            <LoadItem thunk={AddCategoryTC}
+                      id={userId}
+                      success={'категория загружена успешно'}
+            />
 
-            {/*{success&& success}*/}
-            {/*<div>*/}
-            {/*    <div>{!success ? <div style={{color: "green"}}>{success}</div> :*/}
-            {/*        <div style={{opacity: '0'}}>lololo</div>}</div>*/}
-            {/*    <div>загругзить категорию</div>*/}
-            {/*    <label htmlFor={'uploadFile'} style={{position: 'relative', marginRight: '20px', cursor: 'pointer'}}>*/}
+            <>{/*{success&& success}*/}
+                {/*<div>*/}
+                {/*    <div>{!success ? <div style={{color: "green"}}>{success}</div> :*/}
+                {/*        <div style={{opacity: '0'}}>lololo</div>}</div>*/}
+                {/*    <div>загругзить категорию</div>*/}
+                {/*    <label htmlFor={'uploadFile'} style={{position: 'relative', marginRight: '20px', cursor: 'pointer'}}>*/}
 
-            {/*        <input type={"file"} onChange={(e) => uploadFile(e.currentTarget.files)}*/}
-            {/*               id={classCategory["uploadFile"]}/>*/}
-            {/*        {file ? <div>{file.name} <img src={preview} alt={'preview'}/></div> : 'выбрать фото'}*/}
-            {/*    </label>*/}
-            {/*    <input value={categoryTitle} onChange={categoryTitleHandler}/>*/}
-            {/*    <button onClick={() => addCategory(userId, categoryTitle, file)}> добавить категорию</button>*/}
-
-                <div className={classCategory.box}>
-                    {categories.map(cat => {
-                            return <div key={cat.id} className={classCategory.container}>
-                                <div className={classCategory.header}>
-                                    <div>{cat.title}</div>
-                                    <div onClick={() => updateCategory(cat.id, cat.title, file)}
-                                         className={classCategory.edit}><AiOutlineEdit/></div>
-                                    <div className={classCategory.delete} onClick={() => deleteCategory(cat.id)}>x</div>
-                                </div>
-                                {cat.image
-                                    ? <img src={cat.image} className={classCategory.img} alt={'category'}/>
-                                    :
-                                    <div className={classCategory.noImg}>{cat.title}</div>
-                                }
-                                <DownloadSubCategory catId={cat.id}/>
+                {/*        <input type={"file"} onChange={(e) => uploadFile(e.currentTarget.files)}*/}
+                {/*               id={classCategory["uploadFile"]}/>*/}
+                {/*        {file ? <div>{file.name} <img src={preview} alt={'preview'}/></div> : 'выбрать фото'}*/}
+                {/*    </label>*/}
+                {/*    <input value={categoryTitle} onChange={categoryTitleHandler}/>*/}
+                {/*    <</>button onClick={() => addCategory(userId, categoryTitle, file)}> добавить категорию</button>*/}
+</>
+            <div className={classCategory.box}>
+                {categories.map(cat => {
+                        return <div key={cat.id} className={classCategory.container}>
+                            <div className={classCategory.header}>
+                                <div>{cat.title}</div>
+                                <div onClick={() => updateCategory(cat.id, cat.title, file)}
+                                     className={classCategory.edit}><AiOutlineEdit/></div>
+                                <div className={classCategory.delete} onClick={() => deleteCategory(cat.id)}>x</div>
                             </div>
-                        }
-                    )}
-                </div>
-
+                            {cat.image
+                                ? <img src={cat.image} className={classCategory.img} alt={'category'}/>
+                                :
+                                <div className={classCategory.noImg}>{cat.title}</div>
+                            }
+                            <DownloadSubCategory catId={cat.id}/>
+                        </div>
+                    }
+                )}
+            </div>
 
 
             <div>загругзить товар</div>

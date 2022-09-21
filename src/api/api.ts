@@ -49,5 +49,20 @@ export const subCategoryApi = {
 export const goodsApi = {
     goods: (subCategoryId: string) => instance.get(`subCategory/one/${subCategoryId}`),
 
+}
 
+export const warehouseApi = {
+    addWarehouse:(userId: string, title: string, image?: File)=> {
+        return instance.post('warehouse/create', {userId, title, image},{
+            headers:{'Content-Type': 'multipart/form-data'}
+            })
+    }
+}
+
+export const purchaseApi = {
+    addPurchase: (warehouseId: string, title: string, image?: File)=> {
+        return instance.post('warehouse/create', {warehouseId, title, image},{
+            headers:{'Content-Type': 'multipart/form-data'}
+        })
+    }
 }
