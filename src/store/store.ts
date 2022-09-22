@@ -6,6 +6,8 @@ import {categoryReducer} from "./reducers/categories-reducer";
 import {subCategoryReducer} from "./reducers/subCategory-reducer";
 import {goodsReducer} from "./reducers/goods-reducer";
 import {appReducer} from "./reducers/app-reducer";
+import {warehousesReducer} from "./reducers/warehouse-reducer";
+import {purchasesReducer} from "./reducers/purchases-reducer";
 
 
 const rootReducer = combineReducers({
@@ -15,6 +17,8 @@ const rootReducer = combineReducers({
     categories: categoryReducer,
     subCategories: subCategoryReducer,
     goods: goodsReducer,
+    warehouses: warehousesReducer,
+    purchases: purchasesReducer
 
 })
 

@@ -1,4 +1,4 @@
-import {ChangeEvent, useEffect, useState} from "react";
+import {useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {
     AddCategoryTC,
@@ -9,7 +9,6 @@ import {
 import classCategory from "./downloadCategory.module.css";
 import {AiOutlineEdit} from "react-icons/ai";
 import {DownloadSubCategory} from "./DownloadSubCategory";
-import {setSuccess} from "../../../store/reducers/app-reducer";
 import {LoadItem} from "../../commonComponent/load_item/load_item";
 
 
@@ -71,6 +70,7 @@ export const DownloadCategory = () => {
             <LoadItem thunk={AddCategoryTC}
                       id={userId}
                       success={'категория загружена успешно'}
+                      name={'категорию'}
             />
 
             <>{/*{success&& success}*/}

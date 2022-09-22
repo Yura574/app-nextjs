@@ -8,7 +8,7 @@ import {Orders} from "./Components/Orders";
 import {Reviews} from "./Components/Reviews";
 import {StartSelling} from "./Components/StartSelling";
 import {DownloadCategory} from "./Components/DownloadCategory";
-import {MaterialWarehouse} from "./Components/material_warehouse/Material_warehouse";
+import {MaterialsWarehouse} from "./Components/material_warehouse/Materials_warehouse";
 
 export const PersonalArea = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
@@ -29,7 +29,7 @@ export const PersonalArea = () => {
                         <Route path={'reviews'} element={<Reviews/>}></Route>
                         <Route path={'start-selling'} element={<StartSelling/>}></Route>
                         <Route path={'download-goods'} element={<DownloadCategory/>}/>
-                        <Route path={'material-warehouse'} element={<MaterialWarehouse/>}/>
+                        <Route path={'material-warehouse'} element={<MaterialsWarehouse/>}/>
                     </Routes>
                 </div>
 

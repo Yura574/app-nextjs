@@ -35,7 +35,6 @@ export const AuthMeTC = () => (dispatch: Dispatch) => {
 
     authApi.me()
         .then(res => {
-
             dispatch(setProfile(res.data))
             dispatch(isAuth({value: true}))
             console.log(res)

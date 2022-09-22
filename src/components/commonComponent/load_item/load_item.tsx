@@ -2,12 +2,12 @@ import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {ChangeEvent, useEffect, useState} from "react";
 import {setSuccess} from "../../../store/reducers/app-reducer";
 import classCategory from "../../Personal/Components/downloadCategory.module.css";
-import {AddCategoryTC} from "../../../store/reducers/categories-reducer";
 
 type LoadItemType = {
     thunk: any,
     id: string
     success: string
+    name: string
 }
 
 export const LoadItem = (props: LoadItemType) => {
@@ -65,7 +65,7 @@ export const LoadItem = (props: LoadItemType) => {
                 {file ? <div>{file.name} <img src={preview} alt={'preview'}/></div> : 'выбрать фото'}
             </label>
                 <input value={title} onChange={titleHandler}/>
-                <button onClick={() => addItem(props.thunk, props.id, title, file)}> добавить категорию</button>
+                <button onClick={() => addItem(props.thunk, props.id, title, file)}> добавить {props.name}</button>
 
             </div>
         </div>
