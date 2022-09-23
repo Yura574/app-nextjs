@@ -49,14 +49,6 @@ export const DownloadCategory = () => {
     const deleteCategory = (categoryId: string) => {
         dispatch(DeleteCategoryTC(categoryId))
     }
-    //
-    // const addCategory = (userId: string, categoryTitle: string, file: any) => {
-    //     file ? dispatch(AddCategoryTC(userId, categoryTitle, 'категория загружена успешно', file))
-    //         : dispatch(AddCategoryTC(userId, categoryTitle, 'категория загружена успешно'))
-    //     setCategoryTitle('')
-    //     setFile(undefined)
-    //
-    // }
 
 
     const updateCategory = (userId: string, title: string, image?: File) => {

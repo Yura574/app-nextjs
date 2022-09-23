@@ -12,6 +12,7 @@ export const SubCategory = () => {
     const subCategories = useAppSelector<SubCategoryType[]>(state => state.subCategories.subCategories)
 
 
+
     useEffect(() => {
         id && dispatch(getSubCategoriesTC(id))
     }, [dispatch, id])
