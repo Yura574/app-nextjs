@@ -2,6 +2,7 @@ import SuperInput from "../../commonComponent/c1-SuperInput/SuperInput";
 import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import { getAllWarehousesTC, WarehouseType} from "../../../store/reducers/warehouse-reducer";
+import {InputDate} from "../../commonComponent/c5-InputDate/InputDate";
 
 
 export const Purchases = () => {
@@ -29,7 +30,7 @@ export const Purchases = () => {
                     <SuperInput label={'название товара'} onChangeText={setTitle} value={title}/>
                     <SuperInput label={'место покупки'} onChangeText={setPlace} value={place}/>
                     <SuperInput label={'цена'} onChangeText={setPrice} value={price}/>
-                    <input type={'date'}/>
+
                     <button> добавить</button>
                 </div>
                 <div>
