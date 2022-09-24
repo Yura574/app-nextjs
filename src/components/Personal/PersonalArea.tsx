@@ -10,6 +10,7 @@ import {StartSelling} from "./Components/StartSelling";
 import {DownloadCategory} from "./Components/DownloadCategory";
 import {MaterialsWarehouse} from "./Components/material_warehouse/Materials_warehouse";
 import {Warehouse} from "./Components/material_warehouse/Warehouse";
+import {Purchases} from "./Components/Purchases";
 
 export const PersonalArea = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
@@ -32,6 +33,7 @@ export const PersonalArea = () => {
                         <Route path={'download-goods'} element={<DownloadCategory/>}/>
                         <Route path={'material-warehouse'} element={<MaterialsWarehouse/>}/>
                         <Route path={'material-warehouse/warehouse/:id'} element={<Warehouse/>}/>
+                        <Route path={'purchases'} element={<Purchases/>}/>
                     </Routes>
                 </div>
 

@@ -18,6 +18,7 @@ export const PersonalNavBar = () => {
                 <div><Link to={'start-selling'}>Начать продавать</Link></div>
                 <div><Link to={'download-goods'}>Загрузить товары</Link></div>
                 <div><Link to={'material-warehouse'}> Склад материалов</Link></div>
+                <div><Link to={'purchases'}>Закупки</Link></div>
                 <div onClick={logout}>Выйти</div>
             </div>
     )
