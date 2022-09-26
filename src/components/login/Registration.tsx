@@ -19,7 +19,7 @@ export const Registration = () => {
     let validPassword = ''
     useEffect(() => {
         dispatch(setError({ value:''}))
-    }, [password, repeatPassword])
+    }, [password, repeatPassword, dispatch])
 
     const registration = (user: RegistrationType) => {
         if (password === repeatPassword) {

@@ -4,7 +4,7 @@ import SuperCheckbox from "../commonComponent/c3-SuperCheckbox/SuperCheckbox";
 import {useState} from "react";
 import {LoginTC} from "../../store/reducers/auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {Navigate, NavLink, Route} from "react-router-dom";
+import {Navigate, NavLink} from "react-router-dom";
 
 
 export const Login = () => {

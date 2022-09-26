@@ -11,12 +11,13 @@ import {SubCategory} from "./components/Personal/SubCategory/SubCategory";
 import {PersonalArea} from "./components/Personal/PersonalArea";
 import {PersonalShop} from "./components/Personal/PersonalShop";
 import {Goods} from "./components/Personal/Goods/Goods";
+import {setOpenCalendar} from "./store/reducers/date-reducer";
 
 function App() {
     const initialized = useAppSelector<boolean>(state => state.auth.initialized)
     const dispatch = useAppDispatch()
-
-    useEffect(()=> {
+    const openCalendar = useAppSelector<boolean>(state => state.date.openCalendar)
+    useEffect(() => {
         dispatch(AuthMeTC())
     }, [dispatch])
 
@@ -32,11 +33,11 @@ function App() {
                     {/*<Route path={'personal-area/favorites'} element={<Favorites/>}></Route>*/}
                     <Route path={'/'} element={<Main/>}/>
                     <Route path={'/login'} element={<Login/>}/>
-                    <Route path={'/registration'} element={<Registration />}/>
-                    <Route path={'/subcategory/:id'} element={<SubCategory />}/>
+                    <Route path={'/registration'} element={<Registration/>}/>
+                    <Route path={'/subcategory/:id'} element={<SubCategory/>}/>
                     <Route path={'/subcategory/:id/goods/:id'} element={<Goods/>}/>
-                    <Route path={'/personal-area/*'} element={<PersonalArea/>} />
-                    <Route path={'/personal-shop/*'} element={<PersonalShop/>} />
+                    <Route path={'/personal-area/*'} element={<PersonalArea/>}/>
+                    <Route path={'/personal-shop/*'} element={<PersonalShop/>}/>
                 </Routes>
                 <Footer/>
             </div>

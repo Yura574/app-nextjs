@@ -5,7 +5,7 @@ export const Favorites =() => {
     return (
         <div>
             my favorites list
-            <InputDate onChange={()=> {}}/>
+            <InputDate />
         </div>
     )
 }

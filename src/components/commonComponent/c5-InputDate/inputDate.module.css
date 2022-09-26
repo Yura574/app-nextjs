@@ -1,0 +1,62 @@
+
+
+.active{
+    background: #20C2E0;
+    border-radius: 50%;
+}
+.header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+
+.tableWrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+/*.table{*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*}*/
+
+.dates{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.week{
+    display: flex;
+    flex-direction: row;
+}
+
+.dayNames{
+    display: flex;
+    justify-content: space-between;
+
+    height: 30px;
+    width: 210px;
+}
+.dayNames div{
+    display: flex;
+    justify-content: center;
+    width: 30px;
+}
+.day{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.shadowDay{
+    width: 30px;
+    height: 30px;
+}
+
+

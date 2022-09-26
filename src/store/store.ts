@@ -8,6 +8,7 @@ import {goodsReducer} from "./reducers/goods-reducer";
 import {appReducer} from "./reducers/app-reducer";
 import {warehousesReducer} from "./reducers/warehouse-reducer";
 import {purchasesReducer} from "./reducers/purchases-reducer";
+import {dateReducer} from "./reducers/date-reducer";
 
 
 const rootReducer = combineReducers({
@@ -18,14 +19,15 @@ const rootReducer = combineReducers({
     subCategories: subCategoryReducer,
     goods: goodsReducer,
     warehouses: warehousesReducer,
-    purchases: purchasesReducer
+    purchases: purchasesReducer,
+    date: dateReducer,
 
 })
 
 
 export const store = configureStore({
     reducer: rootReducer,
-    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunk)
+    middleware: getDefaultMiddleware => getDefaultMiddleware({serializableCheck: false}).prepend(thunk)
 })
 
 
