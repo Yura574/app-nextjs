@@ -62,8 +62,8 @@ export const warehouseApi = {
 }
 
 export const purchaseApi = {
-    addPurchase: (warehouseId: string, title: string, image?: File)=> {
-        return instance.post('warehouse/create', {warehouseId, title, image},{
+    addPurchase: (warehouseId: string | null, title: string, price?: number, place?: string, amount?: number, unit?: string, date?: Date, image?: File)=> {
+        return instance.post('purchase/create', {warehouseId, title, price, place, amount, unit, date, image},{
             headers:{'Content-Type': 'multipart/form-data'}
         })
     },

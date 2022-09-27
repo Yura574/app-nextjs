@@ -3,7 +3,9 @@ import {warehouseApi} from "../../api/api";
 
 
 const initialState: InitialStateType = {
-    warehouses: []
+    warehouses: [
+        {id: '0', title: 'укажите склад', image:''}
+    ]
 }
 
 
@@ -12,7 +14,7 @@ const warehousesSlice = createSlice({
     initialState: initialState,
     reducers: {
         getAllWarehouses: (state, action: PayloadAction<WarehouseType[]>) => {
-            state.warehouses = action.payload
+            state.warehouses = [...state.warehouses, ...action.payload]
         }
     }
 })
@@ -46,5 +48,5 @@ type InitialStateType = {
 export type WarehouseType = {
     id: string
     title: string
-    image: string
+    image?: string
 }

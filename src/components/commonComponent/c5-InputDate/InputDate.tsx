@@ -4,7 +4,6 @@ import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {setData} from "../../../store/reducers/date-reducer";
 
 
-
 export const InputDate = () => {
     const dispatch = useAppDispatch()
     const currentDate = useAppSelector<Date>(state => state.date.currentDate)
@@ -40,7 +39,7 @@ export const InputDate = () => {
     }
 
     const handleDayClick = (date: Date) => {
-        dispatch(setData(  new Date(year, month, date.getDate())))
+        dispatch(setData(new Date(year, month, date.getDate())))
     }
 
 
@@ -72,9 +71,9 @@ export const InputDate = () => {
                                 {week.map((date: any, index: number) => {
                                         return (
                                             date
-                                                ? <div
-                                                className={`${inputClass.day} 
-                                                ${areEqual(currentDate, date) ?inputClass.active : ''} `}
+                                                ? <div key={index}
+                                                    className={`${inputClass.day} 
+                                                ${areEqual(currentDate, date) ? inputClass.active : ''} `}
                                                     onClick={() => handleDayClick(date)}>
                                                     {date.getDate()}
                                                 </div>

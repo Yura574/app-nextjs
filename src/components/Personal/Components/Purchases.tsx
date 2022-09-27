@@ -3,25 +3,45 @@ import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {getAllWarehousesTC, WarehouseType} from "../../../store/reducers/warehouse-reducer";
 import {CurrentDate} from "../../commonComponent/c6-Date/Date";
+import {AddPurchasesTC, setCurrentWarehouse} from "../../../store/reducers/purchases-reducer";
 
 
 export const Purchases = () => {
     const dispatch = useAppDispatch()
     const warehouses = useAppSelector<WarehouseType[]>(state => state.warehouses.warehouses)
     const userId = useAppSelector<string>(state => state.profile.profile.id)
+    const date = useAppSelector<Date>(state => state.date.currentDate)
+    const currentWarehouse = useAppSelector<WarehouseType | null>(state => state.purchases.currentWarehouse)
 
     const [title, setTitle] = useState<string>('')
     const [place, setPlace] = useState<string>('')
-    const [price, setPrice] = useState<string>('')
-    // const [date, setDate] = useState<string>('')
-    const [select, setSelect] = useState('9')
+    const [price, setPrice] = useState<number>(0)
+    const [amount, setAmount] = useState<number>(0)
+    const [unit, setUnit] = useState<string>('')
+
     useEffect(() => {
-        if (warehouses.length < 1) {
+        if (warehouses.length < 2) {
             dispatch(getAllWarehousesTC(userId))
         }
-    })
-    const addPurchase = () => {
+    }, [warehouses, dispatch])
 
+    const changeWarehouse = (warehouse: string) => {
+        const newWarehouse = warehouses.find(el => el.title === warehouse)
+        console.log(newWarehouse)
+        newWarehouse && dispatch(setCurrentWarehouse(newWarehouse))
+    }
+
+    // const warehouseId = (title: string) => {
+    //     const warehouse = warehouses.find(el => el.title === title)
+    //     return warehouse && warehouse.id
+    // }
+
+    const addPurchase = (warehouseId: string | null, title: string, price?: number, place?: string, amount?: number, unit?: string, date?: Date) => {
+        if (warehouseId === null || warehouseId === '0') {
+            console.log('укажите склад')
+        } else {
+            dispatch(AddPurchasesTC(warehouseId, title))
+        }
     }
     return (
         <div>
@@ -30,18 +50,25 @@ export const Purchases = () => {
                     <SuperInput label={'название товара'} onChangeText={setTitle} value={title}/>
                     <SuperInput label={'место покупки'} onChangeText={setPlace} value={place}/>
                     <SuperInput label={'цена'} onChangeText={setPrice} value={price}/>
+                    <SuperInput label={'количество'} onChangeText={setAmount} value={amount}/>
+                    <SuperInput label={'ед изм'} onChangeText={setUnit} value={unit}/>
 
-                    <button onClick={addPurchase}> добавить</button>
+                    <button
+                        onClick={() => addPurchase(currentWarehouse && currentWarehouse.id, title,
+                            price, place, amount, unit, date)}> добавить
+                    </button>
                 </div>
                 <div>
-                    <select value={select} onChange={(e) => setSelect(e.currentTarget.value)}>
-                        {warehouses.map(el => <option key={el.id}>{el.title}</option>
+                    <select  value={currentWarehouse ? currentWarehouse.title : 'выберите склад'}
+                            onChange={(e) => changeWarehouse(e.currentTarget.value)}>
+                        {warehouses.map(el => <option key={el.id} >{el.title}</option>
                         )}
 
                     </select>
 
+
                 </div>
-                <div><CurrentDate /></div>
+                <div><CurrentDate/></div>
             </div>
         </div>
     )
