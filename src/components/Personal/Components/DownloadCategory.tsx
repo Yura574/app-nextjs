@@ -18,7 +18,7 @@ export const DownloadCategory = () => {
     // const success = useAppSelector<string>(state => state.app.success)
     const categories = useAppSelector<CategoryType[]>(state => state.categories.categories)
 
-    const [file, setFile] = useState<File>()
+    // const [file, setFile] = useState<File>()
     // const [preview, setPreview] = useState<string | undefined>()
     // const [categoryTitle, setCategoryTitle] = useState<string>('')
 
@@ -37,10 +37,10 @@ export const DownloadCategory = () => {
     //     }
     // }, [dispatch, success])
 
-    const uploadFile = (files: any) => {
-        const file = files[0]
-        setFile(file)
-    }
+    // const uploadFile = (files: any) => {
+    //     const file = files[0]
+    //     setFile(file)
+    // }
     // const categoryTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     //     setCategoryTitle(e.currentTarget.value)
     // }
@@ -84,7 +84,7 @@ export const DownloadCategory = () => {
                         return <div key={cat.id} className={classCategory.container}>
                             <div className={classCategory.header}>
                                 <div>{cat.title}</div>
-                                <div onClick={() => updateCategory(cat.id, cat.title, file)}
+                                <div onClick={() => updateCategory(cat.id, cat.title)}
                                      className={classCategory.edit}><AiOutlineEdit/></div>
                                 <div className={classCategory.delete} onClick={() => deleteCategory(cat.id)}>x</div>
                             </div>

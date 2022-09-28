@@ -52,6 +52,7 @@ export const GetCategoriesTC = (userId: string) => (dispatch: Dispatch) => {
 }
 
 export const AddCategoryTC = (userId: string, title: string, success: string, image?: File) => (dispatch: Dispatch) => {
+    console.log(image)
     categoryApi.addCategory(userId, title, image)
         .then(res => {
             console.log(res)

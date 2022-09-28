@@ -22,6 +22,7 @@ export const userApi = {
 
 export const categoryApi = {
     addCategory: (userId: string, title: string, image?: File) => {
+        console.log(image)
         return instance.post('category/create', {title, userId, image}, {
             headers: {'Content-Type': 'multipart/form-data'}
         })
@@ -53,16 +54,19 @@ export const goodsApi = {
 
 export const warehouseApi = {
     addWarehouse:(userId: string, title: string, image?: File)=> {
+        console.log(image)
         return instance.post('warehouse/create', {userId, title, image},{
             headers:{'Content-Type': 'multipart/form-data'}
             })
     },
-    getAllWarehouses: (userId: string)=> instance.get(`warehouse/all/${userId}` )
+    getAllWarehouses: (userId: string)=> instance.get(`warehouse/all/${userId}` ),
+    deleteWarehouse: (warehouseId: string) => instance.delete(`warehouse/delete/${warehouseId}`),
 
 }
 
 export const purchaseApi = {
     addPurchase: (warehouseId: string | null, title: string, price?: number, place?: string, amount?: number, unit?: string, date?: Date, image?: File)=> {
+        console.log({warehouseId, title, price, place, amount, unit, date, image})
         return instance.post('purchase/create', {warehouseId, title, price, place, amount, unit, date, image},{
             headers:{'Content-Type': 'multipart/form-data'}
         })

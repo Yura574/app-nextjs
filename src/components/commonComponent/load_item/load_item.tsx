@@ -16,17 +16,17 @@ export const LoadItem = (props: LoadItemType) => {
 
 
     const [file, setFile] = useState<File>()
-    const [preview, setPreview] = useState<string | undefined>()
+    const [preview, setPreview] = useState<string>('')
     const [title, setTitle] = useState<string>('')
 
     useEffect(() => {
         if (!file) {
-            setPreview(undefined)
+            setPreview('')
             return
         }
         const objUrl = URL.createObjectURL(file)
         setPreview(objUrl)
-        return () => URL.revokeObjectURL(objUrl)
+        // return () => URL.revokeObjectURL(objUrl)
     }, [file])
 
     useEffect(() => {
@@ -42,13 +42,19 @@ export const LoadItem = (props: LoadItemType) => {
     const titleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
-    const addItem = (thunk: any, userId: string, itemTitle: string, file: any) => {
-        file ? dispatch(thunk(userId, itemTitle, props.success, file))
-            : dispatch(thunk(userId, itemTitle, props.success))
+    const addItem = (thunk: any, id: string, itemTitle: string, file: any) => {
+        file ? dispatch(thunk(id, itemTitle, props.success, file))
+            : dispatch(thunk(id, itemTitle, props.success))
         setTitle('')
         setFile(undefined)
+        setPreview('')
 
     }
+    const deletePreview = ()=> {
+        setFile(undefined)
+        setPreview('')
+    }
+    console.log(file)
 
     return (
         <div>
@@ -62,7 +68,7 @@ export const LoadItem = (props: LoadItemType) => {
 
                 <input type={"file"} onChange={(e) => uploadFile(e.currentTarget.files)}
                        id={classCategory["uploadFile"]}/>
-                {file ? <div>{file.name} <img src={preview} alt={'preview'}/></div> : 'выбрать фото'}
+                {file ? <div onClick={deletePreview}><button>x</button> {file.name} <img src={preview} alt={'preview'}/></div> : 'выбрать фото'}
             </label>
                 <input value={title} onChange={titleHandler}/>
                 <button onClick={() => addItem(props.thunk, props.id, title, file)}> добавить {props.name}</button>

@@ -3,9 +3,7 @@ import {warehouseApi} from "../../api/api";
 
 
 const initialState: InitialStateType = {
-    warehouses: [
-        {id: '0', title: 'укажите склад', image:''}
-    ]
+    warehouses: []
 }
 
 
@@ -14,30 +12,35 @@ const warehousesSlice = createSlice({
     initialState: initialState,
     reducers: {
         getAllWarehouses: (state, action: PayloadAction<WarehouseType[]>) => {
-            state.warehouses = [...state.warehouses, ...action.payload]
+            state.warehouses = action.payload
+        },
+        addWarehouse: (state, action: PayloadAction<WarehouseType>) => {
+            state.warehouses = [action.payload, ...state.warehouses]
+        },
+        deleteWarehouse: (state, action: PayloadAction<string>) => {
+            state.warehouses = state.warehouses.filter(el => el.id !== action.payload)
         }
     }
 })
 
 export const warehousesReducer = warehousesSlice.reducer
-export const {getAllWarehouses} = warehousesSlice.actions
+export const {getAllWarehouses, addWarehouse, deleteWarehouse} = warehousesSlice.actions
 
 
-export const AddWarehouseTC = (userId: string, title: string, image: File) => (dispatch: Dispatch) => {
+export const AddWarehouseTC = (userId: string, title: string, success: string, image?: File) => (dispatch: Dispatch) => {
+    console.log(image)
     warehouseApi.addWarehouse(userId, title, image)
-        .then(res => {
-            console.log(res)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+        .then(res => dispatch(addWarehouse(res.data)))
+        .catch(err => console.log(err))
 }
 export const getAllWarehousesTC = (userId: string) => (dispatch: Dispatch) => {
     warehouseApi.getAllWarehouses(userId)
-        .then(res => {
-            console.log(res.data)
-            dispatch(getAllWarehouses(res.data))
-        })
+        .then(res => dispatch(getAllWarehouses(res.data)))
+}
+export const DeleteWarehouseTC = (warehouseId: string) => (dispatch: Dispatch) => {
+    warehouseApi.deleteWarehouse(warehouseId)
+        .then(() => dispatch(deleteWarehouse(warehouseId)))
+        .catch(err => console.log(err))
 }
 
 type InitialStateType = {

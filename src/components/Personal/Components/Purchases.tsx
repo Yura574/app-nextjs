@@ -40,7 +40,7 @@ export const Purchases = () => {
         if (warehouseId === null || warehouseId === '0') {
             console.log('укажите склад')
         } else {
-            dispatch(AddPurchasesTC(warehouseId, title))
+            dispatch(AddPurchasesTC(warehouseId, title, price, place, amount, unit, date))
         }
     }
     return (
@@ -61,6 +61,7 @@ export const Purchases = () => {
                 <div>
                     <select  value={currentWarehouse ? currentWarehouse.title : 'выберите склад'}
                             onChange={(e) => changeWarehouse(e.currentTarget.value)}>
+                        <option>укажите склад</option>
                         {warehouses.map(el => <option key={el.id} >{el.title}</option>
                         )}
 
@@ -70,6 +71,7 @@ export const Purchases = () => {
                 </div>
                 <div><CurrentDate/></div>
             </div>
+            <br/>
         </div>
     )
 }
