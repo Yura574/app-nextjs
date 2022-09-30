@@ -1,7 +1,8 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
-    currentDate: new Date(),
+    date: new Date(),
+    currentDate: '',
     openCalendar: false
 }
 
@@ -11,6 +12,9 @@ const dateSlice = createSlice({
     initialState,
     reducers: {
         setData: (state, action)=> {
+            state.date = action.payload
+        },
+        setCurrentDate: (state, action:PayloadAction<string>)=>{
             state.currentDate = action.payload
         },
         setOpenCalendar: (state, action:PayloadAction<boolean>) => {
@@ -23,4 +27,4 @@ const dateSlice = createSlice({
 
 
 export const dateReducer = dateSlice.reducer
-export const {setData, setOpenCalendar} = dateSlice.actions
+export const {setData, setOpenCalendar, setCurrentDate} = dateSlice.actions

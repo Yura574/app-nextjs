@@ -1,24 +1,35 @@
 import inputClass from './inputDate.module.css'
 import {areEqual, calendar} from "./utilFuncs";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
-import {setData} from "../../../store/reducers/date-reducer";
+import {setCurrentDate, setData} from "../../../store/reducers/date-reducer";
+import {useEffect} from "react";
 
 
 export const InputDate = () => {
     const dispatch = useAppDispatch()
-    const currentDate = useAppSelector<Date>(state => state.date.currentDate)
+    const currentDate = useAppSelector<string>(state => state.date.currentDate)
+    const newDate = useAppSelector<Date>(state => state.date.date)
 
     const years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
     const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
     const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вскр',]
 
 
-    const year = currentDate.getFullYear()
-    const month = currentDate.getMonth()
+
+
+    const year = newDate.getFullYear()
+    const month = newDate.getMonth()
+    const day = newDate.getDate()
 
     const monthData = calendar(year, month)
 
+    useEffect(() => {
+        // const newdate = new Date(date.getDate())
+        dispatch(setCurrentDate(`${day}/${month + 1}/${year}`))
+    })
+
     const handlePrevMonthButtonClick = (year: number, month: number) => {
+        console.log(year, month)
         const date = new Date(year, month - 1)
         dispatch(setData(date))
     }
@@ -39,6 +50,7 @@ export const InputDate = () => {
     }
 
     const handleDayClick = (date: Date) => {
+        console.log(date)
         dispatch(setData(new Date(year, month, date.getDate())))
     }
 
@@ -66,15 +78,15 @@ export const InputDate = () => {
                     </div>
 
                     <div className={inputClass.dates}>
-                        {monthData.map((week: any, index: number) =>
+                        {monthData.map((week: Array<Date>, index: number) =>
                             <div key={index} className={inputClass.week}>
-                                {week.map((date: any, index: number) => {
+                                {week.map((date: Date , index: number) => {
                                         return (
                                             date
                                                 ? <div key={index}
-                                                    className={`${inputClass.day} 
-                                                ${areEqual(currentDate, date) ? inputClass.active : ''} `}
-                                                    onClick={() => handleDayClick(date)}>
+                                                       className={`${inputClass.day} 
+                                                ${areEqual(newDate, date) ? inputClass.active : ''} `}
+                                                       onClick={() => handleDayClick(date)}>
                                                     {date.getDate()}
                                                 </div>
                                                 : <div key={index} className={inputClass.shadowDay}/>

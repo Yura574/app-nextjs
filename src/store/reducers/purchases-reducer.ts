@@ -44,8 +44,8 @@ export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch
         })
 }
 
-export const AddPurchasesTC = (warehouseId: string | null, title: string, price?: number, place?: string, amount?: number, unit?: string, date?: Date, image?: File)=> (dispatch: Dispatch)=> {
-    purchaseApi.addPurchase(warehouseId,title, price, place, amount, unit, date, image  )
+export const AddPurchasesTC = (warehouseId: string | null, title: string, date: string, price?: number, place?: string, amount?: number, unit?: string, image?: File)=> (dispatch: Dispatch)=> {
+    purchaseApi.addPurchase(warehouseId,title, date, price, place, amount, unit, image  )
         .then(res => {
             console.log(res)
         })

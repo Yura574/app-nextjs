@@ -10,7 +10,7 @@ export const Purchases = () => {
     const dispatch = useAppDispatch()
     const warehouses = useAppSelector<WarehouseType[]>(state => state.warehouses.warehouses)
     const userId = useAppSelector<string>(state => state.profile.profile.id)
-    const date = useAppSelector<Date>(state => state.date.currentDate)
+    const currentDate = useAppSelector<string>(state => state.date.currentDate)
     const currentWarehouse = useAppSelector<WarehouseType | null>(state => state.purchases.currentWarehouse)
 
     const [title, setTitle] = useState<string>('')
@@ -23,7 +23,7 @@ export const Purchases = () => {
         if (warehouses.length < 2) {
             dispatch(getAllWarehousesTC(userId))
         }
-    }, [warehouses, dispatch])
+    }, [userId, warehouses, dispatch])
 
     const changeWarehouse = (warehouse: string) => {
         const newWarehouse = warehouses.find(el => el.title === warehouse)
@@ -36,11 +36,11 @@ export const Purchases = () => {
     //     return warehouse && warehouse.id
     // }
 
-    const addPurchase = (warehouseId: string | null, title: string, price?: number, place?: string, amount?: number, unit?: string, date?: Date) => {
+    const addPurchase = (warehouseId: string | null, title: string, date: string, price?: number, place?: string, amount?: number, unit?: string) => {
         if (warehouseId === null || warehouseId === '0') {
             console.log('укажите склад')
         } else {
-            dispatch(AddPurchasesTC(warehouseId, title, price, place, amount, unit, date))
+            dispatch(AddPurchasesTC(warehouseId, title, date, price, place, amount, unit))
         }
     }
     return (
@@ -55,14 +55,14 @@ export const Purchases = () => {
 
                     <button
                         onClick={() => addPurchase(currentWarehouse && currentWarehouse.id, title,
-                            price, place, amount, unit, date)}> добавить
+                            currentDate, price, place, amount, unit)}> добавить
                     </button>
                 </div>
                 <div>
-                    <select  value={currentWarehouse ? currentWarehouse.title : 'выберите склад'}
+                    <select value={currentWarehouse ? currentWarehouse.title : 'выберите склад'}
                             onChange={(e) => changeWarehouse(e.currentTarget.value)}>
                         <option>укажите склад</option>
-                        {warehouses.map(el => <option key={el.id} >{el.title}</option>
+                        {warehouses.map(el => <option key={el.id}>{el.title}</option>
                         )}
 
                     </select>
