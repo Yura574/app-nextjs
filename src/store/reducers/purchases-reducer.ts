@@ -3,27 +3,33 @@ import {purchaseApi} from "../../api/api";
 import {WarehouseType} from "./warehouse-reducer";
 import {log} from "util";
 
-export type PurchasesType  = {
-    id: string
-    title: string
-    image: string
-}
-
-type initialStateType = {
-    purchases: PurchasesType[]
-    currentWarehouse: WarehouseType | null
-}
+// export type PurchasesType  = {
+//     id: string
+//     title: string
+//     image: string
+// }
 
 const initialState: initialStateType = {
     purchases: [],
-    currentWarehouse: null
+    currentWarehouse: null,
+    currentPurchase: {
+        date: '',
+        image: null,
+        amount: '',
+        place: '',
+        unit: '',
+        price: '',
+        title: '',
+        warehouseId: ''
+
+    }
 }
 
 const purchasesSlice = createSlice({
     name: 'purchases',
     initialState: initialState,
     reducers: {
-        setPurchases: (state, action: PayloadAction<PurchasesType[]>)=>{
+        setPurchases: (state, action: PayloadAction<PurchaseType[]>)=>{
             state.purchases = action.payload
         },
         setCurrentWarehouse: (state, action:PayloadAction<WarehouseType>)=> {
@@ -33,9 +39,8 @@ const purchasesSlice = createSlice({
 })
 
 export const purchasesReducer = purchasesSlice.reducer
+
 export const {setPurchases, setCurrentWarehouse} = purchasesSlice.actions
-
-
 export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch) => {
     purchaseApi.getWarehousePurchases(warehouseId)
         .then(res=> {
@@ -44,12 +49,31 @@ export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch
         })
 }
 
-export const AddPurchasesTC = (warehouseId: string | null, title: string, date: string, price?: number, place?: string, amount?: number, unit?: string, image?: File)=> (dispatch: Dispatch)=> {
-    purchaseApi.addPurchase(warehouseId,title, date, price, place, amount, unit, image  )
+
+export const AddPurchasesTC = (purchase: PurchaseType)=> (dispatch: Dispatch)=> {
+    purchaseApi.addPurchase(purchase  )
         .then(res => {
             console.log(res)
         })
         .catch(err=> {
             console.log(err)
         })
+}
+
+type initialStateType = {
+    purchases: PurchaseType[]
+    currentWarehouse: WarehouseType | null
+    currentPurchase: PurchaseType
+}
+
+
+export type PurchaseType ={
+    warehouseId: string | null,
+    title: string,
+    date: string,
+    price?: string,
+    place?: string,
+    amount?: string,
+    unit?: string
+    image?: any
 }

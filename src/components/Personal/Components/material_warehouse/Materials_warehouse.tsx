@@ -1,4 +1,3 @@
-import {LoadItem} from "../../../commonComponent/load_item/load_item";
 import {
     AddWarehouseTC,
     DeleteWarehouseTC,
@@ -9,6 +8,7 @@ import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import {useEffect} from "react";
 import classWarehouse from './materialsWarehouse.module.css'
 import {Link} from "react-router-dom";
+import {LoadItem} from "../../../commonComponent/load_item/LoadItem";
 
 export const MaterialsWarehouse = () => {
 

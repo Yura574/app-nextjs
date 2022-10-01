@@ -9,7 +9,7 @@ import {
 import classCategory from "./downloadCategory.module.css";
 import {AiOutlineEdit} from "react-icons/ai";
 import {DownloadSubCategory} from "./DownloadSubCategory";
-import {LoadItem} from "../../commonComponent/load_item/load_item";
+import {LoadItem} from "../../commonComponent/load_item/LoadItem";
 
 
 export const DownloadCategory = () => {

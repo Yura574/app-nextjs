@@ -1,13 +1,13 @@
 import {useEffect} from "react";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
-import {PurchasesType, WarehousePurchasesTC} from "../../../../store/reducers/purchases-reducer";
+import {PurchaseType, WarehousePurchasesTC} from "../../../../store/reducers/purchases-reducer";
 import { useParams} from "react-router-dom";
 import classWarehouse from "./materialsWarehouse.module.css";
 
 export const Warehouse = () => {
     const dispatch = useAppDispatch()
     const {id} = useParams()
-    const purchases = useAppSelector<PurchasesType[]>(state => state.purchases.purchases)
+    const purchases = useAppSelector<PurchaseType[]>(state => state.purchases.purchases)
 
     useEffect(() => {
         id && dispatch(WarehousePurchasesTC(id))
@@ -15,7 +15,7 @@ export const Warehouse = () => {
     console.log(id)
     return (
         <div>
-            {purchases.map(purchases => <div key={purchases.id}>
+            {purchases.map(purchases => <div key={purchases.warehouseId}>
                 <div>
                     <div>
 

@@ -23,7 +23,6 @@ export const CurrentDate = () => {
                 onClick={openCalendar ? () => open(false) : () => open(true)}> open</span></div>
 
             <div>
-                {/*{openCalendar && <InputDate/>}*/}
                 <Modal activeModal={openCalendar} cancel={cancel}>
                     <InputDate/>
                 </Modal>

@@ -10,7 +10,7 @@ import {StartSelling} from "./Components/StartSelling";
 import {DownloadCategory} from "./Components/DownloadCategory";
 import {MaterialsWarehouse} from "./Components/material_warehouse/Materials_warehouse";
 import {Warehouse} from "./Components/material_warehouse/Warehouse";
-import {Purchases} from "./Components/Purchases";
+import {Purchases} from "./Components/Purchases/Purchases";
 
 export const PersonalArea = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth)

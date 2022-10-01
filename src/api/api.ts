@@ -1,5 +1,6 @@
 import axios from "axios";
 import {RegistrationType} from "../store/reducers/auth-reducer";
+import {PurchaseType} from "../store/reducers/purchases-reducer";
 
 
 export const instance = axios.create({
@@ -65,9 +66,9 @@ export const warehouseApi = {
 }
 
 export const purchaseApi = {
-    addPurchase: (warehouseId: string | null, title: string, date: string, price?: number, place?: string, amount?: number, unit?: string, image?: File)=> {
-        console.log({warehouseId, title, date, price, place, amount, unit, image})
-        return instance.post('purchase/create', {warehouseId, title, price, place, amount, unit, date, image},{
+    addPurchase: (purchase: PurchaseType)=> {
+        console.log({...purchase})
+        return instance.post('purchase/create', {...purchase},{
             headers:{'Content-Type': 'multipart/form-data'}
         })
     },

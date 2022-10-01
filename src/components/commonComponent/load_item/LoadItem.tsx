@@ -52,9 +52,12 @@ export const LoadItem = (props: LoadItemType) => {
     }
     const deletePreview = ()=> {
         setFile(undefined)
-        setPreview('')
+        // setPreview(del)
+        // return () => URL.revokeObjectURL(preview)
     }
-    console.log(file)
+    console.log(`preview ${preview}`)
+    const del =  () => URL.revokeObjectURL(preview)
+    console.log(del);
 
     return (
         <div>
@@ -64,7 +67,7 @@ export const LoadItem = (props: LoadItemType) => {
                     <div style={{opacity: '0'}}>lololo</div>}</div>
             </div>
             <div>
-                <label htmlFor={'uploadFile'} style={{position: 'relative', marginRight: '20px', cursor: 'pointer'}}>
+                <label htmlFor={'uploadFile'} style={{position: 'relative'}}>
 
                 <input type={"file"} onChange={(e) => uploadFile(e.currentTarget.files)}
                        id={classCategory["uploadFile"]}/>
