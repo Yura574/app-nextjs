@@ -4,8 +4,8 @@ import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import {getAllWarehousesTC, WarehouseType} from "../../../../store/reducers/warehouse-reducer";
 import {CurrentDate} from "../../../commonComponent/c6-Date/Date";
 import {AddPurchasesTC, PurchaseType, setCurrentWarehouse} from "../../../../store/reducers/purchases-reducer";
-import {LoadItem} from "../../../commonComponent/load_item/LoadItem";
 import {LoadItemTest} from "../../../commonComponent/load_item/load_item_test";
+import s from './purchases.module.css'
 
 
 export const Purchases = () => {
@@ -62,7 +62,7 @@ export const Purchases = () => {
         <div>
             <div style={{display: 'flex'}}>
                 <div style={{width: '200px'}}>
-                    <div><LoadItemTest /></div>
+                    <div><LoadItemTest/></div>
                     <SuperInput label={'название товара'} onChangeText={setTitle} value={title}/>
                     <SuperInput label={'место покупки'} onChangeText={setPlace} value={place}/>
                     <SuperInput label={'цена'} onChangeText={setPrice} value={price}/>
@@ -72,7 +72,7 @@ export const Purchases = () => {
 
                     {currentWarehouse
                         ? <button onClick={() => addPurchase(currentPurchase)}> добавить </button>
-                    :<button disabled> добавить</button>
+                        : <button disabled> добавить</button>
                     }
                 </div>
                 <div>
@@ -89,7 +89,27 @@ export const Purchases = () => {
                 <div><CurrentDate/></div>
             </div>
             <hr/>
-
+            <div className={s.wrapper}>
+                <div className={s.descriptionWrapper}>
+                    <div className={s.descriptionItemWrapper}> Название товара</div>
+                    <div className={s.descriptionItemWrapper}>место покупки</div>
+                    <div className={s.descriptionItemWrapper}>цена</div>
+                    <div className={s.descriptionItemWrapper}>кол-во</div>
+                    <div className={s.descriptionItemWrapper}>ед изм</div>
+                    <div className={s.descriptionItemWrapper}>склад</div>
+                    <div className={s.descriptionItemWrapper}>дата покупки</div>
+                </div>
+                {[1, 2, 3].map(el =>
+                    <div className={s.descriptionWrapper}>
+                        <div className={s.descriptionItemWrapper}> {'el.title'}</div>
+                        <div className={s.descriptionItemWrapper}>{'el.place'}</div>
+                        <div className={s.descriptionItemWrapper}>{'el.price'}</div>
+                        <div className={s.descriptionItemWrapper}>{'el.amount'}</div>
+                        <div className={s.descriptionItemWrapper}>{'el.unit'}</div>
+                        <div className={s.descriptionItemWrapper}>{'el.warehouse'}</div>
+                        <div className={s.descriptionItemWrapper}>{'el.date'}</div>
+                    </div>)}
+            </div>
         </div>
     )
 }
