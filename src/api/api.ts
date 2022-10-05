@@ -1,6 +1,7 @@
 import axios from "axios";
 import {RegistrationType} from "../store/reducers/auth-reducer";
 import {PurchaseType} from "../store/reducers/purchases-reducer";
+import {PurchasesInfoType} from "../store/reducers/purchasesInfo-reducer";
 
 
 export const instance = axios.create({
@@ -40,9 +41,9 @@ export const categoryApi = {
 
 export const subCategoryApi = {
     getSubCategories: (categoryId: string) => instance.get(`category/one/${categoryId}`),
-    addSubCategory: (categoryId: string, title: string, image?: File)=>{
-        return instance.post('subCategory/create', {categoryId, title, image},{
-            headers:{'Content-Type': 'multipart/form-data'}
+    addSubCategory: (categoryId: string, title: string, image?: File) => {
+        return instance.post('subCategory/create', {categoryId, title, image}, {
+            headers: {'Content-Type': 'multipart/form-data'}
         })
     },
     deleteSubCategory: (subCatId: string) => instance.delete(`subCategory/delete/${subCatId}`)
@@ -54,25 +55,31 @@ export const goodsApi = {
 }
 
 export const warehouseApi = {
-    addWarehouse:(userId: string, title: string, image?: File)=> {
+    addWarehouse: (userId: string, title: string, image?: File) => {
         console.log(image)
-        return instance.post('warehouse/create', {userId, title, image},{
-            headers:{'Content-Type': 'multipart/form-data'}
-            })
+        return instance.post('warehouse/create', {userId, title, image}, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        })
     },
-    getAllWarehouses: (userId: string)=> instance.get(`warehouse/all/${userId}` ),
+    getAllWarehouses: (userId: string) => instance.get(`warehouse/all/${userId}`),
     deleteWarehouse: (warehouseId: string) => instance.delete(`warehouse/delete/${warehouseId}`),
 
 }
 
 export const purchaseApi = {
-    addPurchase: (purchase: PurchaseType)=> {
+    addPurchase: (purchase: PurchaseType) => {
         console.log({...purchase})
-        return instance.post('purchase/create', {...purchase},{
-            headers:{'Content-Type': 'multipart/form-data'}
+        return instance.post('purchase/create', {...purchase}, {
+            headers: {'Content-Type': 'multipart/form-data'}
         })
     },
-    getWarehousePurchases: (warehouseId: string )=> {
+    getWarehousePurchases: (warehouseId: string) => {
         return instance.get(`warehouse/purchases/${warehouseId}`)
+    }
 }
+
+export const purchaseInfoApi ={
+    addInfoPurchase: (purchaseInfo: PurchasesInfoType)=> {
+        return instance.post('purchaseInfo/create', {purchaseInfo})
+    }
 }

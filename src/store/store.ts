@@ -9,6 +9,7 @@ import {appReducer} from "./reducers/app-reducer";
 import {warehousesReducer} from "./reducers/warehouse-reducer";
 import {purchasesReducer} from "./reducers/purchases-reducer";
 import {dateReducer} from "./reducers/date-reducer";
+import {purchasesInfoReducer} from "./reducers/purchasesInfo-reducer";
 
 
 const rootReducer = combineReducers({
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     goods: goodsReducer,
     warehouses: warehousesReducer,
     purchases: purchasesReducer,
+    purchasesInfo: purchasesInfoReducer,
     date: dateReducer,
 
 })
