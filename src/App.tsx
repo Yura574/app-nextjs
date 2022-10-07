@@ -11,12 +11,10 @@ import {SubCategory} from "./components/Personal/SubCategory/SubCategory";
 import {PersonalArea} from "./components/Personal/PersonalArea";
 import {PersonalShop} from "./components/Personal/PersonalShop";
 import {Goods} from "./components/Personal/Goods/Goods";
-import {setOpenCalendar} from "./store/reducers/date-reducer";
 
 function App() {
     const initialized = useAppSelector<boolean>(state => state.auth.initialized)
     const dispatch = useAppDispatch()
-    const openCalendar = useAppSelector<boolean>(state => state.date.openCalendar)
     useEffect(() => {
         dispatch(AuthMeTC())
     }, [dispatch])

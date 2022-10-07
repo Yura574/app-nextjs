@@ -6,7 +6,7 @@ import {Modal} from "../ModalWindow/Modal";
 
 export const CurrentDate = () => {
     const dispatch = useAppDispatch()
-    const currentDate = useAppSelector<string>(state => state.date.currentDate)
+    const currentDate = useAppSelector<string>(state => state.currentItems.currentDate)
     const openCalendar = useAppSelector<boolean>(state => state.date.openCalendar)
 
 

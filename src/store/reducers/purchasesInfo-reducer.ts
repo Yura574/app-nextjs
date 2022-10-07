@@ -1,38 +1,63 @@
 import {createSlice, Dispatch} from "@reduxjs/toolkit";
 import {purchaseInfoApi} from "../../api/api";
 
+export type InfoType = {
 
-const initialState = {
+    id: string
+    title: string
+    price: string
+    place: string
+    amount: string
+    unit: string
+    date: string
 
+}
+type InitialStateType = {
+    purchasesInfo: InfoType[]
+}
+
+const initialState: InitialStateType = {
+    purchasesInfo: []
 }
 
 const purchasesInfoSlice = createSlice({
     initialState,
     name: 'purchaseInfo',
     reducers: {
-
+        getPurchasesInfo: (state, action) => {
+            state.purchasesInfo = action.payload
+        },
+        addPurchaseInfo: (state, action)=>{
+            state.purchasesInfo = [action.payload, ...state.purchasesInfo]
+        }
     }
 })
 
 export const purchasesInfoReducer = purchasesInfoSlice.reducer
-export const {} = purchasesInfoSlice.actions
+export const {getPurchasesInfo, addPurchaseInfo} = purchasesInfoSlice.actions
 
 
+export const AddPurchasesInfoTC = (purchaseInfo: PurchasesInfoType, userId: string, date: string, ) => (dispatch: Dispatch) => {
+    console.log({...purchaseInfo})
+    purchaseInfoApi.addInfoPurchase(purchaseInfo, userId, date)
+        .then(res => {
+            console.log(res.data)
+            dispatch(addPurchaseInfo(res.data))
+        })
+}
 
-export const AddPurchasesInfoTC = (purchaseInfo: PurchasesInfoType)=> (dispatch: Dispatch)=> {
-    purchaseInfoApi.addInfoPurchase(purchaseInfo)
+export const GetPurchasesInfoTC = (userId: string) => (dispatch: Dispatch) => {
+    purchaseInfoApi.getPurchasesInfo(userId)
         .then(res => {
             console.log(res)
+            dispatch(getPurchasesInfo(res.data))
         })
 }
 
 export type PurchasesInfoType = {
-    userId: string
-     title: string
+    title: string
     place: string
     price: string
     amount: string
-    unit:string
-    warehouse:string
-    date: string
+    unit: string
 }

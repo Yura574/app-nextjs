@@ -1,6 +1,5 @@
 import axios from "axios";
 import {RegistrationType} from "../store/reducers/auth-reducer";
-import {PurchaseType} from "../store/reducers/purchases-reducer";
 import {PurchasesInfoType} from "../store/reducers/purchasesInfo-reducer";
 
 
@@ -67,19 +66,28 @@ export const warehouseApi = {
 }
 
 export const purchaseApi = {
-    addPurchase: (purchase: PurchaseType) => {
+    addPurchase: (purchase: PurchasesInfoType,userId: string, date: string,warehouseId?: string , image?: File) => {
         console.log({...purchase})
-        return instance.post('purchase/create', {...purchase}, {
+        const {title,price, place,amount, unit} = purchase
+        return instance.post('purchase/create', {userId,warehouseId, title,price, place,amount, unit, date, image}, {
             headers: {'Content-Type': 'multipart/form-data'}
         })
     },
+    getAllPurchase: (userId: string)=> {
+        return instance.get(`purchase/all/${userId}`)
+    },
     getWarehousePurchases: (warehouseId: string) => {
         return instance.get(`warehouse/purchases/${warehouseId}`)
-    }
+    },
+
 }
 
 export const purchaseInfoApi ={
-    addInfoPurchase: (purchaseInfo: PurchasesInfoType)=> {
-        return instance.post('purchaseInfo/create', {purchaseInfo})
+    addInfoPurchase: (purchaseInfo: PurchasesInfoType, userId: string,date: string)=> {
+        const { title,price, place, amount, unit} =purchaseInfo
+        return instance.post('purchaseInfo/create', {userId, title,price, place, amount, unit, date})
+    },
+    getPurchasesInfo: (userId: string)=> {
+        return instance.get(`purchaseInfo/all/${userId}`)
     }
 }

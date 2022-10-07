@@ -1,7 +1,7 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {purchaseApi} from "../../api/api";
 import {WarehouseType} from "./warehouse-reducer";
-import {log} from "util";
+import {PurchasesInfoType} from "./purchasesInfo-reducer";
 
 // export type PurchasesType  = {
 //     id: string
@@ -11,69 +11,67 @@ import {log} from "util";
 
 const initialState: initialStateType = {
     purchases: [],
-    currentWarehouse: null,
-    currentPurchase: {
-        date: '',
-        image: null,
-        amount: '',
-        place: '',
-        unit: '',
-        price: '',
-        title: '',
-        warehouseId: ''
+    allPurchases: []
 
-    }
 }
 
 const purchasesSlice = createSlice({
     name: 'purchases',
     initialState: initialState,
     reducers: {
-        setPurchases: (state, action: PayloadAction<PurchaseType[]>)=>{
+        setPurchases: (state, action: PayloadAction<PurchaseType[]>) => {
             state.purchases = action.payload
         },
-        setCurrentWarehouse: (state, action:PayloadAction<WarehouseType>)=> {
-            state.currentWarehouse = action.payload
+        setAllPurchases: (state, action) => {
+            state.allPurchases = action.payload
         }
+
     }
 })
 
 export const purchasesReducer = purchasesSlice.reducer
+export const {setPurchases, setAllPurchases} = purchasesSlice.actions
 
-export const {setPurchases, setCurrentWarehouse} = purchasesSlice.actions
 export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch) => {
     purchaseApi.getWarehousePurchases(warehouseId)
-        .then(res=> {
+        .then(res => {
             console.log(res)
             dispatch(setPurchases(res.data))
         })
 }
 
 
-export const AddPurchasesTC = (purchase: PurchaseType)=> (dispatch: Dispatch)=> {
-    purchaseApi.addPurchase(purchase  )
+export const AddPurchasesTC = (purchase: PurchasesInfoType, userId: string, date: string, warehouseId?: string, image?: File) => (dispatch: Dispatch) => {
+    console.log({...purchase}, date, warehouseId, image)
+    purchaseApi.addPurchase(purchase, userId, date, warehouseId, image)
         .then(res => {
             console.log(res)
         })
-        .catch(err=> {
+        .catch(err => {
             console.log(err)
+        })
+}
+
+export const GetAllPurchasesTC = (userId: string) => (dispatch: Dispatch) => {
+    purchaseApi.getAllPurchase(userId)
+        .then(res => {
+            dispatch(setAllPurchases(res.data))
         })
 }
 
 type initialStateType = {
     purchases: PurchaseType[]
-    currentWarehouse: WarehouseType | null
-    currentPurchase: PurchaseType
+    allPurchases: Array<any>
+    // currentWarehouse: WarehouseType | null
 }
 
 
-export type PurchaseType ={
-    warehouseId: string | null,
+export type PurchaseType = {
+    warehouseId: string | undefined
     title: string,
-    date: string,
     price?: string,
     place?: string,
     amount?: string,
     unit?: string
-    image?: any
+    image?: string
 }

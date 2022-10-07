@@ -4,26 +4,28 @@ import {setSuccess} from "../../../store/reducers/app-reducer";
 import classCategory from "../../Personal/Components/downloadCategory.module.css";
 import s from './LoadItem.module.css'
 import { AiOutlineDelete, AiTwotoneEdit} from "react-icons/ai";
+import {setCurrentImage} from "../../../store/reducers/currentItems-reducer";
 
 
-export const LoadItemTest = () => {
+export const LoadItem= () => {
     const dispatch = useAppDispatch()
     const success = useAppSelector<string>(state => state.app.success)
+    const currentImage = useAppSelector<File | undefined>(state => state.currentItems.currentImage)
 
 
-    const [file, setFile] = useState<File>()
+    // const [file, setFile] = useState<File>()
     const [preview, setPreview] = useState<string>('')
 
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
-        if (!file) {
+        if (!currentImage) {
             setPreview('')
             return
         }
-        const objUrl = URL.createObjectURL(file)
+        const objUrl = URL.createObjectURL(currentImage)
         setPreview(objUrl)
-    }, [file])
+    }, [currentImage])
 
     useEffect(() => {
         if (success) {
@@ -33,10 +35,10 @@ export const LoadItemTest = () => {
 
     const uploadFile = (files: any) => {
         const file = files[0]
-        setFile(file)
+        dispatch(setCurrentImage(file))
     }
     const deletePreview = () => {
-        setFile(undefined)
+        dispatch(setCurrentImage(undefined))
     }
 
     const changeImage = () => {
@@ -54,7 +56,7 @@ export const LoadItemTest = () => {
 
                     <input type={"file"} ref={fileInputRef} onChange={(e) => uploadFile(e.currentTarget.files)}
                            id={classCategory["uploadFile"]}/>
-                    {file
+                    {currentImage
                         ?
                         <div style={{width: '120px'}}>
                             <div className={s.placeForImage} >

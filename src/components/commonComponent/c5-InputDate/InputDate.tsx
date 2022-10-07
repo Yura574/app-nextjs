@@ -1,13 +1,13 @@
 import inputClass from './inputDate.module.css'
 import {areEqual, calendar} from "./utilFuncs";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
-import {setCurrentDate, setData} from "../../../store/reducers/date-reducer";
+import { setData} from "../../../store/reducers/date-reducer";
 import {useEffect} from "react";
+import {setCurrentDate} from "../../../store/reducers/currentItems-reducer";
 
 
 export const InputDate = () => {
     const dispatch = useAppDispatch()
-    const currentDate = useAppSelector<string>(state => state.date.currentDate)
     const newDate = useAppSelector<Date>(state => state.date.date)
 
     const years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
@@ -24,7 +24,6 @@ export const InputDate = () => {
     const monthData = calendar(year, month)
 
     useEffect(() => {
-        // const newdate = new Date(date.getDate())
         dispatch(setCurrentDate(`${day}/${month + 1}/${year}`))
     })
 
