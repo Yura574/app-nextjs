@@ -8,7 +8,7 @@ import {
 } from "../../../../store/reducers/currentItems-reducer";
 import {MouseEvent, useEffect, useState} from "react";
 import {useFormik} from "formik";
-import {GetPurchasesInfoTC, InfoType, PurchasesInfoType} from "../../../../store/reducers/purchasesInfo-reducer";
+import {GetPurchasesInfoTC,  PurchasesInfoType} from "../../../../store/reducers/purchasesInfo-reducer";
 import {AddPurchasesTC, GetAllPurchasesTC} from "../../../../store/reducers/purchases-reducer";
 import {getAllWarehousesTC, WarehouseType} from "../../../../store/reducers/warehouse-reducer";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
@@ -20,7 +20,6 @@ export const EnterDataPurchases =() => {
     const userId = useAppSelector<string>(state => state.profile.profile.id)
     const currentDate = useAppSelector<string>(state => state.currentItems.currentDate)
     const currentWarehouse = useAppSelector<WarehouseType | null>(state => state.currentItems.currentWarehouse)
-    const purchasesInfo = useAppSelector<InfoType[]>(state => state.purchasesInfo.purchasesInfo)
     const currentImage = useAppSelector<File | undefined>(state => state.currentItems.currentImage)
     let allPurchases = useAppSelector<CurrentPurchaseType[]>(state => state.purchases.allPurchases)
     const currentPurchase = useAppSelector<CurrentPurchaseType>(state => state.currentItems.currentPurchase)

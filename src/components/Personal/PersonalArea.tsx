@@ -11,6 +11,9 @@ import {DownloadCategory} from "./Components/DownloadCategory";
 import {MaterialsWarehouse} from "./Components/material_warehouse/Materials_warehouse";
 import {Warehouse} from "./Components/material_warehouse/Warehouse";
 import {Purchases} from "./Components/Purchases/Purchases";
+import {FinishedProductsWarehouse} from "./FinishedProductsWarehouse/FinishedProductsWarehouse";
+import {SubCategory} from "./SubCategory/SubCategory";
+import {Goods} from "./Goods/Goods";
 
 export const PersonalArea = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
@@ -34,6 +37,9 @@ export const PersonalArea = () => {
                         <Route path={'material-warehouse'} element={<MaterialsWarehouse/>}/>
                         <Route path={'material-warehouse/warehouse/:id'} element={<Warehouse/>}/>
                         <Route path={'purchases'} element={<Purchases/>}/>
+                        <Route path={'finished-products-warehouse'} element={<FinishedProductsWarehouse/>}/>
+                        <Route path={'finished-products-warehouse/subcategory/:id'} element={<SubCategory/>}/>
+                        <Route path={'finished-products-warehouse/subcategory/:id/goods/:id'} element={<Goods/>}/>
                     </Routes>
                 </div>
 

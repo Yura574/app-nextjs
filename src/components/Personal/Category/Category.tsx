@@ -13,6 +13,7 @@ export const Category = (props: CardType) => {
     return (
         <div className={classMain.categoryWrapper}>
 
+
             <div className={cardClass.card}>
                 <Link to={`subcategory/${id}`} >
                     <div>{title}</div>
