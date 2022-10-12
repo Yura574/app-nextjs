@@ -13,7 +13,7 @@ export const Goods = () => {
 
     useEffect(()=> {
       id &&  dispatch(SetGoodsTC(id))
-    })
+    }, [id, dispatch])
     return(
         <div>
             {goods.map(goods => {

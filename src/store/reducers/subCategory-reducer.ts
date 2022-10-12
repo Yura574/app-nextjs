@@ -46,7 +46,7 @@ export const getSubCategoriesTC = (categoryId: string) => (dispatch: Dispatch) =
 
 }
 
-export const addSubCategoryTC = (catId: string, title: string, image?: File) => (dispatch: Dispatch)=>{
+export const AddSubCategoryTC = (catId: string, title: string, image?: File) => (dispatch: Dispatch)=>{
     subCategoryApi.addSubCategory(catId,title, image)
         .then(res => {
             console.log(res)
@@ -54,7 +54,7 @@ export const addSubCategoryTC = (catId: string, title: string, image?: File) => 
         })
 }
 
-export const deleteSubCategoryTC = (subCatId: string) => (dispatch: Dispatch) => {
+export const DeleteSubCategoryTC = (subCatId: string) => (dispatch: Dispatch) => {
     subCategoryApi.deleteSubCategory(subCatId)
         .then(res => {
             console.log(res)

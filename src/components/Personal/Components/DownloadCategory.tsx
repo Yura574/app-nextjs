@@ -45,7 +45,7 @@ export const DownloadCategory = () => {
                                 :
                                 <div className={classCategory.noImg}>{cat.title}</div>
                             }
-                            <DownloadSubCategory catId={cat.id}/>
+                            {/*<DownloadSubCategory catId={cat.id}/>*/}
                         </div>
                     }
                 )}

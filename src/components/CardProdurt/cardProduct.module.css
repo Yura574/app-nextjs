@@ -7,10 +7,22 @@
     box-shadow:  0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
     padding: 15px;
+    margin-right: 20px;
 }
 
 .img{
-    width: 350px;
-    height: 416px;
+    /*width: 350px;*/
+    height: 316px;
     border-radius: 20px;
+}
+
+.categoryWrapper{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.title{
+    margin: 40px 0 40px 0;
+    font-weight: bold;
+    font-size: 40px;
 }

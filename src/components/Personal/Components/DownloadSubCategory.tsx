@@ -2,7 +2,7 @@ import classCategory from "./downloadCategory.module.css";
 import {AiOutlineEdit} from "react-icons/ai";
 import {ChangeEvent, useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
-import {addSubCategoryTC, deleteSubCategoryTC, SubCategoryType} from "../../../store/reducers/subCategory-reducer";
+import {AddSubCategoryTC, DeleteSubCategoryTC, SubCategoryType} from "../../../store/reducers/subCategory-reducer";
 
 export const DownloadSubCategory = (props: { catId: string }) => {
     const dispatch = useAppDispatch()
@@ -13,8 +13,8 @@ export const DownloadSubCategory = (props: { catId: string }) => {
     const [file, setFile] = useState<File>()
 
     const addSubCategory = (catId: string, title: string, file: any) => {
-        file ? dispatch(addSubCategoryTC(catId, title, file))
-            : dispatch(addSubCategoryTC(catId, title))
+        file ? dispatch(AddSubCategoryTC(catId, title, file))
+            : dispatch(AddSubCategoryTC(catId, title))
         setSubCategoryTitle('')
     }
     const subCategoryTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ export const DownloadSubCategory = (props: { catId: string }) => {
     const deleteSubCategory = (subCatId: string) => {
         debugger
         console.log(subCatId)
-        dispatch(deleteSubCategoryTC(subCatId))
+        dispatch(DeleteSubCategoryTC(subCatId))
     }
     console.log(subCategories)
     return (
