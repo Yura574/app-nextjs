@@ -4,13 +4,13 @@ import {profileReducer} from "./reducers/profile-reducer";
 import thunk from "redux-thunk";
 import {categoryReducer} from "./reducers/categories-reducer";
 import {subCategoryReducer} from "./reducers/subCategory-reducer";
-import {goodsReducer} from "./reducers/goods-reducer";
 import {appReducer} from "./reducers/app-reducer";
 import {warehousesReducer} from "./reducers/warehouse-reducer";
 import {purchasesReducer} from "./reducers/purchases-reducer";
 import {dateReducer} from "./reducers/date-reducer";
 import {purchasesInfoReducer} from "./reducers/purchasesInfo-reducer";
 import {currentItemsReducer} from "./reducers/currentItems-reducer";
+import {productsReducer} from "./reducers/products-reducer";
 
 
 const rootReducer = combineReducers({
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     categories: categoryReducer,
     subCategories: subCategoryReducer,
-    goods: goodsReducer,
+    products: productsReducer,
     warehouses: warehousesReducer,
     purchases: purchasesReducer,
     purchasesInfo: purchasesInfoReducer,

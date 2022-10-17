@@ -41,7 +41,7 @@ export const FinishedProductsWarehouse = () => {
                 <button onClick={() => addNewCategory(userId, title, '', currentImage)}>+</button>
             </div>
             <div className={cardClass.title}>Категории</div>
-            <div className={cardClass.categoryWrapper}>{category.map(cat => <div className={cardClass.card}>
+            <div className={cardClass.categoryWrapper}>{category.map(cat => <div className={cardClass.card} key={cat.id}>
                 <div>{cat.title}
                     <button onClick={() => deleteCat(cat.id)}><AiFillDelete/></button>
                 </div>

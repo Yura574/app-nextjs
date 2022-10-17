@@ -10,7 +10,7 @@ import {Registration} from "./components/login/Registration";
 import {SubCategory} from "./components/Personal/SubCategory/SubCategory";
 import {PersonalArea} from "./components/Personal/PersonalArea";
 import {PersonalShop} from "./components/Personal/PersonalShop";
-import {Goods} from "./components/Personal/Goods/Goods";
+import {Products} from "./components/Personal/Products/Products";
 
 function App() {
     const initialized = useAppSelector<boolean>(state => state.auth.initialized)
@@ -33,7 +33,7 @@ function App() {
                     <Route path={'/login'} element={<Login/>}/>
                     <Route path={'/registration'} element={<Registration/>}/>
                     <Route path={'/subcategory/:id'} element={<SubCategory/>}/>
-                    <Route path={'/subcategory/:id/goods/:id'} element={<Goods/>}/>
+                    <Route path={'/subcategory/:id/goods/:id'} element={<Products/>}/>
                     <Route path={'/personal-area/*'} element={<PersonalArea/>}/>
                     <Route path={'/personal-shop/*'} element={<PersonalShop/>}/>
                 </Routes>

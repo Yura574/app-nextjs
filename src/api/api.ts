@@ -1,6 +1,7 @@
 import axios from "axios";
 import {RegistrationType} from "../store/reducers/auth-reducer";
 import {PurchasesInfoType} from "../store/reducers/purchasesInfo-reducer";
+import {ProductCompositionType, ProductsType} from "../store/reducers/products-reducer";
 
 
 export const instance = axios.create({
@@ -48,10 +49,12 @@ export const subCategoryApi = {
     deleteSubCategory: (subCatId: string) => instance.delete(`subCategory/delete/${subCatId}`)
 }
 
-export const goodsApi = {
-    goods: (subCategoryId: string) => instance.get(`subCategory/one/${subCategoryId}`),
-
+export const productsApi = {
+    getProducts: (subCategoryId: string) => instance.get(`subCategory/one/${subCategoryId}`),
+    createProduct: (product:ProductsType)=> instance.post(`products/create`, {product}),
+    addComposition: (composition: ProductCompositionType[])=> instance.post(`composition/create`, {composition}),
 }
+
 
 export const warehouseApi = {
     addWarehouse: (userId: string, title: string, image?: File) => {
@@ -66,14 +69,14 @@ export const warehouseApi = {
 }
 
 export const purchaseApi = {
-    addPurchase: (purchase: PurchasesInfoType,userId: string, date: string,warehouseId?: string , image?: File) => {
+    addPurchase: (purchase: PurchasesInfoType, userId: string, date: string, warehouseId?: string, image?: File) => {
         console.log({...purchase})
-        const {title,price, place,amount, unit} = purchase
-        return instance.post('purchase/create', {userId,warehouseId, title,price, place,amount, unit, date, image}, {
+        const {title, price, place, amount, unit} = purchase
+        return instance.post('purchase/create', {userId, warehouseId, title, price, place, amount, unit, date, image}, {
             headers: {'Content-Type': 'multipart/form-data'}
         })
     },
-    getAllPurchase: (userId: string)=> {
+    getAllPurchase: (userId: string) => {
         return instance.get(`purchase/all/${userId}`)
     },
     getWarehousePurchases: (warehouseId: string) => {
@@ -82,12 +85,12 @@ export const purchaseApi = {
 
 }
 
-export const purchaseInfoApi ={
-    addInfoPurchase: (purchaseInfo: PurchasesInfoType, userId: string,date: string)=> {
-        const { title,price, place, amount, unit} =purchaseInfo
-        return instance.post('purchaseInfo/create', {userId, title,price, place, amount, unit, date})
+export const purchaseInfoApi = {
+    addInfoPurchase: (purchaseInfo: PurchasesInfoType, userId: string, date: string) => {
+        const {title, price, place, amount, unit} = purchaseInfo
+        return instance.post('purchaseInfo/create', {userId, title, price, place, amount, unit, date})
     },
-    getPurchasesInfo: (userId: string)=> {
+    getPurchasesInfo: (userId: string) => {
         return instance.get(`purchaseInfo/all/${userId}`)
     }
 }

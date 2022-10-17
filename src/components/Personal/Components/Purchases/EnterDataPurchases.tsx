@@ -10,7 +10,7 @@ import {MouseEvent, useEffect, useState} from "react";
 import {useFormik} from "formik";
 import {GetPurchasesInfoTC,  PurchasesInfoType} from "../../../../store/reducers/purchasesInfo-reducer";
 import {AddPurchasesTC, GetAllPurchasesTC} from "../../../../store/reducers/purchases-reducer";
-import {getAllWarehousesTC, WarehouseType} from "../../../../store/reducers/warehouse-reducer";
+import {GetAllWarehousesTC, WarehouseType} from "../../../../store/reducers/warehouse-reducer";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 
 
@@ -52,7 +52,7 @@ export const EnterDataPurchases =() => {
     })
     useEffect(() => {
         if (warehouses.length <= 1) {
-            dispatch(getAllWarehousesTC(userId))
+            dispatch(GetAllWarehousesTC(userId))
         }
     }, [userId, warehouses, dispatch])
 

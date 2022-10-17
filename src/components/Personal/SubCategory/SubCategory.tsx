@@ -45,9 +45,9 @@ export const SubCategory = () => {
             <div className={cardClass.title}>Подкатегории</div>
             <div className={cardClass.categoryWrapper}>{subCategories && subCategories.map(sub => {
                 return (
-                    <div className={cardClass.card}>
+                    <div className={cardClass.card} key={sub.id}>
                         <div >{sub.title} <AiOutlineDelete onClick={()=> deleteSubCat(sub.id)}/></div>
-                        <Link to={`goods/${sub.id}`} className={classMain.categoryWrapper}>
+                        <Link to={`products/${sub.id}`} className={classMain.categoryWrapper}>
                             <img src={sub.image} className={cardClass.img} alt={'sub category'}/>
                         </Link>
                     </div>

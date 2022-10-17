@@ -33,7 +33,7 @@ export const AddWarehouseTC = (userId: string, title: string, success: string, i
         .then(res => dispatch(addWarehouse(res.data)))
         .catch(err => console.log(err))
 }
-export const getAllWarehousesTC = (userId: string) => (dispatch: Dispatch) => {
+export const GetAllWarehousesTC = (userId: string) => (dispatch: Dispatch) => {
     warehouseApi.getAllWarehouses(userId)
         .then(res => dispatch(getAllWarehouses(res.data)))
 }

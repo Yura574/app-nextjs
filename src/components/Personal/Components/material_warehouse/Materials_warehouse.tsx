@@ -1,7 +1,6 @@
 import {
     AddWarehouseTC,
-    DeleteWarehouseTC,
-    getAllWarehousesTC,
+    DeleteWarehouseTC, GetAllWarehousesTC,
     WarehouseType
 } from "../../../../store/reducers/warehouse-reducer";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
@@ -17,7 +16,7 @@ export const MaterialsWarehouse = () => {
     const warehouses = useAppSelector<WarehouseType[]>(state => state.warehouses.warehouses)
 
     useEffect(() => {
-        dispatch(getAllWarehousesTC(userId))
+        dispatch(GetAllWarehousesTC(userId))
     }, [userId, dispatch])
 
     const deleteWarehouse = (warehouseId: string)=> {

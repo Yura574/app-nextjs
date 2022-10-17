@@ -13,7 +13,7 @@ import {Warehouse} from "./Components/material_warehouse/Warehouse";
 import {Purchases} from "./Components/Purchases/Purchases";
 import {FinishedProductsWarehouse} from "./FinishedProductsWarehouse/FinishedProductsWarehouse";
 import {SubCategory} from "./SubCategory/SubCategory";
-import {Goods} from "./Goods/Goods";
+import {Products} from "./Products/Products";
 
 export const PersonalArea = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
@@ -39,7 +39,7 @@ export const PersonalArea = () => {
                         <Route path={'purchases'} element={<Purchases/>}/>
                         <Route path={'finished-products-warehouse'} element={<FinishedProductsWarehouse/>}/>
                         <Route path={'finished-products-warehouse/subcategory/:id'} element={<SubCategory/>}/>
-                        <Route path={'finished-products-warehouse/subcategory/:id/goods/:id'} element={<Goods/>}/>
+                        <Route path={'finished-products-warehouse/subcategory/:id/products/:id'} element={<Products/>}/>
                     </Routes>
                 </div>
 
