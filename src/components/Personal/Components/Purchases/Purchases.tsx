@@ -16,7 +16,7 @@ export const Purchases = () => {
         setEdit(true)
         setId(id)
     }
-    const cancelEdit = () =>{
+    const cancelEdit = () => {
         setEdit(false)
         setId('')
     }
@@ -48,6 +48,7 @@ export const Purchases = () => {
                     <div className={s.descriptionItemWrapper}>место покупки</div>
                     <div className={s.descriptionItemWrapper}>цена</div>
                     <div className={s.descriptionItemWrapper}>кол-во</div>
+                    <div className={s.descriptionItemWrapper}>цена за еденицу</div>
                     <div className={s.descriptionItemWrapper}>дата покупки</div>
                 </div>
                 {finalSort.map(el =>
@@ -70,6 +71,7 @@ export const Purchases = () => {
                             ? <><input value={el.amount}/> <input value={el.unit}/></>
                             : <>{el.amount} {el.unit}</>
                         }</div>
+                        <div className={s.descriptionItemWrapper}>{+el.price / +el.amount} {el.unit}</div>
                         <div className={s.descriptionItemWrapper}>     {edit && el.id === id
                             ? <input value={el.date}/>
                             : <>{el.date} </>

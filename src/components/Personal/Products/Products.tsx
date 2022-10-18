@@ -29,15 +29,16 @@ export const Products = () => {
 
     const [title, setTitle] = useState<string>('')
     const [addItem, setAddItem] = useState<boolean>(true)
-    const [composition, setComposition] = useState<CompositionType[]>()
+    const [composition, setComposition] = useState<CompositionType[]>([])
     const [addMaterial, setAddMaterial] = useState<boolean>(false)
+    const [materialId, setMaterialId] = useState<string>('')
 
     useEffect(() => {
         currentWarehouse && dispatch(WarehousePurchasesTC(currentWarehouse.id))
     }, [currentWarehouse, dispatch])
 
     useEffect(() => {
-    dispatch(GetAllWarehousesTC(userId))
+        dispatch(GetAllWarehousesTC(userId))
     }, [userId])
     useEffect(() => {
         id && dispatch(SetProductsTC(id))
@@ -53,6 +54,14 @@ export const Products = () => {
         console.log(newWarehouse)
         newWarehouse && dispatch(setCurrentWarehouse(newWarehouse))
     }
+    const addMaterialHandler = (id: string) => {
+        setMaterialId(id)
+        setAddMaterial(true)
+    }
+    const addProduct = (item:CompositionType) => {
+        setComposition([item, ...composition])
+    }
+    console.log(composition)
     return (
 
         <div>
@@ -71,7 +80,12 @@ export const Products = () => {
                         <div className={cardClass.compositionWrapper}>
                             <div>Состав изделия:</div>
                             <div className={cardClass.composition}>
-                                {composition?.map(el => <div>{el.purchaseTitle}</div>)}
+                                {composition?.map(el => <div>
+                                    <div>{el.purchaseTitle} </div>
+                                    <span>{el.amount} </span>
+                                    <span>{el.unit} </span>
+                                    <span>{el.price}</span>
+                                </div>)}
                             </div>
                         </div>
                         <div className={cardClass.choiceMaterialWrapper}>
@@ -82,16 +96,28 @@ export const Products = () => {
                                 )}
 
                             </select>
-                            {purchases.map(el => <div style={{display:'flex'}} >
-                                <img src={el.image} style={{width:'30px'}}/>
+                            {purchases.map(el => <div style={{display: 'flex'}}>
+                                <img src={el.image} style={{width: '30px'}}/>
                                 <div>{el.title}</div>
                                 <div>{el.amount}</div>
-                                <div onClick={()=> setAddMaterial(true)}>
-                                    {addMaterial
-                                        ? <div><input/></div>
-                                        :<IoMdAdd/>
+                                <div >
+                                    {addMaterial && el.id === materialId
+                                        ? <div >
+                                            <input
+                                                autoFocus
+                                                type={'number'}
+                                            />
+                                            <button onClick={()=>el.amount&& el.unit&& el.price&&
+                                                addProduct({purchaseTitle: el.title,
+                                                amount: el.amount, unit: el.unit, price:el.price})}>add</button>
+                                            <button onClick={()=> {
+                                                setAddMaterial(false)
+                                            }}>cancel</button>
+
+                                        </div>
+                                        : <IoMdAdd onClick={() => el.id && addMaterialHandler(el.id)}/>
                                     }
-                                    </div>
+                                </div>
                             </div>)}
                         </div>
                     </div>

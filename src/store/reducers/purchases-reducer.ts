@@ -41,9 +41,14 @@ export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch
 }
 
 
-export const AddPurchasesTC = (purchase: PurchasesInfoType, userId: string, date: string, warehouseId?: string, image?: File) => (dispatch: Dispatch) => {
+export const AddPurchasesTC = (purchase: PurchasesInfoType,
+                               userId: string,
+                               date: string,
+                               unitPrice: number,
+                               warehouseId?: string,
+                               image?: File) => (dispatch: Dispatch) => {
     console.log({...purchase}, date, warehouseId, image)
-    purchaseApi.addPurchase(purchase, userId, date, warehouseId, image)
+    purchaseApi.addPurchase(purchase, userId, date,unitPrice, warehouseId, image)
         .then(res => {
             console.log(res)
         })
@@ -55,6 +60,7 @@ export const AddPurchasesTC = (purchase: PurchasesInfoType, userId: string, date
 export const GetAllPurchasesTC = (userId: string) => (dispatch: Dispatch) => {
     purchaseApi.getAllPurchase(userId)
         .then(res => {
+            console.log(res)
             dispatch(setAllPurchases(res.data))
         })
 }
@@ -67,6 +73,7 @@ type initialStateType = {
 
 
 export type PurchaseType = {
+    id?: string
     warehouseId: string | undefined
     title: string,
     price?: string,

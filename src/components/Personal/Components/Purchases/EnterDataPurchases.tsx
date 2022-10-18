@@ -35,12 +35,12 @@ export const EnterDataPurchases =() => {
             price: '0',
             amount: '0',
             unit: '',
-
         },
         onSubmit: (purchase) => {
             if (currentWarehouse) {
+                const unitPrice = +purchase.price / +purchase.amount
                 // dispatch(AddPurchasesInfoTC({...purchase}, userId, currentDate))
-                dispatch(AddPurchasesTC({...purchase}, userId, currentDate, currentWarehouse?.id, currentImage))
+                dispatch(AddPurchasesTC({...purchase}, userId, currentDate, unitPrice, currentWarehouse?.id, currentImage))
             }
         },
 
@@ -79,6 +79,7 @@ export const EnterDataPurchases =() => {
             }
         }
     }
+    console.log('goods ', goods)
     const addCurrentPurchase = (e: MouseEvent<HTMLDivElement>,currentPurchase: CurrentPurchaseType) => {
         e.preventDefault()
         dispatch(setCurrentPurchase(currentPurchase))
