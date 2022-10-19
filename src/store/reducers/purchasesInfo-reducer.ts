@@ -1,4 +1,4 @@
-import {createSlice, Dispatch} from "@reduxjs/toolkit";
+import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {purchaseInfoApi} from "../../api/api";
 
 export type InfoType = {
@@ -29,12 +29,16 @@ const purchasesInfoSlice = createSlice({
         },
         addPurchaseInfo: (state, action)=>{
             state.purchasesInfo = [action.payload, ...state.purchasesInfo]
+        },
+        deletePurchaseInfo: (state, action:PayloadAction<{id: string}>)=>{
+            const index = state.purchasesInfo.findIndex((el)=>el.id ===action.payload.id)
+            state.purchasesInfo.splice(index,1)
         }
     }
 })
 
 export const purchasesInfoReducer = purchasesInfoSlice.reducer
-export const {getPurchasesInfo, addPurchaseInfo} = purchasesInfoSlice.actions
+export const {getPurchasesInfo, addPurchaseInfo, deletePurchaseInfo} = purchasesInfoSlice.actions
 
 
 export const AddPurchasesInfoTC = (purchaseInfo: PurchasesInfoType, userId: string, date: string, ) => (dispatch: Dispatch) => {
@@ -51,6 +55,13 @@ export const GetPurchasesInfoTC = (userId: string) => (dispatch: Dispatch) => {
         .then(res => {
             console.log(res)
             dispatch(getPurchasesInfo(res.data))
+        })
+}
+
+export const DeletePurchaseInfoTC = (id: string)=> (dispatch: Dispatch)=>{
+    purchaseInfoApi.deletePurchaseInfo(id)
+        .then(()=>{
+            dispatch(deletePurchaseInfo({id}))
         })
 }
 

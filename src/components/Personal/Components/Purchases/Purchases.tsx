@@ -1,12 +1,13 @@
-import {useAppSelector} from "../../../../store/hooks";
+import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import s from './purchases.module.css'
-import {InfoType} from "../../../../store/reducers/purchasesInfo-reducer";
+import {DeletePurchaseInfoTC, InfoType} from "../../../../store/reducers/purchasesInfo-reducer";
 import {EnterDataPurchases} from "./EnterDataPurchases";
 import {AiFillDelete, AiTwotoneEdit} from "react-icons/ai";
 import {useState} from "react";
 
 
 export const Purchases = () => {
+    const dispatch = useAppDispatch()
     const purchasesInfo = useAppSelector<InfoType[]>(state => state.purchasesInfo.purchasesInfo)
 
     const [edit, setEdit] = useState<boolean>(false)
@@ -38,6 +39,10 @@ export const Purchases = () => {
         return {...obj, date: `${day}/${month + 1}/${year}`}
     })
 
+    const deletePurchaseInfo = (id: string) => {
+        dispatch(DeletePurchaseInfoTC(id))
+    }
+
     return (
         <div>
             <EnterDataPurchases/>
@@ -54,28 +59,32 @@ export const Purchases = () => {
                 {finalSort.map(el =>
                     <div className={s.descriptionWrapper} key={el.id}>
                         <div className={s.descriptionItemWrapper}>
-                            {edit
+                            {edit ?? el.id
                                 ? <input value={el.title}/>
                                 : <>{el.title}</>
                             }
                         </div>
-                        <div className={s.descriptionItemWrapper}>     {edit && el.id === id
-                            ? <input value={el.place}/>
-                            : <>{el.place}</>
-                        }</div>
-                        <div className={s.descriptionItemWrapper}>     {edit && el.id === id
-                            ? <input value={el.price}/>
-                            : <>{el.price}</>
-                        }</div>
-                        <div className={s.descriptionItemWrapper}>     {edit && el.id === id
-                            ? <><input value={el.amount}/> <input value={el.unit}/></>
-                            : <>{el.amount} {el.unit}</>
-                        }</div>
+                        <div className={s.descriptionItemWrapper}>
+                            {edit && el.id === id
+                                ? <input value={el.place}/>
+                                : <>{el.place}</>
+                            }</div>
+                        <div className={s.descriptionItemWrapper}>
+                            {edit && el.id === id
+                                ? <input value={el.price}/>
+                                : <>{el.price}</>
+                            }</div>
+                        <div className={s.descriptionItemWrapper}>
+                            {edit && el.id === id
+                                ? <><input value={el.amount}/> <input value={el.unit}/></>
+                                : <>{el.amount} {el.unit}</>
+                            }</div>
                         <div className={s.descriptionItemWrapper}>{+el.price / +el.amount} {el.unit}</div>
-                        <div className={s.descriptionItemWrapper}>     {edit && el.id === id
-                            ? <input value={el.date}/>
-                            : <>{el.date} </>
-                        }
+                        <div className={s.descriptionItemWrapper}>
+                            {edit && el.id === id
+                                ? <input value={el.date}/>
+                                : <>{el.date} </>
+                            }
                             {edit && el.id === id
                                 ? <>
                                     <button onClick={cancelEdit}>save</button>
@@ -83,7 +92,7 @@ export const Purchases = () => {
                                 </>
                                 : <>
                                     <button onClick={() => handleEdit(el.id)}><AiTwotoneEdit/></button>
-                                    <button><AiFillDelete/></button>
+                                    <button onClick={() => deletePurchaseInfo(el.id)}><AiFillDelete/></button>
                                 </>
                             }
 

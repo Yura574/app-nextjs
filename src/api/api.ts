@@ -92,5 +92,8 @@ export const purchaseInfoApi = {
     },
     getPurchasesInfo: (userId: string) => {
         return instance.get(`purchaseInfo/all/${userId}`)
+    },
+    deletePurchaseInfo: (id: string)=>{
+        return instance.delete(`purchaseInfo/delete/${id}`)
     }
 }

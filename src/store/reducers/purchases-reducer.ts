@@ -24,13 +24,16 @@ const purchasesSlice = createSlice({
         },
         setAllPurchases: (state, action) => {
             state.allPurchases = action.payload
+        },
+        addNewPurchases: (state, action) => {
+            state.purchases = [...state.purchases, action.payload]
         }
 
     }
 })
 
 export const purchasesReducer = purchasesSlice.reducer
-export const {setPurchases, setAllPurchases} = purchasesSlice.actions
+export const {setPurchases, setAllPurchases, addNewPurchases} = purchasesSlice.actions
 
 export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch) => {
     purchaseApi.getWarehousePurchases(warehouseId)
@@ -48,9 +51,10 @@ export const AddPurchasesTC = (purchase: PurchasesInfoType,
                                warehouseId?: string,
                                image?: File) => (dispatch: Dispatch) => {
     console.log({...purchase}, date, warehouseId, image)
-    purchaseApi.addPurchase(purchase, userId, date,unitPrice, warehouseId, image)
+    purchaseApi.addPurchase(purchase, userId, date, unitPrice, warehouseId, image)
         .then(res => {
-            console.log(res)
+            console.log(res.data)
+            dispatch(addNewPurchases(res.data))
         })
         .catch(err => {
             console.log(err)
