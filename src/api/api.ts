@@ -82,6 +82,9 @@ export const purchaseApi = {
     getWarehousePurchases: (warehouseId: string) => {
         return instance.get(`warehouse/purchases/${warehouseId}`)
     },
+    deletePurchase:(id: string)=>{
+        return instance.delete(`purchase/delete/${id}`)
+    }
 
 }
 
