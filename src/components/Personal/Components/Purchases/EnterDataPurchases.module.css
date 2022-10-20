@@ -1,0 +1,20 @@
+
+.downloadWrapper {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+    cursor: pointer;
+}
+
+.download {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    border: 1px solid black;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-right: 10px;
+}

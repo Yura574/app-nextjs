@@ -51,6 +51,7 @@ export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch
 export const AddPurchasesTC = (purchase: PurchasesInfoType,
                                userId: string,
                                date: string,
+
                                unitPrice: number,
                                warehouseId?: string,
                                image?: File) => (dispatch: Dispatch) => {

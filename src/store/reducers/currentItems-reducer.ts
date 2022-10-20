@@ -38,7 +38,7 @@ const currentItemsSlice = createSlice({
     initialState,
     name: 'currentItems',
     reducers: {
-        setCurrentWarehouse: (state, action: PayloadAction<WarehouseType>) => {
+        setCurrentWarehouse: (state, action: PayloadAction<WarehouseType | null>) => {
             state.currentWarehouse = action.payload
         },
         setCurrentDate: (state, action: PayloadAction<string>) => {
