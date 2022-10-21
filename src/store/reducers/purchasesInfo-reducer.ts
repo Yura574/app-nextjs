@@ -41,9 +41,9 @@ export const purchasesInfoReducer = purchasesInfoSlice.reducer
 export const {getPurchasesInfo, addPurchaseInfo, deletePurchaseInfo} = purchasesInfoSlice.actions
 
 
-export const AddPurchasesInfoTC = (purchaseInfo: PurchasesInfoType, userId: string, date: string, ) => (dispatch: Dispatch) => {
+export const AddPurchasesInfoTC = (purchaseInfo: PurchasesInfoType, userId: string, unitPrice: string, date: string, ) => (dispatch: Dispatch) => {
     console.log({...purchaseInfo})
-    purchaseInfoApi.addInfoPurchase(purchaseInfo, userId, date)
+    purchaseInfoApi.addInfoPurchase(purchaseInfo, userId, unitPrice, date)
         .then(res => {
             console.log(res.data)
             dispatch(addPurchaseInfo(res.data))

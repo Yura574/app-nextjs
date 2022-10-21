@@ -30,7 +30,10 @@ export const Warehouse = () => {
                                  alt={purchases.title}/>
 
                             <div className={classWarehouse.description}>
-                                <button onClick={() => purchases.id&&deletePurchase(purchases.id)}>delete</button>
+                                <div>{purchases.amount}{purchases.unit}</div>
+                                <div>{purchases.price}BYN</div>
+
+                                <button onClick={() => purchases.id && deletePurchase(purchases.id)}>delete</button>
                             </div>
                         </div>
 

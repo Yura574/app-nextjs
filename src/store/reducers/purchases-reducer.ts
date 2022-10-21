@@ -1,6 +1,6 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {purchaseApi} from "../../api/api";
-import {PurchasesInfoType} from "./purchasesInfo-reducer";
+import {purchaseApi, purchaseInfoApi} from "../../api/api";
+import {addPurchaseInfo, PurchasesInfoType} from "./purchasesInfo-reducer";
 import HistoryRouter from "react-router-dom";
 
 // export type PurchasesType  = {
@@ -30,7 +30,7 @@ const purchasesSlice = createSlice({
         },
         deletePurchase: (state, action: PayloadAction<{ purchaseId: string }>) => {
             const index = state.purchases.findIndex(el => el.id === action.payload.purchaseId)
-            state.purchases.splice(index,1)
+            state.purchases.splice(index, 1)
         }
 
     }
@@ -51,13 +51,20 @@ export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch
 export const AddPurchasesTC = (purchase: PurchasesInfoType,
                                userId: string,
                                date: string,
-
-                               unitPrice: number,
+                               unitPrice: string,
                                warehouseId?: string,
                                image?: File) => (dispatch: Dispatch) => {
-    console.log({...purchase}, date, warehouseId, image)
     purchaseApi.addPurchase(purchase, userId, date, unitPrice, warehouseId, image)
-        .then(res => dispatch(addNewPurchases(res.data)))
+        .then(res => {
+            dispatch(addNewPurchases(res.data))
+            purchaseInfoApi.addInfoPurchase(purchase, userId, unitPrice, date)
+                .then(res => {
+                    debugger
+                    console.log(res.data)
+                    dispatch(addPurchaseInfo(res.data))
+                })
+                .catch(err=> console.log(err))
+        })
         .catch(err => console.log(err))
 }
 
@@ -70,7 +77,7 @@ export const GetAllPurchasesTC = (userId: string) => (dispatch: Dispatch) => {
 export const DeletePurchaseTC = (purchaseId: string) => (dispatch: Dispatch) => {
     purchaseApi.deletePurchase(purchaseId)
         .then(() => dispatch(deletePurchase({purchaseId})))
-        .catch(err=> console.log(err))
+        .catch(err => console.log(err))
 }
 
 type initialStateType = {

@@ -1,17 +1,22 @@
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import s from './purchases.module.css'
-import {DeletePurchaseInfoTC, InfoType} from "../../../../store/reducers/purchasesInfo-reducer";
+import {DeletePurchaseInfoTC, GetPurchasesInfoTC, InfoType} from "../../../../store/reducers/purchasesInfo-reducer";
 import {EnterDataPurchases} from "./EnterDataPurchases";
 import {AiFillDelete, AiTwotoneEdit} from "react-icons/ai";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 
 export const Purchases = () => {
     const dispatch = useAppDispatch()
     const purchasesInfo = useAppSelector<InfoType[]>(state => state.purchasesInfo.purchasesInfo)
+    const userId = useAppSelector(state => state.profile.profile.id)
 
     const [edit, setEdit] = useState<boolean>(false)
     const [id, setId] = useState<string>('')
+
+    useEffect(()=>{
+        dispatch(GetPurchasesInfoTC(userId))
+    }, [userId, dispatch])
 
     const handleEdit = (id: string) => {
         setEdit(true)
@@ -71,15 +76,15 @@ export const Purchases = () => {
                             }</div>
                         <div className={s.descriptionItemWrapper}>
                             {edit && el.id === id
-                                ? <input value={el.price}/>
-                                : <>{el.price}</>
+                                ? <><input value={el.price}/> BYN</>
+                                : <>{el.price}BYN</>
                             }</div>
                         <div className={s.descriptionItemWrapper}>
                             {edit && el.id === id
                                 ? <><input value={el.amount}/> <input value={el.unit}/></>
                                 : <>{el.amount} {el.unit}</>
                             }</div>
-                        <div className={s.descriptionItemWrapper}>{+el.price / +el.amount} {el.unit}</div>
+                        <div className={s.descriptionItemWrapper}>{+el.price / +el.amount} BYN/{el.unit}</div>
                         <div className={s.descriptionItemWrapper}>
                             {edit && el.id === id
                                 ? <input value={el.date}/>

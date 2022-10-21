@@ -39,11 +39,11 @@ export const EnterDataPurchases = () => {
             place: '',
             price: '',
             amount: '',
-            unit: '',
+            unit: 'шт',
         },
         onSubmit: (purchase) => {
             if (currentWarehouse) {
-                const unitPrice = +purchase.price / +purchase.amount
+                const unitPrice = (+purchase.price / +purchase.amount).toString()
                 // dispatch(AddPurchasesInfoTC({...purchase}, userId, currentDate))
                 dispatch(AddPurchasesTC({...purchase}, userId, currentDate, unitPrice, currentWarehouse?.id, currentImage))
                 dispatch(setCurrentImage(null))
@@ -130,7 +130,7 @@ export const EnterDataPurchases = () => {
                         <div style={{width: '200px'}}>
                             {currentPurchase.image
                                 ? <img src={currentPurchase.image}
-                                       className={` ${s.preview}`} alt={'preview'}/>
+                                       className={`${s.preview}`} alt={'preview'}/>
                                 : <div><LoadItem/></div>
                             }
                             <input value={title} onChange={e => setTitle(e.currentTarget.value)}/>
@@ -141,7 +141,7 @@ export const EnterDataPurchases = () => {
                 </Modal>
                 : <Modal activeModal={activeModal} cancel={() => setActiveModal(false)}>
                     <div style={{display: 'flex', padding: '20px'}}>
-                        <div style={{width: '200px'}}>
+                        <div style={{width: '50%'}}>
                             {currentPurchase.image
                                 ? <img src={currentPurchase.image}
                                        className={` ${s.preview}`} alt={'preview'}/>
@@ -168,43 +168,41 @@ export const EnterDataPurchases = () => {
                                     <span> {el.unit}</span>
                                 </div>)}
                                 {formik.touched && formik.errors.title ? <div>{formik.errors.title}</div> : null}
-                                <label htmlFor={'place'}>место покупки</label>
-                                <input
-                                    id={'place'}
-                                    name="place"
+                                <div><label htmlFor={'place'}>место покупки</label>
+                                    <input
+                                        id={'place'}
+                                        name="place"
+                                        type={'text'}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.place}
+                                    /></div>
+                                {formik.touched && formik.errors.place ? <div>{formik.errors.place}</div> : null}
+                                <label htmlFor={'price'}>цена</label>
+                                <div><input
+                                    id={'price'}
+                                    name="price"
                                     type={'text'}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    value={formik.values.place}
-                                />
-                                {formik.touched && formik.errors.place ? <div>{formik.errors.place}</div> : null}
-                                <label htmlFor={'price'}>цена</label>
-                                <input
-                                    id={'price'}
-                                    name="price"
-                                    type={'number'}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
                                     value={formik.values.price}
-                                />
+                                /><span>BYN</span></div>
                                 {formik.touched && formik.errors.price ? <div>{formik.errors.price}</div> : null}
 
-                                <label htmlFor={"amount"}>количество</label>
-                                <input
-                                    id={"amount"}
-                                    name="amount"
-                                    type={"number"}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.amount}
-                                />
-                                {formik.touched && formik.errors.amount ? <div>{formik.errors.amount}</div> : null}
-
-                                <span><label htmlFor="unit">ед изм</label>
+                                <div><label htmlFor={"amount"}>количество</label>
+                                    <input
+                                        id={"amount"}
+                                        name="amount"
+                                        type={"text"}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        value={formik.values.amount}
+                                    />
+                                    {formik.touched && formik.errors.amount ? <div>{formik.errors.amount}</div> : null}
+                                    <span><label htmlFor="unit"></label>
                                 <select
                                     id={"unit"}
                                     name="unit"
-
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
                                     value={formik.values.unit}
@@ -216,6 +214,9 @@ export const EnterDataPurchases = () => {
                                     <option>л</option>
                                 </select>
                                 </span>
+                                </div>
+
+
 
                                 {formik.touched && formik.errors.unit ? <div>{formik.errors.unit}</div> : null}
                                 <button type={'submit'}>добавить</button>

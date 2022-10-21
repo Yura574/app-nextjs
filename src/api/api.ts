@@ -69,7 +69,7 @@ export const warehouseApi = {
 }
 
 export const purchaseApi = {
-    addPurchase: (purchase: PurchasesInfoType, userId: string, date: string, unitPrice: number, warehouseId?: string, image?: File) => {
+    addPurchase: (purchase: PurchasesInfoType, userId: string, date: string, unitPrice: string, warehouseId?: string, image?: File) => {
         console.log({...purchase})
         const {title, price, place, amount, unit} = purchase
         return instance.post('purchase/create', {userId, warehouseId, title, price, place, amount, unit, unitPrice, date, image}, {
@@ -89,9 +89,10 @@ export const purchaseApi = {
 }
 
 export const purchaseInfoApi = {
-    addInfoPurchase: (purchaseInfo: PurchasesInfoType, userId: string, date: string) => {
+    addInfoPurchase: (purchaseInfo: PurchasesInfoType, userId: string,unitPrice: string,date: string) => {
         const {title, price, place, amount, unit} = purchaseInfo
-        return instance.post('purchaseInfo/create', {userId, title, price, place, amount, unit, date})
+
+        return instance.post('purchaseInfo/create', {userId, title, price, place, amount, unit, unitPrice, date})
     },
     getPurchasesInfo: (userId: string) => {
         return instance.get(`purchaseInfo/all/${userId}`)

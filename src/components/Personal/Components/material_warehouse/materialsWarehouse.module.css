@@ -1,6 +1,7 @@
 
 .wrapper{
     display: flex;
+    max-height: 140px ;
 }
 .image{
    width: 100px;
