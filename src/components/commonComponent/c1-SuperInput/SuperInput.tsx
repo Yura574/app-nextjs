@@ -2,9 +2,10 @@ import React, {
     ChangeEvent,
     DetailedHTMLProps,
     InputHTMLAttributes,
-    KeyboardEvent,
+    KeyboardEvent, LegacyRef,
 } from "react";
 import s from "./SuperInput.module.css";
+import {log} from "util";
 
 // тип пропсов обычного инпута
 type DefaultInputPropsType = DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>;
@@ -20,9 +21,10 @@ type SuperInputTextPropsType = DefaultInputPropsType & { // и + ещё проп
     spanClassName?: string
     errorClassName?: string
 
+
 };
 
-const SuperInput: React.FC<SuperInputTextPropsType> = (props) => {
+const SuperInput = React.forwardRef((props:SuperInputTextPropsType, ref: LegacyRef<HTMLInputElement> | undefined ) => {
     const {
         type, // достаём и игнорируем чтоб нельзя было задать другой тип инпута
         onChange, onChangeText,
@@ -52,12 +54,12 @@ const SuperInput: React.FC<SuperInputTextPropsType> = (props) => {
     const finalSpanClassName = `${s.error} ${spanClassName ? spanClassName : ""}`;
     const finalInputClassName = ` ${s.form__field} ${className} ${errorClassName}`; // need to fix with (?:) and s.superInput
 
-
     return (
         <div>
             <div className={s.form__group}>
                 <input
                     type={type}
+                    ref={ref}
                     onKeyPress={onKeyPressCallback}
                     className={finalInputClassName}
                     placeholder={placeholder || 'title'}
@@ -69,6 +71,6 @@ const SuperInput: React.FC<SuperInputTextPropsType> = (props) => {
         </div>
 
     );
-}
+})
 
 export default SuperInput;

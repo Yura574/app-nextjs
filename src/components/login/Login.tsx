@@ -1,4 +1,7 @@
+import { useRef} from 'react'
 import loginClass from './login.module.css'
+
+
 import SuperInput from "../commonComponent/c1-SuperInput/SuperInput";
 import SuperCheckbox from "../commonComponent/c3-SuperCheckbox/SuperCheckbox";
 import {useState} from "react";
@@ -18,9 +21,16 @@ export const Login = () => {
     const login = (email: string, password: string) => {
         dispatch(LoginTC(email, password))
     }
+    const inputRef = useRef<HTMLInputElement | null>(null);
+    const onKeyPressEmail = () => {
+        inputRef.current?.focus();
+    }
+    const onKeyPressPassword = () => {
+        login(email, password)
+    }
 
-    if(isAuth){
-      return  <Navigate to={'/'}/>
+    if (isAuth) {
+        return <Navigate to={'/'}/>
     }
     return (
         <div className={loginClass.wrapper}>
@@ -28,17 +38,25 @@ export const Login = () => {
                 <div>
                     Вход
                 </div>
+
                 <div className={loginClass.input}>
                     <SuperInput label={'email'}
                                 value={email}
                                 onChangeText={setEmail}
-                                className={loginClass.input}/>
+                                className={loginClass.input}
+                                onEnter={onKeyPressEmail}
+
+                    />
                 </div>
                 <div className={loginClass.input}>
                     <SuperInput label={'password'}
+                                onEnter={onKeyPressPassword}
                                 error={error}
                                 value={password}
+                                autoFocus
                                 onChangeText={setPassword}
+                                ref={inputRef}
+
                     />
                 </div>
                 <div className={loginClass.checkboxWrapper}>
@@ -50,10 +68,15 @@ export const Login = () => {
                         Забыли пароль?
                     </div>
                 </div>
-                <button className={loginClass.loginButton} onClick={()=>login(email, password)}>Войти</button>
-               <NavLink to={'/registration'}  className={loginClass.regButtonWrapper}>
-                   <button className={loginClass.loginButton}>Зарегистрироваться</button>
-               </NavLink>
+                <button className={loginClass.loginButton}
+                        onClick={() => login(email, password)}
+
+                >
+                    Войти
+                </button>
+                <NavLink to={'/registration'} className={loginClass.regButtonWrapper}>
+                    <button className={loginClass.loginButton}>Зарегистрироваться</button>
+                </NavLink>
             </div>
         </div>
     )
