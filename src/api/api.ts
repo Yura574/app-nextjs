@@ -1,7 +1,7 @@
 import axios from "axios";
 import {RegistrationType} from "../store/reducers/auth-reducer";
 import {PurchasesInfoType} from "../store/reducers/purchasesInfo-reducer";
-import {ProductCompositionType, ProductsType} from "../store/reducers/products-reducer";
+import {MaterialOfProductType} from "../components/Personal/Products/Products";
 
 
 export const instance = axios.create({
@@ -51,8 +51,20 @@ export const subCategoryApi = {
 
 export const productsApi = {
     getProducts: (subCategoryId: string) => instance.get(`subCategory/one/${subCategoryId}`),
-    createProduct: (product:ProductsType)=> instance.post(`products/create`, {product}),
-    addComposition: (composition: ProductCompositionType[])=> instance.post(`composition/create`, {composition}),
+    createProduct: (title: string, subCategoryId: string, productComposition: MaterialOfProductType[]) => {
+        return instance.post(`products/create`,
+            { title,subCategoryId,productComposition, }
+        )
+    },
+    addImage:(id: string, image?:File)=>{
+        return instance.put(`products/addImage`, {id,image}, {
+            headers: {'Content-Type': 'multipart/form-data'}
+        })
+    },
+    deleteProduct: (id: string)=> {
+        return instance.delete(`products/delete/${id}`)
+    }
+
 }
 
 
@@ -72,7 +84,18 @@ export const purchaseApi = {
     addPurchase: (purchase: PurchasesInfoType, userId: string, date: string, unitPrice: string, warehouseId?: string, image?: File) => {
         console.log({...purchase})
         const {title, price, place, amount, unit} = purchase
-        return instance.post('purchase/create', {userId, warehouseId, title, price, place, amount, unit, unitPrice, date, image}, {
+        return instance.post('purchase/create', {
+            userId,
+            warehouseId,
+            title,
+            price,
+            place,
+            amount,
+            unit,
+            unitPrice,
+            date,
+            image
+        }, {
             headers: {'Content-Type': 'multipart/form-data'}
         })
     },
@@ -82,14 +105,14 @@ export const purchaseApi = {
     getWarehousePurchases: (warehouseId: string) => {
         return instance.get(`warehouse/purchases/${warehouseId}`)
     },
-    deletePurchase:(id: string)=>{
+    deletePurchase: (id: string) => {
         return instance.delete(`purchase/delete/${id}`)
     }
 
 }
 
 export const purchaseInfoApi = {
-    addInfoPurchase: (purchaseInfo: PurchasesInfoType, userId: string,unitPrice: string,date: string) => {
+    addInfoPurchase: (purchaseInfo: PurchasesInfoType, userId: string, unitPrice: string, date: string) => {
         const {title, price, place, amount, unit} = purchaseInfo
 
         return instance.post('purchaseInfo/create', {userId, title, price, place, amount, unit, unitPrice, date})
@@ -97,7 +120,7 @@ export const purchaseInfoApi = {
     getPurchasesInfo: (userId: string) => {
         return instance.get(`purchaseInfo/all/${userId}`)
     },
-    deletePurchaseInfo: (id: string)=>{
+    deletePurchaseInfo: (id: string) => {
         return instance.delete(`purchaseInfo/delete/${id}`)
     }
 }

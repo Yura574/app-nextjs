@@ -25,6 +25,7 @@
     border-radius: 15px;
     cursor: pointer;
     font-size: 22px;
+    margin-top: 20px;
 }
 .loginButton:active{
     transform: scale(0.98);

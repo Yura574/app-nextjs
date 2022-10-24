@@ -47,7 +47,7 @@ export const LoginTC = (email: string, password: string) => (dispatch: Dispatch)
 
 export const LogoutTC =()=> (dispatch: Dispatch) => {
     authApi.logout()
-        .then(res=> {
+        .then(()=> {
             const   profile= {
                 id: '',
                 email: '',
@@ -66,7 +66,7 @@ export const LogoutTC =()=> (dispatch: Dispatch) => {
 export const RegistrationTC =(user: RegistrationType) => (dispatch: Dispatch)=> {
     authApi.registration(user)
         .then(res=> {
-            // console.log(res)
+            console.log(res)
             dispatch(setProfile(res.data))
             dispatch(isAuth({value: true}))
             console.log(res)

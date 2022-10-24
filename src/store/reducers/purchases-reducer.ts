@@ -1,7 +1,6 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {purchaseApi, purchaseInfoApi} from "../../api/api";
 import {addPurchaseInfo, PurchasesInfoType} from "./purchasesInfo-reducer";
-import HistoryRouter from "react-router-dom";
 
 // export type PurchasesType  = {
 //     id: string
@@ -95,5 +94,6 @@ export type PurchaseType = {
     place?: string,
     amount?: string,
     unit?: string
+    unitPrice?: string
     image?: string
 }

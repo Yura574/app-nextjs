@@ -1,14 +1,18 @@
-import {Link} from "react-router-dom";
-import {useAppDispatch} from "../../../store/hooks";
+import {Link, Navigate} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {LogoutTC} from "../../../store/reducers/auth-reducer";
 import classPersonal from "../personalArea.module.css"
 
 
 export const PersonalNavBar = () => {
     const dispatch = useAppDispatch()
+    const profile = useAppSelector(state => state.profile.profile)
 
     const logout = () => {
         dispatch(LogoutTC())
+    }
+    if (!profile.id){
+        return <Navigate to={'/'}/>
     }
     return (
             <div className={classPersonal.personalNav}>

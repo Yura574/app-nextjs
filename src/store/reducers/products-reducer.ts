@@ -1,5 +1,6 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {productsApi} from "../../api/api";
+import {MaterialOfProductType} from "../../components/Personal/Products/Products";
 
 export type ProductsType = {
     id?: string
@@ -8,16 +9,16 @@ export type ProductsType = {
     // composition?: CompositionType[]
 }
 
-export type CompositionType = {
-    purchaseTitle: string
-    amount: string
-    unit: string
-    price: string
-}
-export type ProductCompositionType = {
-    productId?: string,
-    composition: CompositionType[]
-}
+// export type CompositionType = {
+//     purchaseTitle: string
+//     amount: string
+//     unit: string
+//     price: string
+// }
+// export type ProductCompositionType = {
+//     productId?: string,
+//     composition: CompositionType[]
+// }
 
 type InitialStateType = {
     products: ProductsType[]
@@ -28,7 +29,7 @@ const initialState: InitialStateType = {
 }
 
 const productsSlice = createSlice({
-    name: 'goods',
+    name: 'products',
     initialState,
     reducers: {
         setProducts: (state, action: PayloadAction<ProductsType[]>) => {
@@ -37,18 +38,27 @@ const productsSlice = createSlice({
         addNewProduct: (state, action) => {
             state.products = [...state.products, action.payload]
         },
-        // addComposition: (state, action: PayloadAction<ProductCompositionType>) => {
-        //     const product = state.products.find(el => el.id === action.payload.productId)
-        //     if (product) {
-        //         product.composition = action.payload.composition
-        //     }
-        // }
+        addImage: (state, action: PayloadAction<{ id: string, image: string }>) => {
+            state.products.map( el=> {
+               let image  = el.id ===action.payload.id? {...el, image: action.payload.image}: el
+
+               if(image){
+                   console.log('1',image)
+               }
+           })
+            // console.log(state.products)
+
+        },
+        deleteProduct:(state, action:PayloadAction<string>)=>{
+            const index = state.products.findIndex(cat => cat.id === action.payload)
+            state.products.splice(index, 1)
+        }
     }
 })
 
 
 export const productsReducer = productsSlice.reducer
-export const {setProducts, addNewProduct, } = productsSlice.actions
+export const {setProducts, addNewProduct,addImage, deleteProduct} = productsSlice.actions
 
 
 export const SetProductsTC = (subCategoryId: string) => (dispatch: Dispatch) => {
@@ -62,18 +72,28 @@ export const SetProductsTC = (subCategoryId: string) => (dispatch: Dispatch) => 
         })
 }
 
-export const AddNewProductTC = (product: ProductsType, composition: CompositionType[]) => (dispatch: Dispatch) => {
-    return console.log(product, composition)
-    // productsApi.createProduct(product)
-    //     .then(res => {
-    //         console.log(res)
-    //         dispatch(addNewProduct(res.data))
-    //     })
-    //     .then(() => {
-    //         productsApi.addComposition(composition)
-    //             .then((res) => {
-    //                 console.log(res)
-    //                 dispatch(addComposition(res.data))
-    //             })
-    //     })
+export const AddNewProductTC = (title: string, subCategoryId: string, productComposition: MaterialOfProductType[],image?: File) => (dispatch: Dispatch) => {
+    console.log(title)
+    console.log(image)
+    productsApi.createProduct(title, subCategoryId, productComposition)
+        .then(res => {
+            console.log(res.data)
+            dispatch(addNewProduct(res.data))
+           if(image) {
+               console.log(res.data)
+               productsApi.addImage(res.data.id, image)
+                   .then(r=>{
+                       console.log(r)
+                       dispatch(addImage({id:res.data.id, image:r.data}))
+                   })
+           }
+        })
+        .catch(err => err.response.data)
+}
+export const DeleteProductTC = (id: string)=> (dispatch: Dispatch)=>{
+    productsApi.deleteProduct(id)
+        .then(res=> {
+            console.log(res)
+            dispatch(deleteProduct(id))
+        })
 }

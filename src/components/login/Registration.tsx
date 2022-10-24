@@ -80,7 +80,7 @@ export const Registration = () => {
                         Забыли пароль?
                     </div>
                 </div>
-                <button className={loginClass.regButton}
+                <button className={loginClass.loginButton}
                         onClick={() => registration({name, email, password: validPassword})}
                 >Зарегистрироваться
                 </button>

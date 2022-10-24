@@ -52,7 +52,7 @@ export const Login = () => {
                 </div>
                 <button className={loginClass.loginButton} onClick={()=>login(email, password)}>Войти</button>
                <NavLink to={'/registration'}  className={loginClass.regButtonWrapper}>
-                   <button className={loginClass.regButton}>Зарегистрироваться</button>
+                   <button className={loginClass.loginButton}>Зарегистрироваться</button>
                </NavLink>
             </div>
         </div>
