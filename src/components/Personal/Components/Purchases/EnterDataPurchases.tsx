@@ -125,7 +125,7 @@ export const EnterDataPurchases = () => {
                 <div>добавить закупку</div>
             </div>
             {addNewWarehouse
-                ? <Modal activeModal={activeModal} cancel={() => setActiveModal(false)}>
+                ? <Modal activeModal={activeModal} >
                     <div style={{display: 'flex', padding: '20px'}}>
                         <div style={{width: '200px'}}>
                             {currentPurchase.image
@@ -139,7 +139,7 @@ export const EnterDataPurchases = () => {
                         </div>
                     </div>
                 </Modal>
-                : <Modal activeModal={activeModal} cancel={() => setActiveModal(false)}>
+                : <Modal activeModal={activeModal} >
                     <div style={{display: 'flex', padding: '20px'}}>
                         <div style={{width: '50%'}}>
                             {currentPurchase.image
@@ -220,6 +220,7 @@ export const EnterDataPurchases = () => {
 
                                 {formik.touched && formik.errors.unit ? <div>{formik.errors.unit}</div> : null}
                                 <button type={'submit'}>добавить</button>
+                                <button type={'button'} onClick={()=> setActiveModal(false)}> отмена</button>
                             </form>
                         </div>
                         <div>
