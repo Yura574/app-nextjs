@@ -72,7 +72,7 @@ export const Purchases = () => {
                         <div className={s.descriptionItemWrapper}>
                             {edit && el.id === id
                                 ? <input value={el.place}/>
-                                : <>{el.place}</>
+                                : <a href={`https://${el.place}/`}>{el.place}</a>
                             }</div>
                         <div className={s.descriptionItemWrapper}>
                             {edit && el.id === id
