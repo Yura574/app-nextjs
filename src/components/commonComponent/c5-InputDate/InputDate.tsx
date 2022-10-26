@@ -1,20 +1,18 @@
 import inputClass from './inputDate.module.css'
 import {areEqual, calendar} from "./utilFuncs";
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
-import { setData} from "../../../store/reducers/date-reducer";
+import {setData} from "../../../store/reducers/date-reducer";
 import {useEffect} from "react";
 import {setCurrentDate} from "../../../store/reducers/currentItems-reducer";
 
 
-export const InputDate = () => {
+export const InputDate = (props: { cancel: () => void }) => {
     const dispatch = useAppDispatch()
     const newDate = useAppSelector<Date>(state => state.date.date)
 
     const years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030]
     const months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
     const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вскр',]
-
-
 
 
     const year = newDate.getFullYear()
@@ -55,49 +53,48 @@ export const InputDate = () => {
 
 
     return (
-        <div>
-            <div>
-                <div className={inputClass.header}>
-                    <button onClick={() => handlePrevMonthButtonClick(year, month)}>{'<'}</button>
-                    <select
-                        value={months[month]}
-                        onChange={e => handleSelectedMonthChange(e.currentTarget.value)}>{months.map((name, index) =>
-                        <option key={index}>{name}</option>)}</select>
-                    <select
-                        value={year}
-                        onChange={e => handleSelectedYearChange(e.currentTarget.value)}>{years.map((name, index) =>
-                        <option key={index}>{name}</option>)}</select>
-                    <button onClick={() => handleNextMonthButtonClick(year, month)}>{'>'}</button>
-                </div>
-
-                <div className={inputClass.tableWrapper}>
-
-                    <div className={inputClass.dayNames}>
-                        {days.map((name, index) => <div key={index}>{name}</div>)}
-                    </div>
-
-                    <div className={inputClass.dates}>
-                        {monthData.map((week: Array<Date>, index: number) =>
-                            <div key={index} className={inputClass.week}>
-                                {week.map((date: Date , index: number) => {
-                                        return (
-                                            date
-                                                ? <div key={index}
-                                                       className={`${inputClass.day} 
-                                                ${areEqual(newDate, date) ? inputClass.active : ''} `}
-                                                       onClick={() => handleDayClick(date)}>
-                                                    {date.getDate()}
-                                                </div>
-                                                : <div key={index} className={inputClass.shadowDay}/>
-                                        )
-                                    }
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </div>
-
+        <div className={inputClass.startPositionDate}>
+            <div className={inputClass.header}>
+                <button onClick={() => handlePrevMonthButtonClick(year, month)}>{'<'}</button>
+                <select
+                    value={months[month]}
+                    onChange={e => handleSelectedMonthChange(e.currentTarget.value)}>{months.map((name, index) =>
+                    <option key={index}>{name}</option>)}</select>
+                <select
+                    value={year}
+                    onChange={e => handleSelectedYearChange(e.currentTarget.value)}>{years.map((name, index) =>
+                    <option key={index}>{name}</option>)}</select>
+                <button onClick={() => handleNextMonthButtonClick(year, month)}>{'>'}</button>
             </div>
+
+            <div className={inputClass.tableWrapper}>
+
+                <div className={inputClass.dayNames}>
+                    {days.map((name, index) => <div key={index}>{name}</div>)}
+                </div>
+
+                <div className={inputClass.dates}>
+                    {monthData.map((week: Array<Date>, index: number) =>
+                        <div key={index} className={inputClass.week}>
+                            {week.map((date: Date, index: number) => {
+                                    return (
+                                        date
+                                            ? <div key={index}
+                                                   className={`${inputClass.day} 
+                                                ${areEqual(newDate, date) ? inputClass.active : ''} `}
+                                                   onClick={() => handleDayClick(date)}>
+                                                {date.getDate()}
+                                            </div>
+                                            : <div key={index} className={inputClass.shadowDay}/>
+                                    )
+                                }
+                            )}
+                        </div>
+                    )}
+                </div>
+                <button onClick={props.cancel}>cancel</button>
+            </div>
+
 
         </div>
     )

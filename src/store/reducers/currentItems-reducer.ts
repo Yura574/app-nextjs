@@ -3,6 +3,7 @@ import {WarehouseType} from "./warehouse-reducer";
 
 type initialStateType = {
     currentWarehouse: WarehouseType | null
+    createdTitleWarehouse: string
     currentDate: string
     currentImage: File | undefined
     currentPurchase: CurrentPurchaseType
@@ -20,9 +21,10 @@ export type CurrentPurchaseType = {
 
 const initialState: initialStateType = {
     currentWarehouse: null,
+    createdTitleWarehouse: '',
     currentDate: '',
     currentImage: undefined,
-    currentPurchase:  {
+    currentPurchase: {
         id: '',
         title: '',
         price: '',
@@ -41,13 +43,19 @@ const currentItemsSlice = createSlice({
         setCurrentWarehouse: (state, action: PayloadAction<WarehouseType | null>) => {
             state.currentWarehouse = action.payload
         },
+        setCreatedTitleWarehouse: (state, action:PayloadAction<string>) => {
+            alert(88)
+            console.log(action.payload)
+            state.createdTitleWarehouse = action.payload
+            console.log(state.createdTitleWarehouse)
+        },
         setCurrentDate: (state, action: PayloadAction<string>) => {
             state.currentDate = action.payload
         },
         setCurrentImage: (state, action) => {
             state.currentImage = action.payload
         },
-        setCurrentPurchase: (state, action)=>{
+        setCurrentPurchase: (state, action) => {
             state.currentPurchase = action.payload
         }
     }
@@ -55,4 +63,8 @@ const currentItemsSlice = createSlice({
 
 
 export const currentItemsReducer = currentItemsSlice.reducer
-export const {setCurrentWarehouse, setCurrentDate, setCurrentImage, setCurrentPurchase} = currentItemsSlice.actions
+export const {
+    setCurrentWarehouse, setCurrentDate,
+    setCurrentImage, setCurrentPurchase,
+    setCreatedTitleWarehouse,
+} = currentItemsSlice.actions

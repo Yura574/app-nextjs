@@ -10,6 +10,7 @@ export const Purchases = () => {
     const dispatch = useAppDispatch()
     const purchasesInfo = useAppSelector<InfoType[]>(state => state.purchasesInfo.purchasesInfo)
     const userId = useAppSelector(state => state.profile.profile.id)
+    const currentImage = useAppSelector(state => state.currentItems.currentImage)
 
     const [edit, setEdit] = useState<boolean>(false)
     const [id, setId] = useState<string>('')
@@ -17,6 +18,9 @@ export const Purchases = () => {
     useEffect(()=>{
         dispatch(GetPurchasesInfoTC(userId))
     }, [userId, dispatch])
+    useEffect(()=>{
+        setEdit(edit)
+    }, [currentImage])
 
     const handleEdit = (id: string) => {
         setEdit(true)
@@ -47,7 +51,7 @@ export const Purchases = () => {
     const deletePurchaseInfo = (id: string) => {
         dispatch(DeletePurchaseInfoTC(id))
     }
-
+    console.log('image', currentImage)
     return (
         <div>
             <EnterDataPurchases/>
@@ -84,7 +88,7 @@ export const Purchases = () => {
                                 ? <><input value={el.amount}/> <input value={el.unit}/></>
                                 : <>{el.amount} {el.unit}</>
                             }</div>
-                        <div className={s.descriptionItemWrapper}>{+el.price / +el.amount} BYN/{el.unit}</div>
+                        <div className={s.descriptionItemWrapper}>{el.unitPrice} BYN/{el.unit}</div>
                         <div className={s.descriptionItemWrapper}>
                             {edit && el.id === id
                                 ? <input value={el.date}/>

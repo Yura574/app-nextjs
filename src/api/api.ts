@@ -53,15 +53,15 @@ export const productsApi = {
     getProducts: (subCategoryId: string) => instance.get(`subCategory/one/${subCategoryId}`),
     createProduct: (title: string, subCategoryId: string, productComposition: MaterialOfProductType[]) => {
         return instance.post(`products/create`,
-            { title,subCategoryId,productComposition, }
+            {title, subCategoryId, productComposition,}
         )
     },
-    addImage:(id: string, image?:File)=>{
-        return instance.put(`products/addImage`, {id,image}, {
+    addImage: (id: string, image?: File) => {
+        return instance.put(`products/addImage`, {id, image}, {
             headers: {'Content-Type': 'multipart/form-data'}
         })
     },
-    deleteProduct: (id: string)=> {
+    deleteProduct: (id: string) => {
         return instance.delete(`products/delete/${id}`)
     }
 
@@ -74,6 +74,10 @@ export const warehouseApi = {
         return instance.post('warehouse/create', {userId, title, image}, {
             headers: {'Content-Type': 'multipart/form-data'}
         })
+    },
+    updateWarehouse: (warehouseId: string, title: string, warehouseImage: string, image?: File) => {
+        return instance.put(`warehouse/update`, {warehouseId, title, warehouseImage, image},
+            {headers: {'Content-Type': 'multipart/form-data'}})
     },
     getAllWarehouses: (userId: string) => instance.get(`warehouse/all/${userId}`),
     deleteWarehouse: (warehouseId: string) => instance.delete(`warehouse/delete/${warehouseId}`),

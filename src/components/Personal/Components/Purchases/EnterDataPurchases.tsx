@@ -1,9 +1,8 @@
 import s from "./purchases.module.css";
 import sEnter from './EnterDataPurchases.module.css'
-import {LoadItem} from "../../../commonComponent/load_item/load_item_test";
 import {CurrentDate} from "../../../commonComponent/c6-Date/Date";
 import {
-    CurrentPurchaseType, setCurrentImage,
+    CurrentPurchaseType, setCreatedTitleWarehouse, setCurrentImage,
     setCurrentPurchase,
     setCurrentWarehouse
 } from "../../../../store/reducers/currentItems-reducer";
@@ -14,6 +13,8 @@ import {AddPurchasesTC, GetAllPurchasesTC} from "../../../../store/reducers/purc
 import {AddWarehouseTC, GetAllWarehousesTC, WarehouseType} from "../../../../store/reducers/warehouse-reducer";
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import {Modal} from "../../../commonComponent/ModalWindow/Modal";
+import {LoadImage} from "../../../commonComponent/load_image/LoadImage";
+import {DownloadItem} from "../../../commonComponent/DownloadItem/DownloadItem";
 
 
 export const EnterDataPurchases = () => {
@@ -22,6 +23,7 @@ export const EnterDataPurchases = () => {
     const userId = useAppSelector<string>(state => state.profile.profile.id)
     const currentDate = useAppSelector<string>(state => state.currentItems.currentDate)
     const currentWarehouse = useAppSelector<WarehouseType | null>(state => state.currentItems.currentWarehouse)
+    const titleWarehouse = useAppSelector(state => state.currentItems.createdTitleWarehouse)
     const currentImage = useAppSelector<File | undefined>(state => state.currentItems.currentImage)
     let allPurchases = useAppSelector<CurrentPurchaseType[]>(state => state.purchases.allPurchases)
     const currentPurchase = useAppSelector<CurrentPurchaseType>(state => state.currentItems.currentPurchase)
@@ -43,11 +45,15 @@ export const EnterDataPurchases = () => {
         },
         onSubmit: (purchase) => {
             if (currentWarehouse) {
-                const unitPrice = (+purchase.price / +purchase.amount).toString()
+                const unitPrice = (+purchase.price / +purchase.amount).toFixed(2)
+                console.log(unitPrice)
                 // dispatch(AddPurchasesInfoTC({...purchase}, userId, currentDate))
                 dispatch(AddPurchasesTC({...purchase}, userId, currentDate, unitPrice, currentWarehouse?.id, currentImage))
                 dispatch(setCurrentImage(null))
                 setActiveModal(false)
+                formik.values.place = ''
+                formik.values.amount = ''
+                formik.values.price = ''
 
             } else {
                 alert(`не выбран склад материалов`)
@@ -75,6 +81,7 @@ export const EnterDataPurchases = () => {
 
     const changeWarehouse = (warehouse: string) => {
         if (warehouse === 'добавить склад') {
+            if (currentImage) dispatch(setCurrentImage(undefined))
             setAddNewWarehouse(true)
             return console.log('new warehouse add')
         }
@@ -91,8 +98,8 @@ export const EnterDataPurchases = () => {
             }
         }
     }
-    const addCurrentPurchase = (e: MouseEvent<HTMLDivElement>, currentPurchase: CurrentPurchaseType) => {
-        e.preventDefault()
+    const addCurrentPurchase = (currentPurchase: CurrentPurchaseType) => {
+
         dispatch(setCurrentPurchase(currentPurchase))
         console.log(currentPurchase)
         currentPurchase.image && dispatch(setCurrentImage(currentPurchase.image))
@@ -101,8 +108,15 @@ export const EnterDataPurchases = () => {
     }
     const addNewWarehouseHandler = (title: string) => {
         dispatch(AddWarehouseTC(userId, title, 'склад успешно добавлен', currentImage))
+        dispatch(setCreatedTitleWarehouse(title))
         dispatch(setCurrentImage(null))
         setAddNewWarehouse(false)
+        setTitle('')
+    }
+    const cancelAddWarehouseHandler = () => {
+        if (currentImage) dispatch(setCurrentImage(undefined))
+        setAddNewWarehouse(false)
+        setTitle('')
     }
     const activeModalHandler = () => {
         setActiveModal(true)
@@ -110,6 +124,10 @@ export const EnterDataPurchases = () => {
         formik.values.title = ''
         dispatch(setCurrentWarehouse(null))
 
+    }
+    const closeModal = () => {
+        if (currentImage) dispatch(setCurrentImage(null))
+        setActiveModal(false)
     }
 
 
@@ -125,27 +143,15 @@ export const EnterDataPurchases = () => {
                 <div>добавить закупку</div>
             </div>
             {addNewWarehouse
-                ? <Modal activeModal={activeModal} >
-                    <div style={{display: 'flex', padding: '20px'}}>
-                        <div style={{width: '200px'}}>
-                            {currentPurchase.image
-                                ? <img src={currentPurchase.image}
-                                       className={`${s.preview}`} alt={'preview'}/>
-                                : <div><LoadItem/></div>
-                            }
-                            <input value={title} onChange={e => setTitle(e.currentTarget.value)}/>
-                            <button onClick={() => addNewWarehouseHandler(title)}> добавить склад</button>
-                            <button onClick={() => setAddNewWarehouse(false)}> отмена</button>
-                        </div>
-                    </div>
-                </Modal>
-                : <Modal activeModal={activeModal} >
+                ? <DownloadItem title={title} setTitle={setTitle} activeModal={activeModal} currentPurchase={currentPurchase} cancelAddWarehouseHandler={cancelAddWarehouseHandler}
+                                addItemHandler={addNewWarehouseHandler}/>
+                : <Modal activeModal={activeModal}>
                     <div style={{display: 'flex', padding: '20px'}}>
                         <div style={{width: '50%'}}>
                             {currentPurchase.image
                                 ? <img src={currentPurchase.image}
                                        className={` ${s.preview}`} alt={'preview'}/>
-                                : <div><LoadItem/></div>
+                                : <div><LoadImage/></div>
                             }
                             <form onSubmit={formik.handleSubmit}>
                                 <label htmlFor="title">название товара</label>
@@ -160,7 +166,7 @@ export const EnterDataPurchases = () => {
 
                                 />
                                 {focus && goods.map(el => <div key={el.id} className={s.searchWrapper}
-                                                               onClick={(e) => addCurrentPurchase(e, el)}>
+                                                               onClick={(e) => addCurrentPurchase(el)}>
                                     <img src={el.image} alt={'img'}/>
                                     <span> {el.title}</span>
                                     <span> {el.price}</span>
@@ -212,19 +218,23 @@ export const EnterDataPurchases = () => {
                                     <option>кг</option>
                                     <option>мл</option>
                                     <option>л</option>
+                                    <option>см</option>
+                                    <option>м</option>
+                                    <option>лист</option>
                                 </select>
                                 </span>
                                 </div>
 
 
-
                                 {formik.touched && formik.errors.unit ? <div>{formik.errors.unit}</div> : null}
                                 <button type={'submit'}>добавить</button>
-                                <button type={'button'} onClick={()=> setActiveModal(false)}> отмена</button>
+                                <button type={'button'} onClick={closeModal}> отмена</button>
                             </form>
                         </div>
                         <div>
-                            <select value={currentWarehouse ? currentWarehouse.title : 'выберите склад'}
+                            <select value={titleWarehouse
+                                ? titleWarehouse
+                                : currentWarehouse ? currentWarehouse.title : 'выберите склад'}
                                     onChange={(e) => changeWarehouse(e.currentTarget.value)}>
                                 <option>укажите склад</option>
                                 <option>добавить склад</option>

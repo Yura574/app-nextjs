@@ -1,14 +1,12 @@
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {
-    AddCategoryTC,
     CategoryType,
     DeleteCategoryTC,
     UpdateCategoryTC
 } from "../../../store/reducers/categories-reducer";
 import classCategory from "./downloadCategory.module.css";
 import {AiOutlineEdit} from "react-icons/ai";
-import {DownloadSubCategory} from "./DownloadSubCategory";
-import {LoadItem} from "../../commonComponent/load_item/load_item_test";
+import {LoadImage} from "../../commonComponent/load_image/LoadImage";
 
 
 export const DownloadCategory = () => {
@@ -29,8 +27,7 @@ export const DownloadCategory = () => {
 
     return (
         <div>
-            <LoadItem/>
-
+            <LoadImage/>
             <div className={classCategory.box}>
                 {categories.map(cat => {
                         return <div key={cat.id} className={classCategory.container}>

@@ -8,9 +8,9 @@ import {
 } from "../../../store/reducers/categories-reducer";
 import cardClass from "../../CardProdurt/cardProduct.module.css";
 import {Link} from "react-router-dom";
-import {LoadItem} from "../../commonComponent/load_item/load_item_test";
 import {setCurrentImage} from "../../../store/reducers/currentItems-reducer";
 import {AiFillDelete} from "react-icons/ai";
+import {LoadImage} from "../../commonComponent/load_image/LoadImage";
 
 
 export const FinishedProductsWarehouse = () => {
@@ -36,7 +36,7 @@ export const FinishedProductsWarehouse = () => {
     return (
         <div>
             <div>
-                <LoadItem/>
+                <LoadImage/>
                 <input value={title} onChange={(e) => setTitle(e.currentTarget.value)}/>
                 <button onClick={() => addNewCategory(userId, title, '', currentImage)}>+</button>
             </div>

@@ -9,9 +9,9 @@ import {
 import {Link, useParams} from "react-router-dom";
 import classMain from "../../Main/main.module.css";
 import cardClass from "../../CardProdurt/cardProduct.module.css";
-import {LoadItem} from "../../commonComponent/load_item/load_item_test";
 import {AiOutlineDelete} from "react-icons/ai";
 import {setCurrentImage} from "../../../store/reducers/currentItems-reducer";
+import {LoadImage} from "../../commonComponent/load_image/LoadImage";
 
 
 export const SubCategory = () => {
@@ -38,7 +38,7 @@ export const SubCategory = () => {
     return (
         <div>
             <div>
-                <LoadItem/>
+                <LoadImage/>
                 <input value={title} onChange={(e)=> setTitle(e.currentTarget.value)}/>
                 <button onClick={() => id && addNewSubcategory(id, title, currentImage)}>+</button>
             </div>

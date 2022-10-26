@@ -19,12 +19,15 @@ const warehousesSlice = createSlice({
         },
         deleteWarehouse: (state, action: PayloadAction<string>) => {
             state.warehouses = state.warehouses.filter(el => el.id !== action.payload)
+        },
+        updateWarehouse: (state, action:PayloadAction<WarehouseType>)=>{
+            state.warehouses = state.warehouses.map(el => el.id === action.payload.id ? el = action.payload: el)
         }
     }
 })
 
 export const warehousesReducer = warehousesSlice.reducer
-export const {getAllWarehouses, addWarehouse, deleteWarehouse} = warehousesSlice.actions
+export const {getAllWarehouses, addWarehouse, deleteWarehouse, updateWarehouse} = warehousesSlice.actions
 
 
 export const AddWarehouseTC = (userId: string, title: string, success: string, image?: File) => (dispatch: Dispatch) => {
@@ -32,6 +35,11 @@ export const AddWarehouseTC = (userId: string, title: string, success: string, i
     warehouseApi.addWarehouse(userId, title, image)
         .then(res => dispatch(addWarehouse(res.data)))
         .catch(err => console.log(err))
+}
+
+export const UpdateWarehouseTC = (warehouseId: string, title: string, warehouseImage: string, image?: File) => (dispatch: Dispatch) => {
+    warehouseApi.updateWarehouse(warehouseId, title, warehouseImage, image)
+        .then(res => console.log(res))
 }
 export const GetAllWarehousesTC = (userId: string) => (dispatch: Dispatch) => {
     warehouseApi.getAllWarehouses(userId)

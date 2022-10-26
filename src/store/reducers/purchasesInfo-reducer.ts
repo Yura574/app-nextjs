@@ -9,6 +9,7 @@ export type InfoType = {
     place: string
     amount: string
     unit: string
+    unitPrice: string
     date: string
 
 }

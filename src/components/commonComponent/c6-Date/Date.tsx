@@ -1,7 +1,6 @@
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {InputDate} from "../c5-InputDate/InputDate";
 import {setOpenCalendar} from "../../../store/reducers/date-reducer";
-import {Modal} from "../ModalWindow/Modal";
 
 
 export const CurrentDate = () => {
@@ -23,9 +22,8 @@ export const CurrentDate = () => {
                 onClick={openCalendar ? () => open(false) : () => open(true)}> open</span></div>
 
             <div>
-                <Modal activeModal={openCalendar} >
-                    <InputDate/>
-                </Modal>
+                {openCalendar && <InputDate cancel={cancel}/>}
+
             </div>
         </div>
     )

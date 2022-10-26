@@ -4,17 +4,18 @@ import {useParams} from "react-router-dom";
 import cardClass from "../../CardProdurt/cardProduct.module.css";
 import {
     AddNewProductTC,
-     DeleteProductTC,
+    DeleteProductTC,
     SetProductsTC
 } from "../../../store/reducers/products-reducer";
 import {ProductsType} from "../../../store/reducers/products-reducer";
-import {LoadItem} from "../../commonComponent/load_item/load_item_test";
 import {GetAllWarehousesTC, WarehouseType} from "../../../store/reducers/warehouse-reducer";
 import {setCurrentWarehouse} from "../../../store/reducers/currentItems-reducer";
-import {WarehousePurchasesTC} from "../../../store/reducers/purchases-reducer";
+import {PurchaseType, setPurchases, WarehousePurchasesTC} from "../../../store/reducers/purchases-reducer";
 import {IoMdAdd} from "react-icons/io";
+import {LoadImage} from "../../commonComponent/load_image/LoadImage";
 
 export type MaterialOfProductType = {
+    id: string
     warehouseId: string | null,
     purchaseTitle: string,
     amount: string,
@@ -68,9 +69,38 @@ export const Products = () => {
         setMaterialId(id)
         setAddMaterial(true)
     }
-    const addProduct = (materialOfProduct: MaterialOfProductType) => {
-        setComposition([materialOfProduct, ...composition])
-        let total = (+totalCost + +materialOfProduct.price).toString()
+    const deleteMaterialOfProduct = (id: string) => {
+        const newComposition = composition.filter(el => el.id !== id)
+        setComposition(newComposition)
+    }
+    const changeAmountMaterial = (amount: string, el: PurchaseType) => {
+        setAmountOfMaterial(amount)
+        let price
+        if (el.unitPrice) price = (+el.unitPrice * +amount).toFixed(2)
+        if (price) setPriceOfMaterial(price.toString())
+
+
+    }
+    const addMaterialOfProduct = (materialOfProduct: MaterialOfProductType) => {
+        const exist = composition.find(el => el.id === materialOfProduct.id)
+        if (exist) {
+            const newAmount = (+exist.amount + +materialOfProduct.amount).toString()
+            const newPrice = (+exist.price + +materialOfProduct.price).toString()
+            setComposition(composition.map(el => el.id === materialOfProduct.id ? {
+                ...el,
+                amount: newAmount,
+                price: newPrice
+            } : el))
+        } else {
+            setComposition([materialOfProduct, ...composition])
+        }
+        dispatch(setPurchases(purchases.map(el => el.id === materialOfProduct.id
+            ? {...el, amount: el.amount &&(+el.amount - +materialOfProduct.amount).toString()}
+            : el)))
+        setAmountOfMaterial('')
+        setPriceOfMaterial('')
+        setAddMaterial(false)
+        let total = (+totalCost + +materialOfProduct.price).toFixed(2)
 
         setTotalCost(total)
     }
@@ -86,7 +116,7 @@ export const Products = () => {
                 </div>
                 : <div>
                     <div>
-                        <LoadItem/>
+                        <LoadImage/>
                         <input value={title} onChange={e => setTitle(e.currentTarget.value)}/>
                         {/*<button onClick={() => composition && addNewProduct({title}, composition)}>+</button>*/}
                     </div>
@@ -94,11 +124,12 @@ export const Products = () => {
                         <div className={cardClass.compositionWrapper}>
                             <div>Состав изделия:</div>
                             <div className={cardClass.composition}>
-                                {composition?.map(el => <div>
+                                {composition?.map((el) => <div key={el.id}>
                                     <div>{el.purchaseTitle} </div>
                                     <span>{el.amount} </span>
                                     <span>{el.unit} </span>
                                     <span>{el.price} BYN</span>
+                                    <button onClick={() => deleteMaterialOfProduct(el.id)}>x</button>
 
                                 </div>)}
                                 <span>себестоимость: {totalCost}</span>
@@ -117,12 +148,12 @@ export const Products = () => {
                                 )}
 
                             </select>
-                            {purchases.map(el => <div style={{display: 'flex'}}>
+                            {purchases.map(el => <div key={el.id} style={{display: 'flex'}}>
                                 <img src={el.image} style={{width: '30px'}} alt={el.title}/>
                                 <div> {el.title} </div>
                                 <div> {el.amount} </div>
                                 <div> {el.unit} </div>
-                                <div> {el.unitPrice} BYN/гр</div>
+                                <div> {el.unitPrice} BYN/{el.unit}</div>
                                 <div>
                                     {addMaterial && el.id === materialId
                                         ? <div>
@@ -130,27 +161,17 @@ export const Products = () => {
                                                 autoFocus
                                                 type={'number'}
                                                 value={amountOfMaterial}
-                                                onChange={e => {
-                                                    setAmountOfMaterial(e.currentTarget.value)
-                                                    let price
-                                                    if (el.unitPrice) {
-                                                        price = (+el.unitPrice * +e.currentTarget.value).toFixed(2)
-
-                                                    }
-                                                    if (price) {
-
-                                                        setPriceOfMaterial(price.toString())
-                                                    }
-                                                }}
+                                                onChange={e => changeAmountMaterial(e.currentTarget.value, el)}
 
                                             />
                                             <button onClick={() => el.amount && el.unit && el.price &&
-                                                addProduct({
+                                                addMaterialOfProduct({
                                                     warehouseId: currentWarehouse && currentWarehouse.id,
                                                     purchaseTitle: el.title,
                                                     amount: amountOfMaterial,
                                                     unit: el.unit,
-                                                    price: priceOfMaterial
+                                                    price: priceOfMaterial,
+                                                    id: el.id ? el.id : ''
                                                 })}>add
                                             </button>
                                             <button onClick={() => {
