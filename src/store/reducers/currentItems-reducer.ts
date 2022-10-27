@@ -44,10 +44,7 @@ const currentItemsSlice = createSlice({
             state.currentWarehouse = action.payload
         },
         setCreatedTitleWarehouse: (state, action:PayloadAction<string>) => {
-            alert(88)
-            console.log(action.payload)
             state.createdTitleWarehouse = action.payload
-            console.log(state.createdTitleWarehouse)
         },
         setCurrentDate: (state, action: PayloadAction<string>) => {
             state.currentDate = action.payload

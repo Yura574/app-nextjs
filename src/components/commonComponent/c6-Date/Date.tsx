@@ -1,12 +1,15 @@
 import {useAppDispatch, useAppSelector} from "../../../store/hooks";
 import {InputDate} from "../c5-InputDate/InputDate";
 import {setOpenCalendar} from "../../../store/reducers/date-reducer";
+import {useEffect} from "react";
+import {setCurrentDate} from "../../../store/reducers/currentItems-reducer";
 
 
 export const CurrentDate = () => {
     const dispatch = useAppDispatch()
-    const currentDate = useAppSelector<string>(state => state.currentItems.currentDate)
+    const newDate = useAppSelector<Date>(state => state.date.date)
     const openCalendar = useAppSelector<boolean>(state => state.date.openCalendar)
+
 
 
     const open = (open: boolean) => {
@@ -15,11 +18,29 @@ export const CurrentDate = () => {
     const cancel = () => {
         dispatch(setOpenCalendar(false))
     }
+    const year = newDate.getFullYear()
+    const month = newDate.getMonth()
+    const day = newDate.getDate()
+
+
+    useEffect(() => {
+        dispatch(setCurrentDate(`${day}/${month + 1}/${year}`))
+    })
 
     return (
         <div>
-            <div> {currentDate} <span
-                onClick={openCalendar ? () => open(false) : () => open(true)}> open</span></div>
+
+            <div>
+                <span onClick={openCalendar ? () => open(false) : () => open(true)}>
+                    open
+                </span>
+            </div>
+
+            <div> {newDate.getDate()}/{newDate.getMonth()}/{newDate.getFullYear()} <span
+                onClick={openCalendar ? () => open(false) : () => open(true)}> open</span>
+            </div>
+
+
 
             <div>
                 {openCalendar && <InputDate cancel={cancel}/>}

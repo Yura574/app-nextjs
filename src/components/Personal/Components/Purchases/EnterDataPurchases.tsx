@@ -46,15 +46,12 @@ export const EnterDataPurchases = () => {
         onSubmit: (purchase) => {
             if (currentWarehouse) {
                 const unitPrice = (+purchase.price / +purchase.amount).toFixed(2)
-                console.log(unitPrice)
-                // dispatch(AddPurchasesInfoTC({...purchase}, userId, currentDate))
                 dispatch(AddPurchasesTC({...purchase}, userId, currentDate, unitPrice, currentWarehouse?.id, currentImage))
                 dispatch(setCurrentImage(null))
                 setActiveModal(false)
                 formik.values.place = ''
                 formik.values.amount = ''
                 formik.values.price = ''
-
             } else {
                 alert(`не выбран склад материалов`)
             }
@@ -83,10 +80,8 @@ export const EnterDataPurchases = () => {
         if (warehouse === 'добавить склад') {
             if (currentImage) dispatch(setCurrentImage(undefined))
             setAddNewWarehouse(true)
-            return console.log('new warehouse add')
         }
         const newWarehouse = warehouses.find(el => el.title === warehouse)
-        console.log(newWarehouse)
         newWarehouse && dispatch(setCurrentWarehouse(newWarehouse))
     }
     let goods = []

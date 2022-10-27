@@ -31,7 +31,6 @@ export const {getAllWarehouses, addWarehouse, deleteWarehouse, updateWarehouse} 
 
 
 export const AddWarehouseTC = (userId: string, title: string, success: string, image?: File) => (dispatch: Dispatch) => {
-    console.log(image)
     warehouseApi.addWarehouse(userId, title, image)
         .then(res => dispatch(addWarehouse(res.data)))
         .catch(err => console.log(err))
