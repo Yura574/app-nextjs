@@ -28,25 +28,28 @@ const purchasesInfoSlice = createSlice({
         getPurchasesInfo: (state, action) => {
             state.purchasesInfo = action.payload
         },
-        addPurchaseInfo: (state, action)=>{
+        addPurchaseInfo: (state, action) => {
             state.purchasesInfo = [action.payload, ...state.purchasesInfo]
         },
-        deletePurchaseInfo: (state, action:PayloadAction<{id: string}>)=>{
-            const index = state.purchasesInfo.findIndex((el)=>el.id ===action.payload.id)
-            state.purchasesInfo.splice(index,1)
+        deletePurchaseInfo: (state, action: PayloadAction<{ id: string }>) => {
+            const index = state.purchasesInfo.findIndex((el) => el.id === action.payload.id)
+            state.purchasesInfo.splice(index, 1)
+        },
+        editTitlePurchaseInfo: (state, action: PayloadAction<{ id: string, title: string }>) => {
+            state.purchasesInfo = state.purchasesInfo.map(el =>
+                el.id === action.payload.id ? {...el, title: action.payload.title}: el)
         }
     }
 })
 
 export const purchasesInfoReducer = purchasesInfoSlice.reducer
-export const {getPurchasesInfo, addPurchaseInfo, deletePurchaseInfo} = purchasesInfoSlice.actions
+export const {getPurchasesInfo, addPurchaseInfo, deletePurchaseInfo, editTitlePurchaseInfo} = purchasesInfoSlice.actions
 
 
-export const AddPurchasesInfoTC = (purchaseInfo: PurchasesInfoType, userId: string, unitPrice: string, date: string, ) => (dispatch: Dispatch) => {
+export const AddPurchasesInfoTC = (purchaseInfo: PurchasesInfoType, userId: string, unitPrice: string, date: string,) => (dispatch: Dispatch) => {
     console.log({...purchaseInfo})
     purchaseInfoApi.addInfoPurchase(purchaseInfo, userId, unitPrice, date)
         .then(res => {
-            console.log(res.data)
             dispatch(addPurchaseInfo(res.data))
         })
 }
@@ -54,22 +57,32 @@ export const AddPurchasesInfoTC = (purchaseInfo: PurchasesInfoType, userId: stri
 export const GetPurchasesInfoTC = (userId: string) => (dispatch: Dispatch) => {
     purchaseInfoApi.getPurchasesInfo(userId)
         .then(res => {
-            console.log(res)
             dispatch(getPurchasesInfo(res.data))
         })
 }
 
-export const DeletePurchaseInfoTC = (id: string)=> (dispatch: Dispatch)=>{
+export const DeletePurchaseInfoTC = (id: string) => (dispatch: Dispatch) => {
     purchaseInfoApi.deletePurchaseInfo(id)
-        .then(()=>{
+        .then(() => {
             dispatch(deletePurchaseInfo({id}))
         })
 }
 
 export type PurchasesInfoType = {
+    userId: string
     title: string
     place: string
     price: string
     amount: string
     unit: string
+    warehouse: string
+    date: string
+}
+export type UpdatePurchasesInfoType = {
+    title: string
+    place: string
+    price: string
+    amount: string
+    unit: string
+    date: string
 }

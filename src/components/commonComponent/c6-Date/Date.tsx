@@ -36,7 +36,7 @@ export const CurrentDate = () => {
                 </span>
             </div>
 
-            <div> {newDate.getDate()}/{newDate.getMonth()}/{newDate.getFullYear()} <span
+            <div> {newDate.getDate()}/{newDate.getMonth() +1}/{newDate.getFullYear()} <span
                 onClick={openCalendar ? () => open(false) : () => open(true)}> open</span>
             </div>
 

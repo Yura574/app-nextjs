@@ -43,7 +43,6 @@ export const {setCategories, addCategory, deleteCategory, updateCategory} = cate
 export const GetCategoriesTC = (userId: string) => (dispatch: Dispatch) => {
     userApi.categories(userId)
         .then(res => {
-            console.log(res.data.categories)
             dispatch(setCategories(res.data.categories))
         })
         .catch(err => {
@@ -55,7 +54,6 @@ export const AddCategoryTC = (userId: string, title: string, success: string, im
     console.log(image)
     categoryApi.addCategory(userId, title, image)
         .then(res => {
-            console.log(res)
             dispatch(addCategory(res.data))
             dispatch(setSuccess(success))
         })
@@ -67,7 +65,6 @@ export const AddCategoryTC = (userId: string, title: string, success: string, im
 export const DeleteCategoryTC = (categoryId: string) => (dispatch: Dispatch) => {
     categoryApi.deleteCategory(categoryId)
         .then(res => {
-            console.log(res)
             if (!res.data.error) {
                 dispatch(deleteCategory(categoryId))
             } else {

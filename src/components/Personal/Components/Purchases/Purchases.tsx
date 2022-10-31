@@ -1,9 +1,16 @@
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import s from './purchases.module.css'
-import {DeletePurchaseInfoTC, GetPurchasesInfoTC, InfoType} from "../../../../store/reducers/purchasesInfo-reducer";
+import {
+    DeletePurchaseInfoTC,
+    editTitlePurchaseInfo,
+    GetPurchasesInfoTC,
+    InfoType, PurchasesInfoType
+} from "../../../../store/reducers/purchasesInfo-reducer";
 import {EnterDataPurchases} from "./EnterDataPurchases";
 import {AiFillDelete, AiTwotoneEdit} from "react-icons/ai";
 import {useEffect, useState} from "react";
+import {setCurrentPurchaseInfo} from "../../../../store/reducers/currentItems-reducer";
+import {PurchaseType} from "../../../../store/reducers/purchases-reducer";
 
 
 export const Purchases = () => {
@@ -22,7 +29,9 @@ export const Purchases = () => {
         setEdit(edit)
     }, [currentImage])
 
-    const handleEdit = (id: string) => {
+    const handleEdit = (id: string, currentPurchaseInfo: InfoType) => {
+        const unitPrice = (+currentPurchaseInfo.price / +currentPurchaseInfo.amount).toFixed(2)
+        dispatch(setCurrentPurchaseInfo(currentPurchaseInfo))
         setEdit(true)
         setId(id)
     }
@@ -51,7 +60,6 @@ export const Purchases = () => {
     const deletePurchaseInfo = (id: string) => {
         dispatch(DeletePurchaseInfoTC(id))
     }
-    console.log('image', currentImage)
     return (
         <div>
             <EnterDataPurchases/>
@@ -69,7 +77,7 @@ export const Purchases = () => {
                     <div className={s.descriptionWrapper} key={el.id}>
                         <div className={s.descriptionItemWrapper}>
                             {edit ?? el.id
-                                ? <input value={el.title}/>
+                                ? <input value={el.title} onChange={e=> dispatch(editTitlePurchaseInfo({title: e.currentTarget.value, id: el.id}))}/>
                                 : <>{el.title}</>
                             }
                         </div>
@@ -100,7 +108,7 @@ export const Purchases = () => {
                                     <button onClick={cancelEdit}>cancel</button>
                                 </>
                                 : <>
-                                    <button onClick={() => handleEdit(el.id)}><AiTwotoneEdit/></button>
+                                    <button onClick={() => handleEdit(el.id, el)}><AiTwotoneEdit/></button>
                                     <button onClick={() => deletePurchaseInfo(el.id)}><AiFillDelete/></button>
                                 </>
                             }

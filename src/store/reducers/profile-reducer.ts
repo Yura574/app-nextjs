@@ -37,7 +37,6 @@ export const AuthMeTC = () => (dispatch: Dispatch) => {
         .then(res => {
             dispatch(setProfile(res.data))
             dispatch(isAuth({value: true}))
-            console.log(res)
         })
         .catch(error => {
             console.log(error)

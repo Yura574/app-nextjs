@@ -59,7 +59,6 @@ export const AddPurchasesTC = (purchase: PurchasesInfoType,
             dispatch(addNewPurchases(res.data))
             purchaseInfoApi.addInfoPurchase(purchase, userId, unitPrice, date)
                 .then(res => {
-                    console.log(res.data)
                     dispatch(addPurchaseInfo(res.data))
                 })
                 .catch(err=> console.log(err))

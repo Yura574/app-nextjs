@@ -1,5 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {WarehouseType} from "./warehouse-reducer";
+import {PurchasesInfoType} from "./purchasesInfo-reducer";
 
 type initialStateType = {
     currentWarehouse: WarehouseType | null
@@ -7,6 +8,7 @@ type initialStateType = {
     currentDate: string
     currentImage: File | undefined
     currentPurchase: CurrentPurchaseType
+    currentPurchaseInfo: PurchasesInfoType
 }
 export type CurrentPurchaseType = {
     amount: string
@@ -17,6 +19,7 @@ export type CurrentPurchaseType = {
     price: string
     title: string
     unit: string
+    warehouse: string
 }
 
 const initialState: initialStateType = {
@@ -32,8 +35,20 @@ const initialState: initialStateType = {
         amount: '',
         unit: '',
         image: '',
+        warehouse:'',
         date: ''
+    },
+    currentPurchaseInfo:{
+        userId:'',
+        title:'',
+        place: '',
+        price:'',
+        amount:'',
+        unit:'',
+        warehouse: '',
+        date:''
     }
+
 }
 
 const currentItemsSlice = createSlice({
@@ -54,6 +69,9 @@ const currentItemsSlice = createSlice({
         },
         setCurrentPurchase: (state, action) => {
             state.currentPurchase = action.payload
+        },
+        setCurrentPurchaseInfo: (state, action)=>{
+            state.currentPurchaseInfo = action.payload
         }
     }
 })
@@ -63,5 +81,5 @@ export const currentItemsReducer = currentItemsSlice.reducer
 export const {
     setCurrentWarehouse, setCurrentDate,
     setCurrentImage, setCurrentPurchase,
-    setCreatedTitleWarehouse,
+    setCreatedTitleWarehouse,setCurrentPurchaseInfo
 } = currentItemsSlice.actions

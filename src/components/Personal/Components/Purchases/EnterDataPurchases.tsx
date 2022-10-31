@@ -34,14 +34,16 @@ export const EnterDataPurchases = () => {
     const [title, setTitle] = useState<string>('')
     const [addNewWarehouse, setAddNewWarehouse] = useState<boolean>(true)
 
-
     const formik = useFormik<PurchasesInfoType>({
         initialValues: {
+            userId: userId,
             title: '',
             place: '',
             price: '',
             amount: '',
             unit: 'шт',
+            warehouse: '',
+            date: currentDate
         },
         onSubmit: (purchase) => {
             if (currentWarehouse) {
@@ -96,9 +98,9 @@ export const EnterDataPurchases = () => {
     const addCurrentPurchase = (currentPurchase: CurrentPurchaseType) => {
 
         dispatch(setCurrentPurchase(currentPurchase))
-        console.log(currentPurchase)
         currentPurchase.image && dispatch(setCurrentImage(currentPurchase.image))
         formik.values.title = currentPurchase.title
+        formik.values.warehouse = currentPurchase.warehouse
         setFocus(false)
     }
     const addNewWarehouseHandler = (title: string) => {
@@ -130,7 +132,6 @@ export const EnterDataPurchases = () => {
         e.preventDefault()
         setFocus(true)
     }
-    console.log(formik.values.unit)
     return (
         <div>
             <div className={sEnter.downloadWrapper} onClick={activeModalHandler}>
@@ -138,7 +139,8 @@ export const EnterDataPurchases = () => {
                 <div>добавить закупку</div>
             </div>
             {addNewWarehouse
-                ? <DownloadItem title={title} setTitle={setTitle} activeModal={activeModal} currentPurchase={currentPurchase} cancelAddWarehouseHandler={cancelAddWarehouseHandler}
+                ? <DownloadItem title={title} setTitle={setTitle} activeModal={activeModal}
+                                currentPurchase={currentPurchase} cancelAddWarehouseHandler={cancelAddWarehouseHandler}
                                 addItemHandler={addNewWarehouseHandler}/>
                 : <Modal activeModal={activeModal}>
                     <div style={{display: 'flex', padding: '20px'}}>
@@ -222,20 +224,33 @@ export const EnterDataPurchases = () => {
 
 
                                 {formik.touched && formik.errors.unit ? <div>{formik.errors.unit}</div> : null}
+                                <select
+                                    id={'warehouse'}
+                                    onChange={formik.handleChange}
+                                    value={formik.values.warehouse
+                                        ? formik.values.warehouse
+                                        : formik.values.warehouse ? formik.values.warehouse : 'выберите склад'}
+
+                                >
+                                    <option>укажите склад</option>
+                                    <option>добавить склад</option>
+                                    {warehouses.map(el => <option key={el.id}>{el.title}</option>
+                                    )}
+                                </select>
                                 <button type={'submit'}>добавить</button>
                                 <button type={'button'} onClick={closeModal}> отмена</button>
                             </form>
                         </div>
                         <div>
-                            <select value={titleWarehouse
-                                ? titleWarehouse
-                                : currentWarehouse ? currentWarehouse.title : 'выберите склад'}
-                                    onChange={(e) => changeWarehouse(e.currentTarget.value)}>
-                                <option>укажите склад</option>
-                                <option>добавить склад</option>
-                                {warehouses.map(el => <option key={el.id}>{el.title}</option>
-                                )}
-                            </select>
+                            {/*<select value={titleWarehouse*/}
+                            {/*    ? titleWarehouse*/}
+                            {/*    : currentWarehouse ? currentWarehouse.title : 'выберите склад'}*/}
+                            {/*        onChange={(e) => changeWarehouse(e.currentTarget.value)}>*/}
+                            {/*    <option>укажите склад</option>*/}
+                            {/*    <option>добавить склад</option>*/}
+                            {/*    {warehouses.map(el => <option key={el.id}>{el.title}</option>*/}
+                            {/*    )}*/}
+                            {/*</select>*/}
                         </div>
                         <div><CurrentDate/></div>
                     </div>

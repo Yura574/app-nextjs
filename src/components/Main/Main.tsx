@@ -11,7 +11,6 @@ export const Main = () => {
     const categories = useAppSelector<CategoryType[]>(state => state.categories.categories)
     const userId = useAppSelector<string>(state => state.profile.profile.id)
 
-    console.log(categories)
     useEffect(() => {
         dispatch(GetCategoriesTC(userId))
     }, [dispatch, userId])
