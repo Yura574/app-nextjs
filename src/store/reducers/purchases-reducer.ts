@@ -51,7 +51,6 @@ export const AddPurchasesTC = (purchase: PurchasesInfoType,
 
                                unitPrice: string,
                                image?: File) => (dispatch: Dispatch) => {
-    console.log('unitprice',unitPrice)
     purchaseApi.addPurchase(purchase, unitPrice,  image)
         .then(res => {
             dispatch(addNewPurchases(res.data))

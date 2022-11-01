@@ -1,6 +1,5 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {purchaseInfoApi} from "../../api/api";
-import {WarehouseType} from "./warehouse-reducer";
 
 export type InfoType = {
 
@@ -47,13 +46,13 @@ export const purchasesInfoReducer = purchasesInfoSlice.reducer
 export const {getPurchasesInfo, addPurchaseInfo, deletePurchaseInfo, editTitlePurchaseInfo} = purchasesInfoSlice.actions
 
 
-export const AddPurchasesInfoTC = (purchaseInfo: PurchasesInfoType, userId: string) => (dispatch: Dispatch) => {
-    console.log({...purchaseInfo})
-    purchaseInfoApi.addInfoPurchase(purchaseInfo, userId)
-        .then(res => {
-            dispatch(addPurchaseInfo(res.data))
-        })
-}
+// export const AddPurchasesInfoTC = (purchaseInfo: PurchasesInfoType, userId: string) => (dispatch: Dispatch) => {
+//     console.log({...purchaseInfo})
+//     purchaseInfoApi.addInfoPurchase(purchaseInfo, userId)
+//         .then(res => {
+//             dispatch(addPurchaseInfo(res.data))
+//         })
+// }
 
 export const GetPurchasesInfoTC = (userId: string) => (dispatch: Dispatch) => {
     purchaseInfoApi.getPurchasesInfo(userId)
@@ -76,14 +75,15 @@ export type PurchasesInfoType = {
     price: string
     amount: string
     unit: string
-    warehouse: WarehouseType
+    warehouse: string
     date: string
+    warehouseId: string
 }
-export type UpdatePurchasesInfoType = {
-    title: string
-    place: string
-    price: string
-    amount: string
-    unit: string
-    date: string
-}
+// export type UpdatePurchasesInfoType = {
+//     title: string
+//     place: string
+//     price: string
+//     amount: string
+//     unit: string
+//     date: string
+// }

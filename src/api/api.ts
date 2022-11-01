@@ -87,10 +87,10 @@ export const warehouseApi = {
 export const purchaseApi = {
     addPurchase: (purchase: PurchasesInfoType, unitPrice: string, image?: File) => {
         console.log({...purchase})
-        const {title, price, place, amount, unit, userId, date, warehouse} = purchase
+        const {title, price, place, amount, unit, userId, date, warehouseId} = purchase
         return instance.post('purchase/create', {
             userId,
-            warehouseId: warehouse.id,
+            warehouseId: warehouseId,
             title,
             price,
             place,

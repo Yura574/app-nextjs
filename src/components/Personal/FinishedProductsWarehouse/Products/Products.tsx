@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import cardClass from "../../../CardProdurt/cardProduct.module.css";
 import {
-    AddNewProductTC,
+    AddNewProductTC, ChangeProductImageTC,
     DeleteProductTC,
     SetProductsTC
 } from "../../../../store/reducers/products-reducer";
@@ -44,9 +44,14 @@ export const Products = () => {
     const [amountOfMaterial, setAmountOfMaterial] = useState<string>('')
     const [priceOfMaterial, setPriceOfMaterial] = useState<string>('')
     const [totalCost, setTotalCost] = useState<string>('')
+    const [addPhoto, setAddPhoto] = useState<boolean>(false)
+    const [changePhotoId, setChangePhotoId] = useState<string>('')
+    const [hoverComposition, setHoverComposition] = useState<boolean>(false)
+    const [productId, setProductId] = useState<string>('')
+
 
     useEffect(() => {
-        currentWarehouse && dispatch(WarehousePurchasesTC(currentWarehouse.id))
+        if (currentWarehouse && currentWarehouse.id) dispatch(WarehousePurchasesTC(currentWarehouse.id))
     }, [currentWarehouse, dispatch])
     useEffect(() => {
         dispatch(GetAllWarehousesTC(userId))
@@ -72,9 +77,11 @@ export const Products = () => {
         setMaterialId(id)
         setAddMaterial(true)
     }
-    const deleteMaterialOfProduct = (id: string) => {
+    const deleteMaterialOfProduct = (id: string, price: string) => {
         const newComposition = composition.filter(el => el.id !== id)
+        const total = (+totalCost - +price).toFixed(2)
         setComposition(newComposition)
+        setTotalCost(total)
     }
     const changeAmountMaterial = (amount: string, el: PurchaseType) => {
         setAmountOfMaterial(amount)
@@ -107,7 +114,23 @@ export const Products = () => {
 
         setTotalCost(total)
     }
-    const deleteProductHandler = (id: string) => dispatch(DeleteProductTC(id))
+    const deleteProductHandler = (id: string) => {
+        dispatch(DeleteProductTC(id))
+    }
+    const photoEditHandler = (id: string) => {
+        setAddPhoto(true)
+        setChangePhotoId(id)
+    }
+    const cancelEditPhoto = () => {
+        setAddPhoto(false)
+        setChangePhotoId('')
+        dispatch(setCurrentImage(null))
+    }
+
+    const saveEditImage = (id: string) => {
+        console.log(currentImage)
+        currentImage && dispatch(ChangeProductImageTC(id, currentImage))
+    }
     return (
 
         <div>
@@ -132,7 +155,7 @@ export const Products = () => {
                                     <span>{el.amount} </span>
                                     <span>{el.unit} </span>
                                     <span>{el.price} BYN</span>
-                                    <button onClick={() => deleteMaterialOfProduct(el.id)}>x</button>
+                                    <button onClick={() => deleteMaterialOfProduct(el.id, el.price)}>x</button>
 
                                 </div>)}
                                 <span>себестоимость: {totalCost}</span>
@@ -192,14 +215,56 @@ export const Products = () => {
                 </div>
             }
             <div className={cardClass.cardWrapper}>
-                {products.map(products => {
-                    const {id, image, title} = products
+                {products.map(product => {
+                    const {id, image, title} = product
                     return (
                         <div className={cardClass.card} key={id}>
                             <div>{title}</div>
                             <button onClick={() => id && deleteProductHandler(id)}>delete</button>
-                            <img src={image} className={cardClass.img} alt={title}/>
 
+
+                            {addPhoto && product.id === changePhotoId
+                                ? <div>
+                                    <LoadImage/>
+                                    <button onClick={() => product.id && saveEditImage(product.id)}>
+                                        save
+                                    </button>
+                                    <button onClick={cancelEditPhoto}>
+                                        cancel
+                                    </button>
+                                </div>
+                                : <div>
+                                    <img src={image} className={cardClass.img} alt={title}/>
+                                    <button onClick={() => product.id && photoEditHandler(product.id)}>
+                                        {image ? 'add photo' : 'edit photo'}
+                                    </button>
+                                </div>
+
+                            }
+                            <div className={cardClass.composition}
+                                 onMouseEnter={() => {
+                                     setHoverComposition(true)
+                                     product.id && setProductId( product?.id)
+                                 }}
+                                 onMouseLeave={() => {
+                                     setHoverComposition(false)
+                                     setProductId('')
+                                 }}
+                            >
+                                состав изделия
+                                {hoverComposition && product.id === productId
+                                    ? <div> {product.productComposition.map((el) => {
+                                        return (
+                                            <div>
+                                                <span> {el.purchaseTitle} </span>
+                                                <span> {el.amount} {el.unit}</span>
+                                                <span> {el.price}BYN </span>
+
+                                            </div>)
+                                    })}</div>
+                                    : ''}
+
+                            </div>
 
                         </div>
                     )

@@ -44,9 +44,10 @@ const initialState: initialStateType = {
         place: '',
         price:'',
         amount:'',
-        warehouse: {id:'', title:'', image:''},
+        warehouse: '',
         unit:'',
-        date:''
+        date:'',
+        warehouseId: ''
     }
 
 }
