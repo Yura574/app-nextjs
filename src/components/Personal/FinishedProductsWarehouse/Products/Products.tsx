@@ -1,18 +1,18 @@
-import {useAppDispatch, useAppSelector} from "../../../store/hooks";
+import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import cardClass from "../../CardProdurt/cardProduct.module.css";
+import cardClass from "../../../CardProdurt/cardProduct.module.css";
 import {
     AddNewProductTC,
     DeleteProductTC,
     SetProductsTC
-} from "../../../store/reducers/products-reducer";
-import {ProductsType} from "../../../store/reducers/products-reducer";
-import {GetAllWarehousesTC, WarehouseType} from "../../../store/reducers/warehouse-reducer";
-import {setCurrentWarehouse} from "../../../store/reducers/currentItems-reducer";
-import {PurchaseType, setPurchases, WarehousePurchasesTC} from "../../../store/reducers/purchases-reducer";
+} from "../../../../store/reducers/products-reducer";
+import {ProductsType} from "../../../../store/reducers/products-reducer";
+import {GetAllWarehousesTC, WarehouseType} from "../../../../store/reducers/warehouse-reducer";
+import {setCurrentImage, setCurrentWarehouse} from "../../../../store/reducers/currentItems-reducer";
+import {PurchaseType, setPurchases, WarehousePurchasesTC} from "../../../../store/reducers/purchases-reducer";
 import {IoMdAdd} from "react-icons/io";
-import {LoadImage} from "../../commonComponent/load_image/LoadImage";
+import {LoadImage} from "../../../commonComponent/load_image/LoadImage";
 
 export type MaterialOfProductType = {
     id: string
@@ -59,6 +59,9 @@ export const Products = () => {
         currentImage
             ? dispatch(AddNewProductTC(title, subCategoryId, productComposition, currentImage))
             : dispatch(AddNewProductTC(title, subCategoryId, productComposition))
+        setTitle('')
+        dispatch(setCurrentImage(null))
+        setAddItem(true)
     }
 
     const changeWarehouse = (warehouse: string) => {
@@ -95,7 +98,7 @@ export const Products = () => {
             setComposition([materialOfProduct, ...composition])
         }
         dispatch(setPurchases(purchases.map(el => el.id === materialOfProduct.id
-            ? {...el, amount: el.amount &&(+el.amount - +materialOfProduct.amount).toString()}
+            ? {...el, amount: el.amount && (+el.amount - +materialOfProduct.amount).toString()}
             : el)))
         setAmountOfMaterial('')
         setPriceOfMaterial('')
@@ -105,7 +108,6 @@ export const Products = () => {
         setTotalCost(total)
     }
     const deleteProductHandler = (id: string) => dispatch(DeleteProductTC(id))
-    console.log(composition)
     return (
 
         <div>
@@ -118,7 +120,8 @@ export const Products = () => {
                     <div>
                         <LoadImage/>
                         <input value={title} onChange={e => setTitle(e.currentTarget.value)}/>
-                        {/*<button onClick={() => composition && addNewProduct({title}, composition)}>+</button>*/}
+                        <button onClick={() => composition && addNewProduct(title, id ? id : '', composition)}>+
+                        </button>
                     </div>
                     <div className={cardClass.commonCompositionWrapper}>
                         <div className={cardClass.compositionWrapper}>
@@ -188,17 +191,19 @@ export const Products = () => {
                     </div>
                 </div>
             }
-            {products.map(products => {
-                const {id, image, title} = products
-                return (
-                    <div className={cardClass.card} key={id}>
-                        <div>{title}</div>
-                        <button onClick={() => id && deleteProductHandler(id)}>delete</button>
-                        <img src={image} className={cardClass.img} alt={'sub category'}/>
+            <div className={cardClass.cardWrapper}>
+                {products.map(products => {
+                    const {id, image, title} = products
+                    return (
+                        <div className={cardClass.card} key={id}>
+                            <div>{title}</div>
+                            <button onClick={() => id && deleteProductHandler(id)}>delete</button>
+                            <img src={image} className={cardClass.img} alt={title}/>
 
-                    </div>
-                )
-            })}
+
+                        </div>
+                    )
+                })}</div>
         </div>
     )
 }

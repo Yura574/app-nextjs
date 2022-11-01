@@ -1,7 +1,7 @@
 import axios from "axios";
 import {RegistrationType} from "../store/reducers/auth-reducer";
 import {PurchasesInfoType} from "../store/reducers/purchasesInfo-reducer";
-import {MaterialOfProductType} from "../components/Personal/Products/Products";
+import {MaterialOfProductType} from "../components/Personal/FinishedProductsWarehouse/Products/Products";
 
 
 export const instance = axios.create({
@@ -53,7 +53,7 @@ export const productsApi = {
     getProducts: (subCategoryId: string) => instance.get(`subCategory/one/${subCategoryId}`),
     createProduct: (title: string, subCategoryId: string, productComposition: MaterialOfProductType[]) => {
         return instance.post(`products/create`,
-            {title, subCategoryId, productComposition,}
+            {title, subCategoryId, productComposition,},
         )
     },
     addImage: (id: string, image?: File) => {
@@ -85,12 +85,12 @@ export const warehouseApi = {
 }
 
 export const purchaseApi = {
-    addPurchase: (purchase: PurchasesInfoType, userId: string, date: string, unitPrice: string, warehouseId?: string, image?: File) => {
+    addPurchase: (purchase: PurchasesInfoType, unitPrice: string, image?: File) => {
         console.log({...purchase})
-        const {title, price, place, amount, unit} = purchase
+        const {title, price, place, amount, unit, userId, date, warehouse} = purchase
         return instance.post('purchase/create', {
             userId,
-            warehouseId,
+            warehouseId: warehouse.id,
             title,
             price,
             place,
@@ -116,8 +116,8 @@ export const purchaseApi = {
 }
 
 export const purchaseInfoApi = {
-    addInfoPurchase: (purchaseInfo: PurchasesInfoType, userId: string, unitPrice: string, date: string) => {
-        const {title, price, place, amount, unit} = purchaseInfo
+    addInfoPurchase: (purchaseInfo: PurchasesInfoType,  unitPrice: string) => {
+        const {title, price, place, amount, unit,date, userId} = purchaseInfo
 
         return instance.post('purchaseInfo/create', {userId, title, price, place, amount, unit, unitPrice, date})
     },

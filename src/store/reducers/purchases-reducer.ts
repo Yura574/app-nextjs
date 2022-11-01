@@ -48,16 +48,14 @@ export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch
 }
 
 export const AddPurchasesTC = (purchase: PurchasesInfoType,
-                               userId: string,
-                               date: string,
+
                                unitPrice: string,
-                               warehouseId?: string,
                                image?: File) => (dispatch: Dispatch) => {
     console.log('unitprice',unitPrice)
-    purchaseApi.addPurchase(purchase, userId, date, unitPrice, warehouseId, image)
+    purchaseApi.addPurchase(purchase, unitPrice,  image)
         .then(res => {
             dispatch(addNewPurchases(res.data))
-            purchaseInfoApi.addInfoPurchase(purchase, userId, unitPrice, date)
+            purchaseInfoApi.addInfoPurchase(purchase,  unitPrice)
                 .then(res => {
                     dispatch(addPurchaseInfo(res.data))
                 })

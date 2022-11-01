@@ -12,8 +12,8 @@ import {MaterialsWarehouse} from "./Components/material_warehouse/Materials_ware
 import {Warehouse} from "./Components/material_warehouse/Warehouse";
 import {Purchases} from "./Components/Purchases/Purchases";
 import {FinishedProductsWarehouse} from "./FinishedProductsWarehouse/FinishedProductsWarehouse";
-import {SubCategory} from "./SubCategory/SubCategory";
-import {Products} from "./Products/Products";
+import {SubCategory} from "./FinishedProductsWarehouse/SubCategory/SubCategory";
+import {Products} from "./FinishedProductsWarehouse/Products/Products";
 
 export const PersonalArea = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth)

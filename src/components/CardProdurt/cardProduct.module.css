@@ -1,3 +1,8 @@
+
+.cardWrapper{
+    display: flex;
+    flex-wrap: wrap;
+}
 .card {
     display: flex;
     flex-direction: column;
@@ -12,7 +17,7 @@
 
 .img {
     /*width: 350px;*/
-    height: 316px;
+    max-height: 316px;
     border-radius: 20px;
 }
 

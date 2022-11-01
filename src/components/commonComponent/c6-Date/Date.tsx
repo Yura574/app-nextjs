@@ -25,7 +25,7 @@ export const CurrentDate = () => {
 
     useEffect(() => {
         dispatch(setCurrentDate(`${day}/${month + 1}/${year}`))
-    })
+    },[year, month, day])
 
     return (
         <div>

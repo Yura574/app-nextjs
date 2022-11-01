@@ -19,7 +19,7 @@ export type CurrentPurchaseType = {
     price: string
     title: string
     unit: string
-    warehouse: string
+    warehouseId: string
 }
 
 const initialState: initialStateType = {
@@ -35,7 +35,7 @@ const initialState: initialStateType = {
         amount: '',
         unit: '',
         image: '',
-        warehouse:'',
+        warehouseId:'',
         date: ''
     },
     currentPurchaseInfo:{
@@ -44,8 +44,8 @@ const initialState: initialStateType = {
         place: '',
         price:'',
         amount:'',
+        warehouse: {id:'', title:'', image:''},
         unit:'',
-        warehouse: '',
         date:''
     }
 

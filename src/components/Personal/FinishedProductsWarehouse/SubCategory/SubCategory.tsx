@@ -1,17 +1,17 @@
-import {useAppDispatch, useAppSelector} from "../../../store/hooks";
+import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
 import {useEffect, useState} from "react";
 import {
     AddSubCategoryTC,
     DeleteSubCategoryTC,
     getSubCategoriesTC,
     SubCategoryType
-} from "../../../store/reducers/subCategory-reducer";
+} from "../../../../store/reducers/subCategory-reducer";
 import {Link, useParams} from "react-router-dom";
-import classMain from "../../Main/main.module.css";
-import cardClass from "../../CardProdurt/cardProduct.module.css";
+import classMain from "../../../Main/main.module.css";
+import cardClass from "../../../CardProdurt/cardProduct.module.css";
 import {AiOutlineDelete} from "react-icons/ai";
-import {setCurrentImage} from "../../../store/reducers/currentItems-reducer";
-import {LoadImage} from "../../commonComponent/load_image/LoadImage";
+import {setCurrentImage} from "../../../../store/reducers/currentItems-reducer";
+import {LoadImage} from "../../../commonComponent/load_image/LoadImage";
 
 
 export const SubCategory = () => {
@@ -26,7 +26,6 @@ export const SubCategory = () => {
     }, [dispatch, id])
 
     const addNewSubcategory = (catId: string, title: string, image?: File) => {
-        console.log(image)
         currentImage
             ? dispatch(AddSubCategoryTC(catId, title, image))
             : dispatch(AddSubCategoryTC(catId, title))

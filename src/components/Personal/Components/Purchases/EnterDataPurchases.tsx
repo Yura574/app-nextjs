@@ -2,7 +2,7 @@ import s from "./purchases.module.css";
 import sEnter from './EnterDataPurchases.module.css'
 import {CurrentDate} from "../../../commonComponent/c6-Date/Date";
 import {
-    CurrentPurchaseType, setCreatedTitleWarehouse, setCurrentImage,
+    CurrentPurchaseType, setCreatedTitleWarehouse, setCurrentDate, setCurrentImage,
     setCurrentPurchase,
     setCurrentWarehouse
 } from "../../../../store/reducers/currentItems-reducer";
@@ -22,7 +22,7 @@ export const EnterDataPurchases = () => {
     const warehouses = useAppSelector<WarehouseType[]>(state => state.warehouses.warehouses)
     const userId = useAppSelector<string>(state => state.profile.profile.id)
     const currentDate = useAppSelector<string>(state => state.currentItems.currentDate)
-    const currentWarehouse = useAppSelector<WarehouseType | null>(state => state.currentItems.currentWarehouse)
+    const newDate = useAppSelector<Date>(state => state.date.date)
     const titleWarehouse = useAppSelector(state => state.currentItems.createdTitleWarehouse)
     const currentImage = useAppSelector<File | undefined>(state => state.currentItems.currentImage)
     let allPurchases = useAppSelector<CurrentPurchaseType[]>(state => state.purchases.allPurchases)
@@ -33,7 +33,6 @@ export const EnterDataPurchases = () => {
     const [activeModal, setActiveModal] = useState<boolean>(false)
     const [title, setTitle] = useState<string>('')
     const [addNewWarehouse, setAddNewWarehouse] = useState<boolean>(true)
-
     const formik = useFormik<PurchasesInfoType>({
         initialValues: {
             userId: userId,
@@ -42,18 +41,30 @@ export const EnterDataPurchases = () => {
             price: '',
             amount: '',
             unit: 'шт',
-            warehouse: '',
+            warehouse: {id:'', title:'', image:''},
             date: currentDate
         },
         onSubmit: (purchase) => {
-            if (currentWarehouse) {
+            if (purchase.warehouse) {
                 const unitPrice = (+purchase.price / +purchase.amount).toFixed(2)
-                dispatch(AddPurchasesTC({...purchase}, userId, currentDate, unitPrice, currentWarehouse?.id, currentImage))
+                dispatch(AddPurchasesTC({...purchase}, unitPrice, currentImage))
                 dispatch(setCurrentImage(null))
+                dispatch(setCurrentPurchase({
+                    id: '',
+                    title: '',
+                    price: '',
+                    place: '',
+                    amount: '',
+                    unit: '',
+                    image: '',
+                    warehouseId:'',
+                    date: ''
+                }))
                 setActiveModal(false)
                 formik.values.place = ''
                 formik.values.amount = ''
                 formik.values.price = ''
+                formik.values.warehouse = {id:'', title:'', image:''}
             } else {
                 alert(`не выбран склад материалов`)
             }
@@ -65,6 +76,18 @@ export const EnterDataPurchases = () => {
         //     price: Yup.number().required()
         // })
     })
+
+    const year = newDate.getFullYear()
+    const month = newDate.getMonth()
+    const day = newDate.getDate()
+
+
+    useEffect(() => {
+        dispatch(setCurrentDate(`${day}/${month + 1}/${year}`))
+    },[year, month, day])
+    useEffect(()=>{
+        formik.values.date = currentDate
+    }, [currentDate])
     if (currentImage) setCurrentImage(null)
     useEffect(() => {
         dispatch(GetAllWarehousesTC(userId))
@@ -100,7 +123,9 @@ export const EnterDataPurchases = () => {
         dispatch(setCurrentPurchase(currentPurchase))
         currentPurchase.image && dispatch(setCurrentImage(currentPurchase.image))
         formik.values.title = currentPurchase.title
-        formik.values.warehouse = currentPurchase.warehouse
+        formik.values.unit = currentPurchase.unit
+        const warehouse = warehouses.find(el => el.id === currentPurchase.warehouseId)
+        if(warehouse)formik.values.warehouse = warehouse
         setFocus(false)
     }
     const addNewWarehouseHandler = (title: string) => {
@@ -123,8 +148,20 @@ export const EnterDataPurchases = () => {
 
     }
     const closeModal = () => {
+        dispatch(setCurrentPurchase({
+            id: '',
+            title: '',
+            price: '',
+            place: '',
+            amount: '',
+            unit: '',
+            image: '',
+            warehouseId:'',
+            date: ''
+        }))
         if (currentImage) dispatch(setCurrentImage(null))
         setActiveModal(false)
+        formik.values.warehouse = {id:'', title:'', image:''}
     }
 
 
@@ -226,10 +263,9 @@ export const EnterDataPurchases = () => {
                                 {formik.touched && formik.errors.unit ? <div>{formik.errors.unit}</div> : null}
                                 <select
                                     id={'warehouse'}
+                                    name={'warehouse'}
                                     onChange={formik.handleChange}
-                                    value={formik.values.warehouse
-                                        ? formik.values.warehouse
-                                        : formik.values.warehouse ? formik.values.warehouse : 'выберите склад'}
+                                    value={formik.values.warehouse.title ? formik.values.warehouse.title : 'выберите склад'}
 
                                 >
                                     <option>укажите склад</option>
