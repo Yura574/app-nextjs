@@ -2,16 +2,10 @@ import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
 import {purchaseApi, purchaseInfoApi} from "../../api/api";
 import {addPurchaseInfo, PurchasesInfoType} from "./purchasesInfo-reducer";
 
-// export type PurchasesType  = {
-//     id: string
-//     title: string
-//     image: string
-// }
 
 const initialState: initialStateType = {
     purchases: [],
     allPurchases: []
-
 }
 
 const purchasesSlice = createSlice({
@@ -43,22 +37,24 @@ export const {
 
 export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch) => {
     purchaseApi.getWarehousePurchases(warehouseId)
-        .then(res => dispatch(setPurchases(res.data)))
+        .then(res => {
+            console.log(res)
+            dispatch(setPurchases(res.data))
+        })
         .catch(err => console.log(err))
 }
 
 export const AddPurchasesTC = (purchase: PurchasesInfoType,
-
                                unitPrice: string,
                                image?: File) => (dispatch: Dispatch) => {
-    purchaseApi.addPurchase(purchase, unitPrice,  image)
+    purchaseApi.addPurchase(purchase, unitPrice, image)
         .then(res => {
             dispatch(addNewPurchases(res.data))
-            purchaseInfoApi.addInfoPurchase(purchase,  unitPrice)
+            purchaseInfoApi.addInfoPurchase(purchase, unitPrice)
                 .then(res => {
                     dispatch(addPurchaseInfo(res.data))
                 })
-                .catch(err=> console.log(err))
+                .catch(err => console.log(err))
         })
         .catch(err => console.log(err))
 }
@@ -77,7 +73,7 @@ export const DeletePurchaseTC = (purchaseId: string) => (dispatch: Dispatch) => 
 
 type initialStateType = {
     purchases: PurchaseType[]
-    allPurchases: Array<any>
+    allPurchases: Array<AllPurchaseType>
     // currentWarehouse: WarehouseType | null
 }
 
@@ -92,4 +88,16 @@ export type PurchaseType = {
     unit?: string
     unitPrice?: string
     image?: string
+}
+export type AllPurchaseType = {
+    id: string
+    warehouseId: string
+    title: string
+    price: string
+    place: string
+    amount: string
+    unit: string
+    unitPrice: string
+    image: string
+    date: string
 }

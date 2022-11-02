@@ -70,6 +70,7 @@ export const {setProducts, addNewProduct, addImage, deleteProduct} = productsSli
 export const SetProductsTC = (subCategoryId: string) => (dispatch: Dispatch) => {
     productsApi.getProducts(subCategoryId)
         .then(res => {
+
             dispatch(setProducts(res.data))
         })
         .catch(err => {

@@ -10,7 +10,13 @@ import {
 import {ProductsType} from "../../../../store/reducers/products-reducer";
 import {GetAllWarehousesTC, WarehouseType} from "../../../../store/reducers/warehouse-reducer";
 import {setCurrentImage, setCurrentWarehouse} from "../../../../store/reducers/currentItems-reducer";
-import {PurchaseType, setPurchases, WarehousePurchasesTC} from "../../../../store/reducers/purchases-reducer";
+import {
+    AllPurchaseType,
+    GetAllPurchasesTC,
+    PurchaseType, setAllPurchases,
+    setPurchases,
+    WarehousePurchasesTC
+} from "../../../../store/reducers/purchases-reducer";
 import {IoMdAdd} from "react-icons/io";
 import {LoadImage} from "../../../commonComponent/load_image/LoadImage";
 
@@ -32,6 +38,7 @@ export const Products = () => {
     const warehouses = useAppSelector(state => state.warehouses.warehouses)
     const currentWarehouse = useAppSelector<WarehouseType | null>(state => state.currentItems.currentWarehouse)
     const purchases = useAppSelector(state => state.purchases.purchases)
+    const allPurchases = useAppSelector<AllPurchaseType[]>(state => state.purchases.allPurchases)
     const userId = useAppSelector(state => state.profile.profile.id)
     const currentImage = useAppSelector(state => state.currentItems.currentImage)
 
@@ -49,7 +56,13 @@ export const Products = () => {
     const [hoverComposition, setHoverComposition] = useState<boolean>(false)
     const [productId, setProductId] = useState<string>('')
 
-
+    useEffect(() => {
+        setComposition([])
+        dispatch(setCurrentImage(null))
+        dispatch(setCurrentWarehouse({id: '', title: '', image: ''}))
+        dispatch(setPurchases([]))
+        setTotalCost('')
+    }, [])
     useEffect(() => {
         if (currentWarehouse && currentWarehouse.id) dispatch(WarehousePurchasesTC(currentWarehouse.id))
     }, [currentWarehouse, dispatch])
@@ -59,6 +72,9 @@ export const Products = () => {
     useEffect(() => {
         id && dispatch(SetProductsTC(id))
     }, [id, dispatch])
+    useEffect(() => {
+        dispatch(GetAllPurchasesTC(userId))
+    }, [userId, dispatch])
 
     const addNewProduct = (title: string, subCategoryId: string, productComposition: MaterialOfProductType[]) => {
         currentImage
@@ -66,7 +82,9 @@ export const Products = () => {
             : dispatch(AddNewProductTC(title, subCategoryId, productComposition))
         setTitle('')
         dispatch(setCurrentImage(null))
+        dispatch(setCurrentWarehouse({id: '', title: '', image: ''}))
         setAddItem(true)
+        setComposition([])
     }
 
     const changeWarehouse = (warehouse: string) => {
@@ -77,9 +95,12 @@ export const Products = () => {
         setMaterialId(id)
         setAddMaterial(true)
     }
-    const deleteMaterialOfProduct = (id: string, price: string) => {
-        const newComposition = composition.filter(el => el.id !== id)
-        const total = (+totalCost - +price).toFixed(2)
+    const deleteMaterialOfProduct = (materialOfProduct: MaterialOfProductType) => {
+        const newComposition = composition.filter(el => el.id !== materialOfProduct.id)
+        const total = (+totalCost - +materialOfProduct.price).toFixed(2)
+        dispatch(setAllPurchases(allPurchases.map(el => el.id === materialOfProduct.id
+            ? {...el, amount: el.amount && (+el.amount + +materialOfProduct.amount).toString()}
+            : el)))
         setComposition(newComposition)
         setTotalCost(total)
     }
@@ -104,7 +125,7 @@ export const Products = () => {
         } else {
             setComposition([materialOfProduct, ...composition])
         }
-        dispatch(setPurchases(purchases.map(el => el.id === materialOfProduct.id
+        dispatch(setAllPurchases(allPurchases.map(el => el.id === materialOfProduct.id
             ? {...el, amount: el.amount && (+el.amount - +materialOfProduct.amount).toString()}
             : el)))
         setAmountOfMaterial('')
@@ -128,7 +149,6 @@ export const Products = () => {
     }
 
     const saveEditImage = (id: string) => {
-        console.log(currentImage)
         currentImage && dispatch(ChangeProductImageTC(id, currentImage))
     }
     return (
@@ -151,11 +171,11 @@ export const Products = () => {
                             <div>Состав изделия:</div>
                             <div className={cardClass.composition}>
                                 {composition?.map((el) => <div key={el.id}>
-                                    <div>{el.purchaseTitle} </div>
+                                    <div>{el.purchaseTitle}  </div>
                                     <span>{el.amount} </span>
                                     <span>{el.unit} </span>
                                     <span>{el.price} BYN</span>
-                                    <button onClick={() => deleteMaterialOfProduct(el.id, el.price)}>x</button>
+                                    <button onClick={() => deleteMaterialOfProduct(el)}>x</button>
 
                                 </div>)}
                                 <span>себестоимость: {totalCost}</span>
@@ -174,42 +194,85 @@ export const Products = () => {
                                 )}
 
                             </select>
-                            {purchases.map(el => <div key={el.id} style={{display: 'flex'}}>
-                                <img src={el.image} style={{width: '30px'}} alt={el.title}/>
-                                <div> {el.title} </div>
-                                <div> {el.amount} </div>
-                                <div> {el.unit} </div>
-                                <div> {el.unitPrice} BYN/{el.unit}</div>
-                                <div>
-                                    {addMaterial && el.id === materialId
-                                        ? <div>
-                                            <input
-                                                autoFocus
-                                                type={'number'}
-                                                value={amountOfMaterial}
-                                                onChange={e => changeAmountMaterial(e.currentTarget.value, el)}
 
-                                            />
-                                            <button onClick={() => el.amount && el.unit && el.price &&
-                                                addMaterialOfProduct({
-                                                    warehouseId: currentWarehouse && currentWarehouse.id,
-                                                    purchaseTitle: el.title,
-                                                    amount: amountOfMaterial,
-                                                    unit: el.unit,
-                                                    price: priceOfMaterial,
-                                                    id: el.id ? el.id : ''
-                                                })}>add
-                                            </button>
-                                            <button onClick={() => {
-                                                setAddMaterial(false)
-                                            }}>cancel
-                                            </button>
 
-                                        </div>
-                                        : <IoMdAdd onClick={() => el.id && addMaterialHandler(el.id)}/>
-                                    }
+                            {currentWarehouse && allPurchases.map(el => el.warehouseId === currentWarehouse.id
+                                ? <div key={el.id} style={{display: 'flex'}}>
+                                    <img src={el.image} style={{width: '30px'}} alt={el.title}/>
+                                    <div> {el.title} </div>
+                                    <div> {el.amount} </div>
+                                    <div> {el.unit} </div>
+                                    <div> {el.unitPrice} BYN/{el.unit}</div>
+                                    <div>
+                                        {addMaterial && el.id === materialId
+                                            ? <div>
+                                                <input
+                                                    autoFocus
+                                                    type={'number'}
+                                                    value={amountOfMaterial}
+                                                    onChange={e => changeAmountMaterial(e.currentTarget.value, el)}
+
+                                                />
+                                                <button onClick={() => el.amount && el.unit && el.price &&
+                                                    addMaterialOfProduct({
+                                                        warehouseId: currentWarehouse && currentWarehouse.id,
+                                                        purchaseTitle: el.title,
+                                                        amount: amountOfMaterial,
+                                                        unit: el.unit,
+                                                        price: priceOfMaterial,
+                                                        id: el.id ? el.id : ''
+                                                    })}>add
+                                                </button>
+                                                <button onClick={() => {
+                                                    setAddMaterial(false)
+                                                }}>cancel
+                                                </button>
+
+                                            </div>
+                                            : <IoMdAdd onClick={() => el.id && addMaterialHandler(el.id)}/>
+                                        }
+                                    </div>
                                 </div>
-                            </div>)}
+                                : ''
+                            )}
+
+
+                            {/*{purchases.map(el => <div key={el.id} style={{display: 'flex'}}>*/}
+                            {/*    <img src={el.image} style={{width: '30px'}} alt={el.title}/>*/}
+                            {/*    <div> {el.title} </div>*/}
+                            {/*    <div> {el.amount} </div>*/}
+                            {/*    <div> {el.unit} </div>*/}
+                            {/*    <div> {el.unitPrice} BYN/{el.unit}</div>*/}
+                            {/*    <div>*/}
+                            {/*        {addMaterial && el.id === materialId*/}
+                            {/*            ? <div>*/}
+                            {/*                <input*/}
+                            {/*                    autoFocus*/}
+                            {/*                    type={'number'}*/}
+                            {/*                    value={amountOfMaterial}*/}
+                            {/*                    onChange={e => changeAmountMaterial(e.currentTarget.value, el)}*/}
+
+                            {/*                />*/}
+                            {/*                <button onClick={() => el.amount && el.unit && el.price &&*/}
+                            {/*                    addMaterialOfProduct({*/}
+                            {/*                        warehouseId: currentWarehouse && currentWarehouse.id,*/}
+                            {/*                        purchaseTitle: el.title,*/}
+                            {/*                        amount: amountOfMaterial,*/}
+                            {/*                        unit: el.unit,*/}
+                            {/*                        price: priceOfMaterial,*/}
+                            {/*                        id: el.id ? el.id : ''*/}
+                            {/*                    })}>add*/}
+                            {/*                </button>*/}
+                            {/*                <button onClick={() => {*/}
+                            {/*                    setAddMaterial(false)*/}
+                            {/*                }}>cancel*/}
+                            {/*                </button>*/}
+
+                            {/*            </div>*/}
+                            {/*            : <IoMdAdd onClick={() => el.id && addMaterialHandler(el.id)}/>*/}
+                            {/*        }*/}
+                            {/*    </div>*/}
+                            {/*</div>)}*/}
                         </div>
                     </div>
                 </div>
@@ -244,7 +307,7 @@ export const Products = () => {
                             <div className={cardClass.composition}
                                  onMouseEnter={() => {
                                      setHoverComposition(true)
-                                     product.id && setProductId( product?.id)
+                                     product.id && setProductId(product?.id)
                                  }}
                                  onMouseLeave={() => {
                                      setHoverComposition(false)
@@ -254,11 +317,12 @@ export const Products = () => {
                                 состав изделия
                                 {hoverComposition && product.id === productId
                                     ? <div> {product.productComposition.map((el) => {
+                                        console.log(product.productComposition)
                                         return (
                                             <div>
                                                 <span> {el.purchaseTitle} </span>
-                                                <span> {el.amount} {el.unit}</span>
-                                                <span> {el.price}BYN </span>
+                                                <span> {Number(el.amount).toFixed(2)} {el.unit}</span>
+                                                <span> {Number(el.price).toFixed(2)}BYN </span>
 
                                             </div>)
                                     })}</div>
