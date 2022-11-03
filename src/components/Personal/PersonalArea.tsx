@@ -14,6 +14,7 @@ import {Purchases} from "./Components/Purchases/Purchases";
 import {FinishedProductsWarehouse} from "./FinishedProductsWarehouse/FinishedProductsWarehouse";
 import {SubCategory} from "./FinishedProductsWarehouse/SubCategory/SubCategory";
 import {Products} from "./FinishedProductsWarehouse/Products/Products";
+import {Ledger} from "./Components/Ledger/Ledger";
 
 export const PersonalArea = () => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
@@ -40,6 +41,7 @@ export const PersonalArea = () => {
                         <Route path={'finished-products-warehouse'} element={<FinishedProductsWarehouse/>}/>
                         <Route path={'finished-products-warehouse/subcategory/:id'} element={<SubCategory/>}/>
                         <Route path={'finished-products-warehouse/subcategory/:id/products/:id'} element={<Products/>}/>
+                        <Route path={'ledger'} element={<Ledger/>}/>
                     </Routes>
                 </div>
 

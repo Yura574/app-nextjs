@@ -24,6 +24,7 @@ export const PersonalNavBar = () => {
                 <div><Link to={'material-warehouse'}> Склад материалов</Link></div>
                 <div><Link to={'finished-products-warehouse'}>Склад готовой продукции</Link></div>
                 <div><Link to={'purchases'}>Журнал прихода материалов</Link></div>
+                <div><Link to={'ledger'}>Журнал расходов и доходов</Link></div>
                 <div onClick={logout}>Выйти</div>
             </div>
     )
