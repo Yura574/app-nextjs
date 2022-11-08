@@ -12,6 +12,8 @@ export type ProductsType = {
     id?: string
     title: string
     image?: string
+    primeCost?: string
+    count?: string
     productComposition: CompositionType[]
 }
 
@@ -78,8 +80,8 @@ export const SetProductsTC = (subCategoryId: string) => (dispatch: Dispatch) => 
         })
 }
 
-export const AddNewProductTC = (title: string, subCategoryId: string, productComposition: MaterialOfProductType[], image?: File) => (dispatch: Dispatch) => {
-    productsApi.createProduct(title, subCategoryId, productComposition)
+export const AddNewProductTC = (title: string, subCategoryId: string, count: number, productComposition: MaterialOfProductType[], primeCost: number, image?: File) => (dispatch: Dispatch) => {
+    productsApi.createProduct(title, subCategoryId, count, productComposition, primeCost)
         .then(res => {
             dispatch(addNewProduct(res.data))
             if (image) {

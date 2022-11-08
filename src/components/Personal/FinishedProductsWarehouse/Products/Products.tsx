@@ -37,7 +37,7 @@ export const Products = () => {
     const products = useAppSelector<ProductsType[]>(state => state.products.products)
     const warehouses = useAppSelector(state => state.warehouses.warehouses)
     const currentWarehouse = useAppSelector<WarehouseType | null>(state => state.currentItems.currentWarehouse)
-    const purchases = useAppSelector(state => state.purchases.purchases)
+    // const purchases = useAppSelector(state => state.purchases.purchases)
     const allPurchases = useAppSelector<AllPurchaseType[]>(state => state.purchases.allPurchases)
     const userId = useAppSelector(state => state.profile.profile.id)
     const currentImage = useAppSelector(state => state.currentItems.currentImage)
@@ -50,19 +50,22 @@ export const Products = () => {
     const [materialId, setMaterialId] = useState<string>('')
     const [amountOfMaterial, setAmountOfMaterial] = useState<string>('')
     const [priceOfMaterial, setPriceOfMaterial] = useState<string>('')
-    const [totalCost, setTotalCost] = useState<string>('')
+    const [totalCost, setTotalCost] = useState<number>(0)
     const [addPhoto, setAddPhoto] = useState<boolean>(false)
     const [changePhotoId, setChangePhotoId] = useState<string>('')
     const [hoverComposition, setHoverComposition] = useState<boolean>(false)
     const [productId, setProductId] = useState<string>('')
+    const [count, setCount] = useState<number>(1)
+
+    console.log(composition)
 
     useEffect(() => {
         setComposition([])
         dispatch(setCurrentImage(null))
         dispatch(setCurrentWarehouse({id: '', title: '', image: ''}))
         dispatch(setPurchases([]))
-        setTotalCost('')
-    }, [])
+        setTotalCost(0)
+    }, [dispatch])
     useEffect(() => {
         if (currentWarehouse && currentWarehouse.id) dispatch(WarehousePurchasesTC(currentWarehouse.id))
     }, [currentWarehouse, dispatch])
@@ -76,10 +79,12 @@ export const Products = () => {
         dispatch(GetAllPurchasesTC(userId))
     }, [userId, dispatch])
 
+
+
     const addNewProduct = (title: string, subCategoryId: string, productComposition: MaterialOfProductType[]) => {
         currentImage
-            ? dispatch(AddNewProductTC(title, subCategoryId, productComposition, currentImage))
-            : dispatch(AddNewProductTC(title, subCategoryId, productComposition))
+            ? dispatch(AddNewProductTC(title, subCategoryId, count, productComposition, totalCost, currentImage))
+            : dispatch(AddNewProductTC(title, subCategoryId, count, productComposition, totalCost))
         setTitle('')
         dispatch(setCurrentImage(null))
         dispatch(setCurrentWarehouse({id: '', title: '', image: ''}))
@@ -97,7 +102,7 @@ export const Products = () => {
     }
     const deleteMaterialOfProduct = (materialOfProduct: MaterialOfProductType) => {
         const newComposition = composition.filter(el => el.id !== materialOfProduct.id)
-        const total = (+totalCost - +materialOfProduct.price).toFixed(2)
+        const total = +(+totalCost - +materialOfProduct.price).toFixed(2)
         dispatch(setAllPurchases(allPurchases.map(el => el.id === materialOfProduct.id
             ? {...el, amount: el.amount && (+el.amount + +materialOfProduct.amount).toString()}
             : el)))
@@ -115,23 +120,23 @@ export const Products = () => {
     const addMaterialOfProduct = (materialOfProduct: MaterialOfProductType) => {
         const exist = composition.find(el => el.id === materialOfProduct.id)
         if (exist) {
-            const newAmount = (+exist.amount + +materialOfProduct.amount).toString()
-            const newPrice = (+exist.price + +materialOfProduct.price).toString()
+            const newAmount = (((+exist.amount + +materialOfProduct.amount) * count).toFixed(2)).toString()
+            const newPrice = (((+exist.price + +materialOfProduct.price) * count).toFixed(2)).toString()
             setComposition(composition.map(el => el.id === materialOfProduct.id ? {
                 ...el,
                 amount: newAmount,
                 price: newPrice
             } : el))
         } else {
-            setComposition([materialOfProduct, ...composition])
+            setComposition([...composition, materialOfProduct])
         }
         dispatch(setAllPurchases(allPurchases.map(el => el.id === materialOfProduct.id
-            ? {...el, amount: el.amount && (+el.amount - +materialOfProduct.amount).toString()}
+            ? {...el, amount: el.amount && ((+el.amount - (+materialOfProduct.amount * count)).toFixed(2)).toString()}
             : el)))
         setAmountOfMaterial('')
         setPriceOfMaterial('')
         setAddMaterial(false)
-        let total = (+totalCost + +materialOfProduct.price).toFixed(2)
+        let total = +(+totalCost + +materialOfProduct.price).toFixed(2)
 
         setTotalCost(total)
     }
@@ -151,6 +156,7 @@ export const Products = () => {
     const saveEditImage = (id: string) => {
         currentImage && dispatch(ChangeProductImageTC(id, currentImage))
     }
+
     return (
 
         <div>
@@ -172,13 +178,24 @@ export const Products = () => {
                             <div className={cardClass.composition}>
                                 {composition?.map((el) => <div key={el.id}>
                                     <div>{el.purchaseTitle}  </div>
-                                    <span>{el.amount} </span>
+                                    <span>{count > 1 && <span>{count} * </span>} { (+el.amount ).toFixed(2)} </span>
                                     <span>{el.unit} </span>
-                                    <span>{el.price} BYN</span>
+                                    <span>{(+el.price * count).toFixed(2)} BYN</span>
                                     <button onClick={() => deleteMaterialOfProduct(el)}>x</button>
 
                                 </div>)}
-                                <span>себестоимость: {totalCost}</span>
+
+                                {composition.length > 0 ? <div>
+                                        <div> кол-во: {count}
+                                            <button onClick={() => setCount(count + 1)}>+</button>
+                                        </div>
+
+                                        {count > 1
+                                            ? <div>себестоимость : {(+totalCost * count).toFixed(2) }BYN ({totalCost}BYN/шт)</div>
+                                            : <div>себестоимость : {totalCost.toFixed(2)}</div>
+                                        }
+                                    </div>
+                                    : ''}
                             </div>
                             {composition.length > 0 &&
                                 <button onClick={() => id && addNewProduct(title, id, composition)}>
@@ -220,7 +237,7 @@ export const Products = () => {
                                                         amount: amountOfMaterial,
                                                         unit: el.unit,
                                                         price: priceOfMaterial,
-                                                        id: el.id ? el.id : ''
+                                                        id: el.id ? el.id : '',
                                                     })}>add
                                                 </button>
                                                 <button onClick={() => {
@@ -235,44 +252,6 @@ export const Products = () => {
                                 </div>
                                 : ''
                             )}
-
-
-                            {/*{purchases.map(el => <div key={el.id} style={{display: 'flex'}}>*/}
-                            {/*    <img src={el.image} style={{width: '30px'}} alt={el.title}/>*/}
-                            {/*    <div> {el.title} </div>*/}
-                            {/*    <div> {el.amount} </div>*/}
-                            {/*    <div> {el.unit} </div>*/}
-                            {/*    <div> {el.unitPrice} BYN/{el.unit}</div>*/}
-                            {/*    <div>*/}
-                            {/*        {addMaterial && el.id === materialId*/}
-                            {/*            ? <div>*/}
-                            {/*                <input*/}
-                            {/*                    autoFocus*/}
-                            {/*                    type={'number'}*/}
-                            {/*                    value={amountOfMaterial}*/}
-                            {/*                    onChange={e => changeAmountMaterial(e.currentTarget.value, el)}*/}
-
-                            {/*                />*/}
-                            {/*                <button onClick={() => el.amount && el.unit && el.price &&*/}
-                            {/*                    addMaterialOfProduct({*/}
-                            {/*                        warehouseId: currentWarehouse && currentWarehouse.id,*/}
-                            {/*                        purchaseTitle: el.title,*/}
-                            {/*                        amount: amountOfMaterial,*/}
-                            {/*                        unit: el.unit,*/}
-                            {/*                        price: priceOfMaterial,*/}
-                            {/*                        id: el.id ? el.id : ''*/}
-                            {/*                    })}>add*/}
-                            {/*                </button>*/}
-                            {/*                <button onClick={() => {*/}
-                            {/*                    setAddMaterial(false)*/}
-                            {/*                }}>cancel*/}
-                            {/*                </button>*/}
-
-                            {/*            </div>*/}
-                            {/*            : <IoMdAdd onClick={() => el.id && addMaterialHandler(el.id)}/>*/}
-                            {/*        }*/}
-                            {/*    </div>*/}
-                            {/*</div>)}*/}
                         </div>
                     </div>
                 </div>
@@ -304,6 +283,7 @@ export const Products = () => {
                                 </div>
 
                             }
+                            <div>кол-во: {product.count}</div>
                             <div className={cardClass.composition}
                                  onMouseEnter={() => {
                                      setHoverComposition(true)

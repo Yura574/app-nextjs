@@ -100,4 +100,6 @@ export type AllPurchaseType = {
     unitPrice: string
     image: string
     date: string
+    count: string
+    primeCost: string
 }
