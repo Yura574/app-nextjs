@@ -13,7 +13,7 @@ export type ProductsType = {
     title: string
     image?: string
     primeCost?: string
-    count?: string
+    count: number
     productComposition: CompositionType[]
 }
 
@@ -57,6 +57,11 @@ const productsSlice = createSlice({
             console.log(index)
 
         },
+        addCountProduct: (state, action: PayloadAction<{ title: string, count: number }>) => {
+            const index = state.products.findIndex(el => el.title === action.payload.title)
+            state.products[index].count += action.payload.count
+
+        },
         deleteProduct: (state, action: PayloadAction<string>) => {
             const index = state.products.findIndex(cat => cat.id === action.payload)
             state.products.splice(index, 1)
@@ -66,7 +71,7 @@ const productsSlice = createSlice({
 
 
 export const productsReducer = productsSlice.reducer
-export const {setProducts, addNewProduct, addImage, deleteProduct} = productsSlice.actions
+export const {setProducts, addNewProduct, addImage, deleteProduct, addCountProduct} = productsSlice.actions
 
 
 export const SetProductsTC = (subCategoryId: string) => (dispatch: Dispatch) => {
@@ -80,10 +85,15 @@ export const SetProductsTC = (subCategoryId: string) => (dispatch: Dispatch) => 
         })
 }
 
-export const AddNewProductTC = (title: string, subCategoryId: string, count: number, productComposition: MaterialOfProductType[], primeCost: number, image?: File) => (dispatch: Dispatch) => {
-    productsApi.createProduct(title, subCategoryId, count, productComposition, primeCost)
+export const AddNewProductTC = (userId: string, title: string, subCategoryId: string, count: number, productComposition: MaterialOfProductType[], primeCost: number, image?: File) => (dispatch: Dispatch) => {
+    productsApi.createProduct(userId, title, subCategoryId, count, productComposition, primeCost)
         .then(res => {
-            dispatch(addNewProduct(res.data))
+            console.log(res.data)
+            if (res.data === 1) {
+                dispatch(addCountProduct({title, count}))
+            } else {
+                dispatch(addNewProduct(res.data))
+            }
             if (image) {
                 productsApi.addImage(res.data.id, image)
                     .then(r => dispatch(addImage({id: res.data.id, image: r.data})))

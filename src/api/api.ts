@@ -51,9 +51,9 @@ export const subCategoryApi = {
 
 export const productsApi = {
     getProducts: (subCategoryId: string) => instance.get(`subCategory/one/${subCategoryId}`),
-    createProduct: (title: string, subCategoryId: string, count: number, productComposition: MaterialOfProductType[], primeCost: number) => {
+    createProduct: (userId: string, title: string, subCategoryId: string, count: number, productComposition: MaterialOfProductType[], primeCost: number) => {
         return instance.post(`products/create`,
-            {title, subCategoryId, count, productComposition, primeCost},
+            {userId, title, subCategoryId, count, productComposition, primeCost},
         )
     },
     addImage: (id: string, image?: File) => {

@@ -4,13 +4,12 @@ import {
     DeletePurchaseInfoTC,
     editTitlePurchaseInfo,
     GetPurchasesInfoTC,
-    InfoType, PurchasesInfoType
+    InfoType,
 } from "../../../../store/reducers/purchasesInfo-reducer";
 import {EnterDataPurchases} from "./EnterDataPurchases";
 import {AiFillDelete, AiTwotoneEdit} from "react-icons/ai";
 import {useEffect, useState} from "react";
 import {setCurrentPurchaseInfo} from "../../../../store/reducers/currentItems-reducer";
-import {PurchaseType} from "../../../../store/reducers/purchases-reducer";
 
 
 export const Purchases = () => {
@@ -27,10 +26,10 @@ export const Purchases = () => {
     }, [userId, dispatch])
     useEffect(()=>{
         setEdit(edit)
-    }, [currentImage])
+    }, [dispatch,currentImage, edit])
 
     const handleEdit = (id: string, currentPurchaseInfo: InfoType) => {
-        const unitPrice = (+currentPurchaseInfo.price / +currentPurchaseInfo.amount).toFixed(2)
+        // const unitPrice = (+currentPurchaseInfo.price / +currentPurchaseInfo.amount).toFixed(2)
         dispatch(setCurrentPurchaseInfo(currentPurchaseInfo))
         setEdit(true)
         setId(id)
