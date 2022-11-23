@@ -67,7 +67,6 @@ export const productsApi = {
 
 }
 
-
 export const warehouseApi = {
     addWarehouse: (userId: string, title: string, image?: File) => {
         console.log(image)
@@ -126,5 +125,11 @@ export const purchaseInfoApi = {
     },
     deletePurchaseInfo: (id: string) => {
         return instance.delete(`purchaseInfo/delete/${id}`)
+    }
+}
+
+export const ledgerApi = {
+    getLedgerEntries: (id: string)=>{
+        return instance.get(`ledger/journalEntries/${id}`)
     }
 }

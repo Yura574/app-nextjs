@@ -29,39 +29,16 @@ export const Products = () => {
 
     const dispatch = useAppDispatch()
     const products = useAppSelector<ProductsType[]>(state => state.products.products)
-    // const warehouses = useAppSelector(state => state.warehouses.warehouses)
-    // const currentWarehouse = useAppSelector<WarehouseType | null>(state => state.currentItems.currentWarehouse)
-    // const purchases = useAppSelector(state => state.purchases.purchases)
-    // const allPurchases = useAppSelector<AllPurchaseType[]>(state => state.purchases.allPurchases)
     const userId = useAppSelector(state => state.profile.profile.id)
     const currentImage = useAppSelector(state => state.currentItems.currentImage)
 
 
-    // const [title, setTitle] = useState<string>('')
     const [addItem, setAddItem] = useState<boolean>(true)
-    // const [composition, setComposition] = useState<MaterialOfProductType[]>([])
-    // const [addMaterial, setAddMaterial] = useState<boolean>(false)
-    // const [materialId, setMaterialId] = useState<string>('')
-    // const [amountOfMaterial, setAmountOfMaterial] = useState<string>('')
-    // const [priceOfMaterial, setPriceOfMaterial] = useState<string>('')
-    // const [totalCost, setTotalCost] = useState<number>(0)
     const [addPhoto, setAddPhoto] = useState<boolean>(false)
     const [changePhotoId, setChangePhotoId] = useState<string>('')
     const [hoverComposition, setHoverComposition] = useState<boolean>(false)
     const [productId, setProductId] = useState<string>('')
-    // const [count, setCount] = useState<number>(1)
 
-
-    // useEffect(() => {
-    //     setComposition([])
-    //     dispatch(setCurrentImage(null))
-    //     dispatch(setCurrentWarehouse({id: '', title: '', image: ''}))
-    //     dispatch(setPurchases([]))
-    //     setTotalCost(0)
-    // }, [dispatch])
-    // useEffect(() => {
-    //     if (currentWarehouse && currentWarehouse.id) dispatch(WarehousePurchasesTC(currentWarehouse.id))
-    // }, [currentWarehouse, dispatch])
     useEffect(() => {
         dispatch(GetAllWarehousesTC(userId))
     }, [userId, dispatch])
@@ -72,68 +49,6 @@ export const Products = () => {
         dispatch(GetAllPurchasesTC(userId))
     }, [userId, dispatch])
 
-
-    // const addNewProduct = (userId: string, title: string, subCategoryId: string, productComposition: MaterialOfProductType[]) => {
-    //     console.log(userId)
-    //     currentImage
-    //         ? dispatch(AddNewProductTC(userId,title, subCategoryId, count, productComposition, totalCost, currentImage))
-    //         : dispatch(AddNewProductTC(userId, title, subCategoryId, count, productComposition, totalCost))
-    //     setTitle('')
-    //     dispatch(setCurrentImage(null))
-    //     dispatch(setCurrentWarehouse({id: '', title: '', image: ''}))
-    //     setAddItem(true)
-    //     setComposition([])
-    // }
-
-    // const changeWarehouse = (warehouse: string) => {
-    //     const newWarehouse = warehouses.find(el => el.title === warehouse)
-    //     newWarehouse && dispatch(setCurrentWarehouse(newWarehouse))
-    // }
-    // const addMaterialHandler = (id: string) => {
-    //     setMaterialId(id)
-    //     setAddMaterial(true)
-    // }
-    // const deleteMaterialOfProduct = (materialOfProduct: MaterialOfProductType) => {
-    //     const newComposition = composition.filter(el => el.id !== materialOfProduct.id)
-    //     const total = +(+totalCost - +materialOfProduct.price).toFixed(2)
-    //     dispatch(setAllPurchases(allPurchases.map(el => el.id === materialOfProduct.id
-    //         ? {...el, amount: el.amount && (+el.amount + +materialOfProduct.amount).toString()}
-    //         : el)))
-    //     setComposition(newComposition)
-    //     setTotalCost(total)
-    // }
-    // const changeAmountMaterial = (amount: string, el: PurchaseType) => {
-    //     setAmountOfMaterial(amount)
-    //     let price
-    //     if (el.unitPrice) price = (+el.unitPrice * +amount).toFixed(2)
-    //     if (price) setPriceOfMaterial(price.toString())
-    //
-    //
-    // }
-
-    // const addMaterialOfProduct = (materialOfProduct: MaterialOfProductType) => {
-    //     const exist = composition.find(el => el.id === materialOfProduct.id)
-    //     if (exist) {
-    //         const newAmount = (((+exist.amount + +materialOfProduct.amount) * count).toFixed(2)).toString()
-    //         const newPrice = (((+exist.price + +materialOfProduct.price) * count).toFixed(2)).toString()
-    //         setComposition(composition.map(el => el.id === materialOfProduct.id ? {
-    //             ...el,
-    //             amount: newAmount,
-    //             price: newPrice
-    //         } : el))
-    //     } else {
-    //         setComposition([...composition, materialOfProduct])
-    //     }
-    //     dispatch(setAllPurchases(allPurchases.map(el => el.id === materialOfProduct.id
-    //         ? {...el, amount: el.amount && ((+el.amount - (+materialOfProduct.amount * count)).toFixed(2)).toString()}
-    //         : el)))
-    //     setAmountOfMaterial('')
-    //     setPriceOfMaterial('')
-    //     setAddMaterial(false)
-    //     let total = +(+totalCost + +materialOfProduct.price).toFixed(2)
-    //
-    //     setTotalCost(total)
-    // }
     const deleteProductHandler = (id: string) => {
         dispatch(DeleteProductTC(id))
     }

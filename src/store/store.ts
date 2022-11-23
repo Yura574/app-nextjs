@@ -11,6 +11,7 @@ import {dateReducer} from "./reducers/date-reducer";
 import {purchasesInfoReducer} from "./reducers/purchasesInfo-reducer";
 import {currentItemsReducer} from "./reducers/currentItems-reducer";
 import {productsReducer} from "./reducers/products-reducer";
+import {ledgerReducer} from "./reducers/ledger-reducer";
 
 
 const rootReducer = combineReducers({
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
     purchases: purchasesReducer,
     purchasesInfo: purchasesInfoReducer,
     date: dateReducer,
-    currentItems: currentItemsReducer
+    currentItems: currentItemsReducer,
+    ledger: ledgerReducer,
 
 })
 
