@@ -12,7 +12,10 @@ export const Main = () => {
     const userId = useAppSelector<string>(state => state.profile.profile.id)
 
     useEffect(() => {
-        dispatch(GetCategoriesTC(userId))
+        if (userId) {
+
+            dispatch(GetCategoriesTC(userId))
+        }
     }, [dispatch, userId])
 
     if (!isAuth) {

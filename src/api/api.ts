@@ -18,7 +18,10 @@ export const authApi = {
 }
 
 export const userApi = {
-    categories: (userId: string) => instance.get(`users/one/${userId}`),
+    categories: (userId: string) => {
+
+        return instance.get(`users/one/${userId}`)
+    },
 
 }
 

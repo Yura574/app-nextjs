@@ -35,13 +35,18 @@ export const AuthMeTC = () => (dispatch: Dispatch) => {
 
     authApi.me()
         .then(res => {
-            dispatch(setProfile(res.data))
-            dispatch(isAuth({value: true}))
+            if(res.data.message !==            "not authorization"){
+                dispatch(setProfile(res.data))
+                dispatch(isAuth({value: true}))
+            }
+
         })
         .catch(error => {
+            // dispatch(isAuth({value: true}))
             console.log(error)
         })
         .finally(() => {
+            // dispatch(isAuth({value: true}))
             dispatch(initialized({value: true}))
         })
 }
