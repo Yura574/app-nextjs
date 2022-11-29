@@ -15,8 +15,9 @@ import {FinishedProductsWarehouse} from "./FinishedProductsWarehouse/FinishedPro
 import {SubCategory} from "./FinishedProductsWarehouse/SubCategory/SubCategory";
 import {Products} from "./FinishedProductsWarehouse/Products/Products";
 import {Ledger} from "./Components/Ledger/Ledger";
+import React from "react";
 
-export const PersonalArea = () => {
+export const PersonalArea = React.memo(() => {
     const isAuth = useAppSelector(state => state.auth.isAuth)
     const navigate = useNavigate()
 
@@ -48,4 +49,4 @@ export const PersonalArea = () => {
             </div>
         </div>
     )
-}
+})

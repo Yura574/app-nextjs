@@ -21,8 +21,8 @@ export const profileSlice = createSlice({
         setProfile: (state, action) => {
             state.profile = {...action.payload}
         },
-        deleteProfile: (state, action)=> {
-            state.profile= {...action.payload}
+        deleteProfile: (state, action) => {
+            state.profile = {...action.payload}
         }
     }
 })
@@ -35,7 +35,7 @@ export const AuthMeTC = () => (dispatch: Dispatch) => {
 
     authApi.me()
         .then(res => {
-            if(res.data.message !==            "not authorization"){
+            if (res.data.message !== "not authorization") {
                 dispatch(setProfile(res.data))
                 dispatch(isAuth({value: true}))
             }

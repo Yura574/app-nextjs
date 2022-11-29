@@ -1,4 +1,4 @@
-import { useRef} from 'react'
+import React, { useRef} from 'react'
 import loginClass from './login.module.css'
 
 
@@ -10,7 +10,7 @@ import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {Navigate, NavLink} from "react-router-dom";
 
 
-export const Login = () => {
+export const Login = React.memo(() => {
     const dispatch = useAppDispatch()
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
@@ -80,4 +80,4 @@ export const Login = () => {
             </div>
         </div>
     )
-}
+})

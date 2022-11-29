@@ -1,6 +1,7 @@
 import {createSlice, Dispatch, PayloadAction} from "@reduxjs/toolkit";
-import {purchaseApi, purchaseInfoApi} from "../../api/api";
+import {accountsApi, purchaseApi, purchaseInfoApi} from "../../api/api";
 import {addPurchaseInfo, PurchasesInfoType} from "./purchasesInfo-reducer";
+import {WriteOffType} from "./writeOffMoney-reducer";
 
 
 const initialState: initialStateType = {
@@ -46,9 +47,12 @@ export const WarehousePurchasesTC = (warehouseId: string) => (dispatch: Dispatch
 
 export const AddPurchasesTC = (purchase: PurchasesInfoType,
                                unitPrice: string,
+                               writeOff: WriteOffType,
                                image?: File) => (dispatch: Dispatch) => {
+    console.log(1)
     purchaseApi.addPurchase(purchase, unitPrice, image)
         .then(res => {
+            console.log('2', res.data)
             dispatch(addNewPurchases(res.data))
             purchaseInfoApi.addInfoPurchase(purchase, unitPrice)
                 .then(res => {
@@ -57,6 +61,12 @@ export const AddPurchasesTC = (purchase: PurchasesInfoType,
                 .catch(err => console.log(err))
         })
         .catch(err => console.log(err))
+    console.log(3)
+    const {writeOffEntries, investment, duty} = writeOff
+    accountsApi.changeAccounts(writeOffEntries, investment, duty)
+        .then(res => {
+            console.log('4',res.data)
+    })
 }
 
 export const GetAllPurchasesTC = (userId: string) => (dispatch: Dispatch) => {

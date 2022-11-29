@@ -30,11 +30,11 @@ export const CurrentDate = () => {
     return (
         <div>
 
-            <div>
-                <span onClick={openCalendar ? () => open(false) : () => open(true)}>
-                    open
-                </span>
-            </div>
+            {/*<div>*/}
+            {/*    <span onClick={openCalendar ? () => open(false) : () => open(true)}>*/}
+            {/*        open*/}
+            {/*    </span>*/}
+            {/*</div>*/}
 
             <div> {newDate.getDate()}/{newDate.getMonth() +1}/{newDate.getFullYear()} <span
                 onClick={openCalendar ? () => open(false) : () => open(true)}> open</span>

@@ -23,6 +23,7 @@ function App() {
         return <div>загрузка</div>
     }
 
+
     return (
         <div>
             <div className="App">

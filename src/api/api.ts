@@ -2,6 +2,7 @@ import axios from "axios";
 import {RegistrationType} from "../store/reducers/auth-reducer";
 import {PurchasesInfoType} from "../store/reducers/purchasesInfo-reducer";
 import {MaterialOfProductType} from "../components/Personal/FinishedProductsWarehouse/Products/Products";
+import {EntryType} from "../store/reducers/writeOffMoney-reducer";
 
 
 export const instance = axios.create({
@@ -118,8 +119,8 @@ export const purchaseApi = {
 }
 
 export const purchaseInfoApi = {
-    addInfoPurchase: (purchaseInfo: PurchasesInfoType,  unitPrice: string) => {
-        const {title, price, place, amount, unit,date, userId} = purchaseInfo
+    addInfoPurchase: (purchaseInfo: PurchasesInfoType, unitPrice: string) => {
+        const {title, price, place, amount, unit, date, userId} = purchaseInfo
 
         return instance.post('purchaseInfo/create', {userId, title, price, place, amount, unit, unitPrice, date})
     },
@@ -132,7 +133,16 @@ export const purchaseInfoApi = {
 }
 
 export const ledgerApi = {
-    getLedgerEntries: (id: string)=>{
+    getLedgerEntries: (id: string) => {
         return instance.get(`ledger/journalEntries/${id}`)
+    }
+}
+
+export const accountsApi = {
+    getAccounts: (id: string) => {
+        return instance.get(`accounts/get/${id}`)
+    },
+    changeAccounts:(writeOffEntries: EntryType[], investment: EntryType[], duty: EntryType[])=>{
+        return instance.put(`accounts/changeAccounts`, {writeOffEntries, investment, duty})
     }
 }

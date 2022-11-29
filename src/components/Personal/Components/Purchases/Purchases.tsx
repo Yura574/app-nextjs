@@ -6,7 +6,7 @@ import {
     GetPurchasesInfoTC,
     InfoType,
 } from "../../../../store/reducers/purchasesInfo-reducer";
-import {EnterDataPurchases} from "./EnterDataPurchases";
+import {EnterDataPurchases} from "./EnterDataPurchases/EnterDataPurchases";
 import {AiFillDelete, AiTwotoneEdit} from "react-icons/ai";
 import {useEffect, useState} from "react";
 import {setCurrentPurchaseInfo} from "../../../../store/reducers/currentItems-reducer";

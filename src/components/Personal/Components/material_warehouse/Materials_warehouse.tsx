@@ -12,7 +12,7 @@ import {
 } from "../../../../store/reducers/currentItems-reducer";
 import {RiImageAddFill} from "react-icons/ri";
 import {LoadImage} from "../../../commonComponent/load_image/LoadImage";
-import sEnter from "../Purchases/EnterDataPurchases.module.css";
+import sEnter from "../Purchases/EnterDataPurchases/EnterDataPurchases.module.css";
 import {DownloadItem} from "../../../commonComponent/DownloadItem/DownloadItem";
 
 export const MaterialsWarehouse = () => {
@@ -32,7 +32,7 @@ export const MaterialsWarehouse = () => {
         if (currentImage) {
             dispatch(setCurrentImage(undefined))
         }
-    }, [])
+    }, [dispatch, currentImage])
     useEffect(() => {
         dispatch(GetAllWarehousesTC(userId))
     }, [userId, dispatch])

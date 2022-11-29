@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import cardClass from "../../../CardProdurt/cardProduct.module.css";
 import {
@@ -24,7 +24,7 @@ export type MaterialOfProductType = {
 }
 
 
-export const Products = () => {
+export const Products = React.memo(() => {
     const {id} = useParams()
 
     const dispatch = useAppDispatch()
@@ -227,4 +227,4 @@ export const Products = () => {
                 })}</div>
         </div>
     )
-}
+})

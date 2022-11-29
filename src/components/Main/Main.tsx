@@ -4,8 +4,9 @@ import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {Navigate} from "react-router-dom";
 import {CategoryType, GetCategoriesTC} from "../../store/reducers/categories-reducer";
 import {Category} from "../Personal/Category/Category";
+import {GetAccountsTC} from "../../store/reducers/accounts-reducer";
 
-export const Main = () => {
+export const Main = React.memo(() => {
     const dispatch = useAppDispatch()
     const isAuth = useAppSelector<boolean>(state => state.auth.isAuth)
     const categories = useAppSelector<CategoryType[]>(state => state.categories.categories)
@@ -17,6 +18,10 @@ export const Main = () => {
             dispatch(GetCategoriesTC(userId))
         }
     }, [dispatch, userId])
+    useEffect(() => {
+        dispatch(GetAccountsTC(userId))
+    }, [dispatch, userId])
+
 
     if (!isAuth) {
         return <Navigate to={'/login'}/>
@@ -37,4 +42,4 @@ export const Main = () => {
 
         </div>
     )
-}
+})

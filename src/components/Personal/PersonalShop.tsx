@@ -1,11 +1,10 @@
+import React from "react";
 
 
-
-
-export const PersonalShop = () => {
+export const PersonalShop = React.memo(() => {
     return (
         <div>
 
         </div>
     )
-}
+})

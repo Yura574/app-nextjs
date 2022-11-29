@@ -1,5 +1,5 @@
 import {useAppDispatch, useAppSelector} from "../../../../store/hooks";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {
     AddSubCategoryTC,
     DeleteSubCategoryTC,
@@ -14,7 +14,7 @@ import {setCurrentImage} from "../../../../store/reducers/currentItems-reducer";
 import {LoadImage} from "../../../commonComponent/load_image/LoadImage";
 
 
-export const SubCategory = () => {
+export const SubCategory = React.memo(() => {
     const dispatch = useAppDispatch()
     const {id} = useParams()
     const subCategories = useAppSelector<SubCategoryType[]>(state => state.subCategories.subCategories)
@@ -55,4 +55,4 @@ export const SubCategory = () => {
             })}</div>
         </div>
     )
-}
+})
